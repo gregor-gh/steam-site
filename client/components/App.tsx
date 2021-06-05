@@ -1,6 +1,4 @@
 import "../styles/App.css";
-import { useEffect } from "react";
-import axios from "axios"
 
 const test = async () => {
   window.location.href="/api/auth"
