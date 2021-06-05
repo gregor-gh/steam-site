@@ -2,9 +2,11 @@ import express, { Application } from "express";
 import config from "./config";
 import path from "path";
 import dotenv from "dotenv";
+import http from "http";
 import passport from "passport";
 import util from "util";
 import session from "express-session";
+import cors from "cors"
 const SteamStrategy = require("passport-steam");
 import authRouter from "./routes/auth"
 dotenv.config();
@@ -48,18 +50,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 //if (config.node_env === "prod") {
-  app.use(express.static(path.join(__dirname,"..", "frontend")));
+app.use(express.static(path.join(__dirname, "..", "frontend")));
 //}
 
 const router = express.Router();
 app.use("/", router);
+app.use("/api/auth", authRouter)
 
 router.get("/", (_req, res) => {
-  res.sendFile(path.join(__dirname,"..", "frontend", "/index.html"))
+  res.sendFile(path.join(__dirname, "..", "frontend", "/index.html"));
 });
+
+router.get("/api/test", (req, res) => {
+  console.log("TEST");
+  res.send("OK");
+})
 // app.listen(config.port, () =>
 //   console.log(`Server started on port ${config.port}`)
 // );
 
-const server = http.createServer(app)
-server.listen(3000)
+const server = http.createServer(app);
+server.listen(config.port || 3000);
