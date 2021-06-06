@@ -1,4 +1,7 @@
 import "../styles/App.css";
+import { useState } from "react"
+
+const [isSignedIn, setIsSignedIn] = useState(false);
 
 const test = async () => {
   window.location.href="/api/auth"
