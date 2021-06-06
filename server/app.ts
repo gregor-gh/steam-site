@@ -4,8 +4,8 @@ import path from "path";
 import dotenv from "dotenv";
 import http from "http";
 import passport from "passport";
-import util from "util";
-import session from "express-session";
+// import util from "util";
+// import session from "express-session";
 import cors from "cors"
 const SteamStrategy = require("passport-steam");
 import authRouter from "./routes/auth"
