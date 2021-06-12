@@ -4,10 +4,6 @@ import { Route, Switch, Redirect, BrowserRouter as Router } from "react-router-d
 import Logon from "./Logon";
 import Dashboard from "./Dashboard";
 
-const test = async () => {
-  window.location.href = "/api/auth";
-};
-
 const App = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   return (
