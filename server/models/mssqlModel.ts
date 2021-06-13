@@ -1,19 +1,22 @@
-import sql from "mssql"
+import sql from "mssql";
 
 const pool = new sql.ConnectionPool({
   user: "sa",
-  "password": "Passw@rd",
+  password: "Passw@rd",
   server: "localhost",
-  database: "steamdb"
+  database: "steamdb",
+  options: {
+    trustServerCertificate: true,
+  },
 });
 
 const test = async () => {
   try {
     await pool.connect();
-    const data = await pool.query("select * from sys.databases")
+    const data = await pool.query("select * from sys.databases");
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
-}
+};
 
 test();
