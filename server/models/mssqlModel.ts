@@ -4,7 +4,7 @@ const pool = new sql.ConnectionPool({
   user: "sa",
   password: "Passw@rd",
   server: "localhost",
-  database: "steamdb",
+  //database: "test",
   options: {
     trustServerCertificate: true,
   },
@@ -13,7 +13,8 @@ const pool = new sql.ConnectionPool({
 const test = async () => {
   try {
     await pool.connect();
-    const data = await pool.query("select * from sys.databases");
+    const data = await pool.query("create database test2");
+    console.log(data)
   } catch (err) {
     console.error(err);
   }
