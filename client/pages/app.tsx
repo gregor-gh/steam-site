@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Logon from "../components/Logon";
 import Dashboard from "../components/Dashboard";
-import { Home } from "./home";
+import { Home } from "./home/home";
 import { Navbar } from "../components/Navbar/Navbar";
 
 const App = () => {

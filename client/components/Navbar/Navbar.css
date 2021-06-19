@@ -1,0 +1,16 @@
+.navbar {
+  position:fixed;
+  top:0;
+  width: 100%;
+  height: var(--global-navbar-height);
+  background-color: blue;
+  display:flex;
+  flex-direction: row;
+  color:white;
+}
+
+.navbar-item:last-child {
+  margin-left:auto
+}
+
+

@@ -1,0 +1,7 @@
+:root {
+  --global-navbar-height: 50px;
+}
+
+.main {
+  margin-top: var(--global-navbar-height);
+}
