@@ -22,7 +22,7 @@ const App = () => {
     // </>
     <div>
       <Navbar />
-      <Route path="/">
+      <Route exact path="/">
         <Home />
       </Route>
     </div>

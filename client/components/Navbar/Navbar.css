@@ -1,7 +1,12 @@
-.navbar {
+header {
+  background-color: black;
   position:fixed;
   top:0;
-  width: 100%;
+  width:100%;
+  
+}
+.navbar {
+  max-width: 1000px;
   height: var(--global-navbar-height);
   background-color: blue;
   display:flex;
