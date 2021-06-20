@@ -1,5 +1,5 @@
 .app {
-  display:flex;
+  margin:auto;
   max-width: var(--global-page-width-xl);
 }
 

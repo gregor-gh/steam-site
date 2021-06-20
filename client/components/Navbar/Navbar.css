@@ -2,8 +2,6 @@ header {
   position: fixed;
   top: 0;
   width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
 .navbar {
@@ -12,7 +10,6 @@ header {
   height: var(--global-navbar-height);
   background-color: white;
   display: flex;
-  flex-direction: row;
   align-items: center;
 }
 
