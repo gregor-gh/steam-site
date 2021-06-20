@@ -1,0 +1,12 @@
+.home {
+  display:flex;
+  background-color: lightgrey;
+}
+
+.articles {
+  width:65%;
+}
+
+.asides {
+  width:35%;
+}
