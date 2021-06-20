@@ -5,6 +5,7 @@ import Logon from "../components/Logon";
 import Dashboard from "../components/Dashboard";
 import { Home } from "./home/home";
 import { Navbar } from "../components/Navbar/Navbar";
+import "./app.css";
 
 const App = () => {
   //const [isSignedIn, setIsSignedIn] = useState(false);
@@ -20,7 +21,7 @@ const App = () => {
     //     </Route>
     //   </Switch>
     // </>
-    <div>
+    <div className="app">
       <Navbar />
       <Route exact path="/">
         <Home />

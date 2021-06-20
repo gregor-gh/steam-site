@@ -1,12 +1,10 @@
 :root {
   --global-navbar-height: 50px;
+  --global-page-width-xl: 1300px;
 }
 
 html,
 body {
   margin: 0px;
-}
-
-.main {
-  margin-top: var(--global-navbar-height);
+  background-color: darkgrey;
 }

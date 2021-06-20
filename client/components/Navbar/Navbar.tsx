@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 import "./Navbar.css";
 
 export const Navbar = () => {
   return (
-    <header>
+    <header className="header">
       <nav className="navbar">
-        <div className="navbar-item">Logo</div>
-        <div className="navbar-item">Logon</div>
+        <div className="navbar-item"><img className="navbar-logo" src="https://upload.wikimedia.org/wikipedia/commons/8/87/New_Steam_Logo_with_name.jpg"/></div>
+        <div className="navbar-item">😀</div>
       </nav>
     </header>
   );
-}
+};

@@ -1,0 +1,10 @@
+.app {
+  display:flex;
+  max-width: var(--global-page-width-xl);
+}
+
+.main {
+  margin-top: var(--global-navbar-height);
+  background-color:red;
+  width:100%;
+}

@@ -1,21 +1,25 @@
 header {
-  background-color: black;
-  position:fixed;
-  top:0;
-  width:100%;
-  
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
+
 .navbar {
-  max-width: 1000px;
+  max-width: var(--global-page-width-xl);
+  width: 100%;
   height: var(--global-navbar-height);
-  background-color: blue;
-  display:flex;
+  background-color: white;
+  display: flex;
   flex-direction: row;
-  color:white;
+  align-items: center;
 }
 
 .navbar-item:last-child {
-  margin-left:auto
+  margin-left: auto;
 }
 
-
+.navbar-logo {
+  height: var(--global-navbar-height);
+}
