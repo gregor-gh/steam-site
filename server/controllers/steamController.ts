@@ -7,9 +7,10 @@ export async function getTopGamesTwoWeeks(
   _next: NextFunction
 ) {
   try {
-    const data = fetchTopGamesTwoWeeks();
-    return res.status(200).send(data);
+    const gamesList = await fetchTopGamesTwoWeeks();
+    return res.status(200).send(gamesList);
   } catch (err) {
+    console.error(err);
     return res.status(500);
   }
 }
