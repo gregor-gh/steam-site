@@ -17,3 +17,5 @@ interface SteamSpyGameList {
   score_rank: string;
   userscore: number;
 }
+
+type SteamSpyGameListJson = Record<number, SteamSpyGameList>;
