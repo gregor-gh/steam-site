@@ -6,9 +6,10 @@ import http from "http";
 import passport from "passport";
 // import util from "util";
 // import session from "express-session";
-import cors from "cors"
+import cors from "cors";
 const SteamStrategy = require("passport-steam");
-import authRouter from "./routes/auth"
+import authRouter from "./routes/auth";
+import steamRouter from "./routes/steam";
 dotenv.config();
 
 const app: Application = express();
@@ -31,7 +32,7 @@ passport.use(
     },
     function (identifier: any, profile: any, done: any) {
       // asynchronous verification, for effect...
-      console.log(profile)
+      console.log(profile);
       process.nextTick(function () {
         profile.identifier = identifier;
         console.log("THIS");
@@ -55,7 +56,8 @@ app.use(express.static(path.join(__dirname, "..", "frontend")));
 
 const router = express.Router();
 app.use("/", router);
-app.use("/api/auth", authRouter)
+app.use("/api/auth", authRouter);
+app.use("/api/steam", steamRouter);
 
 router.get("/", (_req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "/index.html"));
@@ -64,7 +66,7 @@ router.get("/", (_req, res) => {
 router.get("/api/test", (req, res) => {
   console.log("TEST");
   res.send("OK");
-})
+});
 // app.listen(config.port, () =>
 //   console.log(`Server started on port ${config.port}`)
 // );
