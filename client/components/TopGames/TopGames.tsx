@@ -9,7 +9,10 @@ export const TopGames = () => {
 
   useEffect(() => {
     fetch("/api/steam/top-games-two-weeks").then((response) =>
-      response.json().then((data) => setGameList(data))
+      response
+        .json()
+        .then((data) => setGameList(data))
+        .catch((err) => console.error(err))
     );
   }, []);
 
