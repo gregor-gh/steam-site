@@ -18,10 +18,14 @@ export const TopGames = () => {
   }, []);
 
   return (
+    <>
+      <h3 className="aside-heading">
+        🎮 Playing now
+      </h3>
     <ol className="top-games-list">
       {gameList.splice(0, 10).map((game, index) => {
         return <li key={index}>{game.name}</li>;
       })}
-    </ol>
+    </ol></>
   );
 };
