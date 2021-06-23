@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./TopGames.css";
 
 //const gameList = ["test", "test2", "test3", "test4", "test5"];
 
@@ -17,7 +18,7 @@ export const TopGames = () => {
   }, []);
 
   return (
-    <ol>
+    <ol className="top-games-list">
       {gameList.splice(0, 10).map((game, index) => {
         return <li key={index}>{game.name}</li>;
       })}

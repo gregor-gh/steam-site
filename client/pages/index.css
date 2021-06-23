@@ -1,6 +1,7 @@
 :root {
   --global-navbar-height: 50px;
   --global-page-width-xl: 1300px;
+  --global-divider-border: 1px solid hsl(0, 0%, 75%);
 }
 
 html,
