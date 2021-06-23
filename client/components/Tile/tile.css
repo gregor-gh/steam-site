@@ -1,6 +1,7 @@
 .tile {
-  background-color: white;
-  margin:5px;
-  padding:1px;
+  background: hsl(226, 100%, 98%) 100%;
+  margin:1rem 1rem 1rem 0.25rem;
+  padding: 0.25rem 1rem 0.25rem 0rem;
+  
   border-radius: 5px;
 }

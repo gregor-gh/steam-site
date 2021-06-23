@@ -6,6 +6,12 @@
 
 html,
 body {
+  height: 100%;
   margin: 0px;
-  background-color: darkgrey;
+  background: hsl(226, 100%, 20%) 64%;
+  background: linear-gradient(
+    315deg,
+    hsl(226, 100%, 20%) 75%,
+    hsl(226, 100%, 35%) 100%
+  );
 }

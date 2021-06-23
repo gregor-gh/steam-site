@@ -1,12 +1,12 @@
 .home {
   display:flex;
-  background-color: lightgrey;
+  background: hsl(226, 29%, 32%) 100%
 }
 
 .articles {
-  width:65%;
+  width: 70%;
 }
 
 .asides {
-  width:35%;
+  width: 30%;
 }
