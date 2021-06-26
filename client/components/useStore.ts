@@ -1,17 +1,20 @@
 import create from "zustand";
 
 interface StoreState {
-  topGameList: SteamSpyGameList[],
+  topGameList: SteamSpyGameList[];
   setTopGameList: () => Promise<void>;
 }
 
 const useStore = create<StoreState>((set) => ({
   topGameList: [],
   setTopGameList: async () => {
-    const response = await fetch("/api/steam/top-games-two-weeks");
-    console.log("here")
-    set({ topGameList: await response.json() });
-  }
+    try {
+      const response = await fetch("/api/steam/top-games-two-weeks");
+      set({ topGameList: await response.json() });
+    } catch (error) {
+      // do nothing
+    }
+  },
 }));
 
 export default useStore;
