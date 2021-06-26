@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./TopGames.css";
 import useStore from "../useStore";
 
-//const gameList = ["test", "test2", "test3", "test4", "test5"];
-
-async function fetchTopGames() {}
-
 export const TopGames = () => {
   const topGameList = useStore((state) => state.topGameList);
 

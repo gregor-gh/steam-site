@@ -9,6 +9,7 @@ const useStore = create<StoreState>((set) => ({
   topGameList: [],
   setTopGameList: async () => {
     const response = await fetch("/api/steam/top-games-two-weeks");
+    console.log("here")
     set({ topGameList: await response.json() });
   }
 }));
