@@ -14,26 +14,14 @@ export const Home = () => {
   return (
     <div className="home">
       <div className="articles">
-        <Tile>
-          <News />
-        </Tile>
-        <Tile>
-          <News />
-        </Tile>
-        <Tile>
-          <News />
-        </Tile>
-        <Tile>
-          <News />
-        </Tile>
-        <Tile>
-          <News />
-        </Tile>
+        <Tile item={<News />} />
+        <Tile item={<News />} />
+        <Tile item={<News />} />
+        <Tile item={<News />} />
+        <Tile item={<News />} />
       </div>
       <div className="asides">
-        <Tile>
-          <TopGames />
-        </Tile>
+        <Tile item={<TopGames />} />
       </div>
     </div>
   );
