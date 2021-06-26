@@ -2,8 +2,12 @@ import "./home.css";
 import { News } from "../../components/News";
 import { TopGames } from "../../components/TopGames";
 import { Tile } from "../../components/Tile";
+import useStore from "../../components/useStore";
 
 export const Home = () => {
+  const setTopGameList = useStore(state => state.setTopGameList);
+  setTopGameList();
+
   return (
     <div className="home">
       <div className="articles">
