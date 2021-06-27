@@ -1,27 +1,31 @@
 import sql from "mssql";
+import config from "../config";
 
 const pool = new sql.ConnectionPool({
-  user: "sa",
-  password: "Passw@rd",
-  server: "localhost",
-  //database: "test",
+  user: config.sqlUser,
+  password: config.sqlPw,
+  server: config.sqlHost,
+  database: config.sqlDb,
   options: {
     trustServerCertificate: true,
+    enableArithAbort:true,
   },
+  
 });
 
-const test = async () => {
-  try {
-    await pool.connect();
-    const data = await pool.query("create database test2");
-    console.log(data)
-  } catch (err) {
-    console.error(err);
-  }
-};
+// const test = async () => {
+//   try {
+//     console.log(pool)
+//     await pool.connect();
+//     const data = await pool.query("select * from sys.views");
+//     console.log(data)
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
 export async function insertSteamSpyTopGamesTwoWeeks(topGames: SteamSpyGameList[]) {
   // insert to db
 }
 
-test();
+// test();
