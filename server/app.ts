@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 import config from "./config";
 import path from "path";
 import dotenv from "dotenv";
@@ -70,6 +70,12 @@ router.get("/api/test", (req, res) => {
 // app.listen(config.port, () =>
 //   console.log(`Server started on port ${config.port}`)
 // );
+
+// Error Handler
+app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
+  console.error(err);
+  res.status(500).send(err.description);
+});
 
 const server = http.createServer(app);
 server.listen(config.port || 3000);

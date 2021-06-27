@@ -7,30 +7,26 @@ import {
 export async function getTopGamesTwoWeeks(
   _req: Request,
   res: Response,
-  _next: NextFunction
+  next: NextFunction
 ) {
   try {
     const gamesList = await fetchTopGamesTwoWeeks();
     return res.status(200).send(gamesList);
   } catch (err) {
-    console.error(err);
-    return res.status(500);
+    next(err);
   }
 }
 
 export async function getTopNewsTwoWeeks(
   _req: Request,
   res: Response,
-  _next: NextFunction
+  next: NextFunction
 ) {
   try {
-    const newList = await fetchTopNewsTwoWeeks().catch((err) => {
-      console.error(err);
-    });
-    
+    const newList = await fetchTopNewsTwoWeeks();
+
     return res.status(200).send(newList);
   } catch (err) {
-    console.log(err);
-    return res.status(500);
+    next(err);
   }
 }
