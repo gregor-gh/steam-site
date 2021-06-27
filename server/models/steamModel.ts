@@ -6,10 +6,7 @@ export async function fetchTopGamesTwoWeeks() {
     );
     const gamesObject: SteamSpyGameListJson = await response.json();
     const gamesArray = Object.values(gamesObject);
-    const sortedGamesArray = gamesArray.sort(
-      (a, b) => b.ccu - a.ccu
-    );
-    return sortedGamesArray;
+    return gamesArray;
   } catch (err) {
     throw err;
   }

@@ -1,14 +1,14 @@
 use SteamSite;
 go
 
-drop table if exists SteamSpyTopGamesTwoWeeks;
+drop table if exists dbo.SteamSpyTopGamesTwoWeeks;
 create table SteamSpyTopGamesTwoWeeks(
   appid int not null,
   average_2weeks int not null,
   average_forever int not null,
   ccu int not null,
   developer varchar(100) not null,
-  discount int not null,
+  discount varchar(10) not null,
   initialprice varchar(10) not null,
   median_2weeks int not null,
   median_forever int not null,

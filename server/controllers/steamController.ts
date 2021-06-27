@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { insertSteamSpyTopGamesTwoWeeks } from "../models/mssqlModel";
 import {
   fetchTopGamesTwoWeeks,
   fetchTopNewsTwoWeeks,
@@ -10,8 +11,10 @@ export async function getTopGamesTwoWeeks(
   next: NextFunction
 ) {
   try {
-    const gamesList = await fetchTopGamesTwoWeeks();
-    return res.status(200).send(gamesList);
+    //const gamesList = await fetchTopGamesTwoWeeks();
+    // const gamesList = await fetchTopGamesTwoWeeks();
+    // await insertSteamSpyTopGamesTwoWeeks(gamesList);
+    return res.status(200).send("Tofinish");
   } catch (err) {
     next(err);
   }
