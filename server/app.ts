@@ -10,7 +10,7 @@ import cors from "cors";
 const SteamStrategy = require("passport-steam");
 import authRouter from "./routes/auth";
 import steamRouter from "./routes/steam";
-dotenv.config();
+import { runSteamSpySchedule } from "./schedules/steamSpySchedule";
 
 const app: Application = express();
 
@@ -73,3 +73,6 @@ router.get("/api/test", (req, res) => {
 
 const server = http.createServer(app);
 server.listen(config.port || 3000);
+
+// Run data update schedules
+runSteamSpySchedule();

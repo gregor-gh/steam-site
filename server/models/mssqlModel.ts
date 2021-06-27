@@ -20,4 +20,8 @@ const test = async () => {
   }
 };
 
+export async function insertSteamSpyTopGamesTwoWeeks(topGames: SteamSpyGameList[]) {
+  // insert to db
+}
+
 test();
