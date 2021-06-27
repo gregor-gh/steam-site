@@ -6,8 +6,7 @@ import {
   Int,
   TinyInt,
 } from "mssql";
-import { NoEmitOnErrorsPlugin } from "webpack";
-import { TableCreation, TableCreationColumn } from "../../@types/database";
+import { TableCreation } from "../../@types/database";
 import config from "../config";
 
 const sqlConfig: SqlConfig = {
@@ -36,12 +35,26 @@ async function connectSqlPool() {
   }
 }
 
+export async function selectinsertSteamSpyTopGamesTwoWeeks() {
+  try {
+    const sql = await connectSqlPool();
+
+    const { recordset } = await sql.query(
+      "select appid,name,ccu from dbo.SteamSpyTopGamesTwoWeeks order by ccu desc"
+    );
+
+    return recordset;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function insertSteamSpyTopGamesTwoWeeks(
   topGames: SteamSpyGameList[]
 ) {
   try {
     const sql = await connectSqlPool();
-    
+
     await sql.query("delete from dbo.SteamSpyTopGamesTwoWeeks");
 
     const table = createTable("dbo.SteamSpyTopGamesTwoWeeks", false, [
