@@ -1,5 +1,5 @@
 import "./home.css";
-import { News } from "../../components/News";
+import { News, TopTenNewsItems } from "../../components/News";
 import { TopGames } from "../../components/TopGames";
 import { Tile } from "../../components/Tile";
 import useStore from "../../components/useStore";
@@ -15,7 +15,7 @@ export const Home = () => {
   return (
     <div className="home">
       <div className="articles">
-        <Tile item={<News />} />
+        <Tile item={<TopTenNewsItems />} />
         <Tile item={<News />} />
         <Tile item={<News />} />
       </div>

@@ -3,7 +3,7 @@ import useStore from "../useStore";
 export const News = () => {
   const topNews = useStore((state) => state.topSteamNews);
 
-  const topTenNews = topNews.slice(0,10).map((newsItem: SteamNewsItem, index) => {
+  const topTenNews = topNews.map((newsItem: SteamNewsItem, index) => {
     return <li key={index}>{newsItem.title}</li>;
   });
 

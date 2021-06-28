@@ -1,0 +1,14 @@
+.news-big-item {
+  height: 130px;
+  display:flex;
+}
+
+img {
+  height:100%;
+  object-fit: contain;
+  padding: 0px 10px
+}
+
+.news-big-item-title{
+  font-size: large;
+}
