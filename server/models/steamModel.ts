@@ -17,9 +17,8 @@ export async function fetchTopGamesTwoWeeks() {
 export async function fetchTopNewsTwoWeeks() {
   try {
     const topGames = await selectSteamSpyTopGamesTwoWeeks();
-    const topNews = [] as SteamNewsItem[]
     const topNewsItems = await Promise.all(
-      topGames.splice(0, 10).map(async (item) => {
+      topGames.map(async (item) => {
         const steamNews = await fetchNewsForApp(item.appid);
         const steamNewsItems = steamNews.newsitems
         return steamNewsItems;
