@@ -14,7 +14,7 @@ interface SteamNewsItem {
 
 interface SteamGetNewsForApp {
   appid: number;
-  newsitems: NewsItem[];
+  newsitems: SteamNewsItem[];
   count: number;
 }
 

@@ -5,6 +5,7 @@ import {
   VarChar,
   Int,
   TinyInt,
+  IRecordSet,
 } from "mssql";
 import { TableCreation } from "../../@types/database";
 import config from "../config";
@@ -35,7 +36,9 @@ async function connectSqlPool() {
   }
 }
 
-export async function selectinsertSteamSpyTopGamesTwoWeeks() {
+export async function selectSteamSpyTopGamesTwoWeeks(): Promise<
+  IRecordSet<Pick<SteamSpyGameList, "appid" | "name" | "ccu">>
+> {
   try {
     const sql = await connectSqlPool();
 
