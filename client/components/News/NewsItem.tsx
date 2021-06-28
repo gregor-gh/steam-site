@@ -13,7 +13,6 @@ export const NewsItem = ({ newsItem }: { newsItem: SteamNewsItem }) => {
         <p className="news-big-item-description">
           {parsedContents.slice(0, 200) + "..."}
         </p>
-        {/* <p>{parsedContent}</p> */}
         <p className="news-big-item-posted-by">posted by {newsItem.author}</p>
       </div>
     </div>

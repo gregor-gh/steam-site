@@ -1,6 +1,12 @@
 .news-big-item {
   height: 130px;
   display: flex;
+  border-top: var(--global-divider-border);
+  padding: 5px;
+}
+
+.news-big-item:last-child {
+  border-bottom: var(--global-divider-border);
 }
 
 img {
@@ -11,4 +17,8 @@ img {
 
 .news-big-item-title {
   font-size: large;
+}
+
+.news-big-item-posted-by {
+  font-style: italic;
 }
