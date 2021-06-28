@@ -3,7 +3,7 @@ import create from "zustand";
 interface StoreState {
   topGameList: SteamSpyGameList[];
   setTopGameList: () => Promise<void>;
-  topSteamNews: [];
+  topSteamNews: SteamNewsItem[];
   setTopSteamNews: () => Promise<void>;
 }
 
@@ -21,6 +21,7 @@ const useStore = create<StoreState>((set) => ({
   setTopSteamNews: async () => {
     try {
       const response = await fetch("/api/steam/top-news-two-weeks");
+      set({ topSteamNews: await response.json() });
     } catch (error) {
       // do nothing
     }

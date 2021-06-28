@@ -18,8 +18,6 @@ export const Home = () => {
         <Tile item={<News />} />
         <Tile item={<News />} />
         <Tile item={<News />} />
-        <Tile item={<News />} />
-        <Tile item={<News />} />
       </div>
       <div className="asides">
         <Tile item={<TopGames />} />

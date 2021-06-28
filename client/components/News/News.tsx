@@ -1,28 +1,15 @@
-import React from "react";
+import useStore from "../useStore";
 
 export const News = () => {
+  const topNews = useStore((state) => state.topSteamNews);
+
+  const topTenNews = topNews.slice(0,10).map((newsItem: SteamNewsItem, index) => {
+    return <li key={index}>{newsItem.title}</li>;
+  });
+
   return (
     <div>
-      <ul className="generic-list">
-        <li>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, vero.
-        </li>
-        <li>
-          Asperiores distinctio corporis voluptatem eligendi mollitia iure nam
-          quo rem.
-        </li>
-        <li>
-          Corrupti veniam at, similique ea molestias beatae ullam. Voluptate,
-          illo.
-        </li>
-        <li>
-          Ipsa, velit nihil! Magni fuga deleniti nostrum labore natus aut?
-        </li>
-        <li>
-          Accusantium quasi aliquid quidem soluta sunt eveniet in illum
-          praesentium!
-        </li>
-      </ul>
+      <ul className="generic-list">{topTenNews}</ul>
     </div>
   );
 };
