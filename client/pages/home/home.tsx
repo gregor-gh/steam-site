@@ -6,9 +6,10 @@ import useStore from "../../components/useStore";
 import { useEffect } from "react";
 
 export const Home = () => {
-  const setTopGameList = useStore((state) => state.setTopGameList);
+  const { setTopGameList, setTopSteamNews } = useStore((state) => state);
   useEffect(() => {
     setTopGameList();
+    setTopSteamNews();
   }, []);
 
   return (
