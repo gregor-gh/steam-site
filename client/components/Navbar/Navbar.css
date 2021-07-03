@@ -20,3 +20,11 @@ header {
 .navbar-logo {
   height: var(--global-navbar-height);
 }
+
+.navbar-profile {
+  padding: 0.5rem;
+}
+.navbar-profile:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
