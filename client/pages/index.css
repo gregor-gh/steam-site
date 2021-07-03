@@ -3,6 +3,8 @@
   --global-page-width-xl: 90rem;
   --global-divider-border: 1px solid hsl(0, 0%, 75%);
   --global-news-image-size: 10rem;
+  --global-color-primary: hsl(226, 100%, 35%);
+  --global-color-background: hsl(226, 100%, 20%);
 }
 
 html,
@@ -12,7 +14,7 @@ body {
   background: hsl(226, 100%, 20%) 64%;
   background: linear-gradient(
     315deg,
-    hsl(226, 100%, 20%) 75%,
-    hsl(226, 100%, 35%) 100%
+    var(--global-color-background) 75%,
+    var(--global-color-primary) 100%
   );
 }
