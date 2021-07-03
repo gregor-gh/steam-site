@@ -1,17 +1,11 @@
 .news-big-item {
-  /* height: 130px; */
   display: flex;
-  border-top: var(--global-divider-border);
-  padding: 5px;
-}
-
-.news-big-item:last-child {
   border-bottom: var(--global-divider-border);
+  padding: 5px;
 }
 
 img {
   height: var(--global-news-image-size);
-  object-fit: contain;
   padding: 0px 10px;
 }
 
