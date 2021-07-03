@@ -1,7 +1,8 @@
 :root {
-  --global-navbar-height: 50px;
-  --global-page-width-xl: 1300px;
+  --global-navbar-height: 3rem;
+  --global-page-width-xl: 90rem;
   --global-divider-border: 1px solid hsl(0, 0%, 75%);
+  --global-news-image-size: 10rem;
 }
 
 html,
