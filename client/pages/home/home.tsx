@@ -1,9 +1,10 @@
 import "./home.css";
 import { News, TopTenNewsItems } from "../../components/News";
-import { TopGames } from "../../components/TopGames";
+import { TopGames } from "../../components/Asides/TopGames";
 import { Tile } from "../../components/Tile";
 import useStore from "../../components/useStore";
 import { useEffect } from "react";
+import { RegisterAside } from "../../components/Asides/RegisterAside";
 
 export const Home = () => {
   const { setTopGameList, setTopSteamNews } = useStore((state) => state);
@@ -21,6 +22,7 @@ export const Home = () => {
       </div>
       <div className="asides">
         <Tile item={<TopGames />} />
+        <Tile item={<RegisterAside/>}/>
       </div>
     </div>
   );
