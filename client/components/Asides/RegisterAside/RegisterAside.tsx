@@ -9,7 +9,7 @@ export const RegisterAside = () => {
           Register or sign in to get a personalised news feed and achievement
           tracking.
         </p>
-        <Button text="Register" />
+        <Button>Register</Button>
       </>
     </Aside>
   );
