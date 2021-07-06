@@ -1,3 +1,4 @@
+import { Button } from "../Button";
 import "./navbar.css";
 
 export const ProfilePopup: React.FunctionComponent<
@@ -5,5 +6,9 @@ export const ProfilePopup: React.FunctionComponent<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > & { visible: boolean }> = ({ visible }) => {
-  return visible ? <div className="profile-popup">test1234?<br/>test<br/>test<br/>test</div> : null;
+    return visible ?
+      <div className="profile-popup">
+        <Button>Sign into Steam-Site</Button>
+        <Button>Register with Steam-Site</Button>
+      </div> : null;
 };
