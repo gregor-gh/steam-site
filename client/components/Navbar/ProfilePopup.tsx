@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "../Button";
 import "./navbar.css";
 
@@ -10,7 +11,9 @@ export const ProfilePopup: React.FunctionComponent<
   return visible ? (
     <div className="profile-popup">
       <Button>Sign into Steam-Site</Button>
-      <Button type="secondary">Register with Steam-Site</Button>
+      <Link to="/register">
+        <Button type="secondary">Register with Steam-Site</Button>
+      </Link>
     </div>
   ) : null;
 };

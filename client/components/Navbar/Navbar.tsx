@@ -3,6 +3,7 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 import { ProfilePopup } from "./ProfilePopup";
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const [profileVisible, setProfileVisible] = useState(false);
@@ -32,10 +33,12 @@ export const Navbar = () => {
     <header className="header">
       <nav className="navbar">
         <div className="navbar-item">
-          <img
-            className="navbar-logo"
-            src="https://upload.wikimedia.org/wikipedia/commons/8/87/New_Steam_Logo_with_name.jpg"
-          />
+          <Link to="/">
+            <img
+              className="navbar-logo"
+              src="https://upload.wikimedia.org/wikipedia/commons/8/87/New_Steam_Logo_with_name.jpg"
+            />
+          </Link>
         </div>
         <div className="navbar-profile" ref={profileRef}>
           <FontAwesomeIcon

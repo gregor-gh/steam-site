@@ -1,3 +1,4 @@
+import { Link, useRouteMatch } from "react-router-dom";
 import { Button } from "../../Button";
 import { Aside } from "../Aside";
 
@@ -9,7 +10,9 @@ export const RegisterAside = () => {
           Register or sign in to get a personalised news feed and achievement
           tracking.
         </p>
-        <Button>Register</Button>
+        <Link to="/register">
+          <Button>Register</Button>
+        </Link>
       </>
     </Aside>
   );

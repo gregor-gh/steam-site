@@ -6,6 +6,7 @@ import Dashboard from "../components/Dashboard";
 import { Home } from "./home/home";
 import { Navbar } from "../components/Navbar/Navbar";
 import "./app.css";
+import { Register } from "./register/register";
 
 const App = () => {
   //const [isSignedIn, setIsSignedIn] = useState(false);
@@ -23,9 +24,14 @@ const App = () => {
     // </>
     <div className="app">
       <Navbar />
-      <Route exact path="/">
-        <Home />
-      </Route>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/register">
+          <Register />
+        </Route>
+      </Switch>
     </div>
   );
 };
