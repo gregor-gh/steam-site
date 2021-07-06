@@ -17,4 +17,6 @@ body {
     var(--global-color-background) 75%,
     var(--global-color-primary) 100%
   );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
