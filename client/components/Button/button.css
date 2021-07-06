@@ -1,7 +1,4 @@
 .button {
-  background-color: var(--global-color-primary);
-  color: white;
-  font-weight: bold;
   text-align: center;
   padding: 0.25rem;
   margin: 0.25rem;
@@ -10,4 +7,15 @@
   border-style: outset;
   border-color: var(--global-color-background);
   border-width: 0.2rem;
+}
+
+.button-primary {
+  background-color: var(--global-color-primary);
+  color: white;
+  font-weight: bold;
+}
+
+.button-secondary {
+  background-color: white;
+  color: black;
 }

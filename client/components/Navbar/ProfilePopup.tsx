@@ -5,10 +5,12 @@ export const ProfilePopup: React.FunctionComponent<
   React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
-  > & { visible: boolean }> = ({ visible }) => {
-    return visible ?
-      <div className="profile-popup">
-        <Button>Sign into Steam-Site</Button>
-        <Button>Register with Steam-Site</Button>
-      </div> : null;
+  > & { visible: boolean }
+> = ({ visible }) => {
+  return visible ? (
+    <div className="profile-popup">
+      <Button>Sign into Steam-Site</Button>
+      <Button type="secondary">Register with Steam-Site</Button>
+    </div>
+  ) : null;
 };

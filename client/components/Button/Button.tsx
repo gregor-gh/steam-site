@@ -4,8 +4,19 @@ import "./button.css";
 export const Button: React.FunctionComponent<
   React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement>
-  // > & { text?: string }
-> = ({ children, ...rest }) => {
-  return <div {...rest} className="button">{children}</div>;
+    HTMLDivElement
+  > & { type?: ButtonType }
+> = ({ type, children, ...rest }) => {
+  return (
+    <div
+      {...rest}
+      className={
+        type === "secondary"
+          ? "button button-secondary"
+          : "button button-primary"
+      }
+    >
+      {children}
+    </div>
+  );
 };
