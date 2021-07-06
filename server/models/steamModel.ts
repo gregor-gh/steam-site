@@ -19,35 +19,23 @@ export async function fetchTopNewsTwoWeeks() {
     const topGames = await selectSteamSpyTopGamesTwoWeeks();
     const topNewsItems = await Promise.all(
       topGames.map(async (item) => {
-        const steamNews = await fetchNewsForApp(item.appid);
-        const steamNewsItems = steamNews.newsitems
+        const steamNews = await fetchNewsForApp(item.appid, 1);
+        const steamNewsItems = steamNews.newsitems;
         return steamNewsItems;
       })
     ).catch((error) => {
       throw error;
     });
 
-    const topNewsArray: SteamNewsItem[] = [].concat(...topNewsItems as []);
+    const topNewsArray: SteamNewsItem[] = [].concat(...(topNewsItems as []));
     const topNewsSortedArray = topNewsArray.sort((a, b) => {
       return b.date - a.date;
     });
 
-    return topNewsArray;
+    return topNewsSortedArray;
   } catch (err) {
     throw err;
   }
-}
-
-function fetchNewsForAppworking(
-  appid: number,
-  count: number = 3,
-  maxlength: number = 300,
-  format: SteamResponseFormat = "json"
-) {
-  return fetch(
-    `api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=${appid}&count=${count}&maxlength=${maxlength}&format=${format}`
-    //"api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json"
-  );
 }
 
 async function fetchNewsForApp(
