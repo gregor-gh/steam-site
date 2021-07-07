@@ -6,7 +6,7 @@ import Dashboard from "../components/Dashboard";
 import { Home } from "./home/home";
 import { Navbar } from "../components/Navbar/Navbar";
 import "./app.css";
-import { Register } from "./register/register";
+import { Register } from "./register/Register";
 
 const App = () => {
   //const [isSignedIn, setIsSignedIn] = useState(false);
