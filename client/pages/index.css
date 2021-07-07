@@ -9,7 +9,7 @@
 
 html,
 body {
-  height: 100%;
+  height: calc(100%--global-navbar-height);
   margin: 0px;
   background: hsl(226, 100%, 20%) 64%;
   background: linear-gradient(
