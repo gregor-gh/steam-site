@@ -8,7 +8,8 @@ export const Register = () => {
       <div className="register-box">
         <p>
           Sign in with Steam to get a personalised news feed and achievement
-          tracking. Only your username and SteamID will be stored.
+          tracking. No personal information is stored, only your username to log
+          in and your SteamID to track achievements.
         </p>
         <img
           className="sign-in-with-steam"
