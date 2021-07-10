@@ -5,6 +5,7 @@ interface StoreState {
   setTopGameList: () => Promise<void>;
   topSteamNews: SteamNewsItem[];
   setTopSteamNews: () => Promise<void>;
+  topSteamNewsLoading: boolean;
 }
 
 const useStore = create<StoreState>((set) => ({
@@ -21,11 +22,12 @@ const useStore = create<StoreState>((set) => ({
   setTopSteamNews: async () => {
     try {
       const response = await fetch("/api/steam/top-news-two-weeks");
-      set({ topSteamNews: await response.json() });
+      set({ topSteamNews: await response.json(), topSteamNewsLoading: false });
     } catch (error) {
       // do nothing
     }
   },
+  topSteamNewsLoading: true,
 }));
 
 export default useStore;
