@@ -6,7 +6,7 @@ export const NewsItem = ({ newsItem }: { newsItem: SteamNewsItem }) => {
   const parsedContents = stripHtmlFromString(newsItem.contents);
   return (
     <div className="news-big-item">
-      <img className="news-item-image" src={gameImage} />
+      <img className="news-big-item-image" src={gameImage} />
 
       <div>
         <p className="news-big-item-title">{newsItem.title}</p>
