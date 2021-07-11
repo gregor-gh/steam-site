@@ -12,7 +12,6 @@ export const TopTenNewsItems = () => {
     });
 
   // before topNews has loaded show a preview
-  console.log(topSteamNews);
   if (topSteamNewsLoading)
     return (
       <>
