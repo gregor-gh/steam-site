@@ -16,39 +16,3 @@
 .news-big-item-posted-by {
   font-style: italic;
 }
-
-.news-item-preview {
-  display:flex;
-  margin-bottom: 2rem;
-z-index: 0;
-}
-
-.news-item-preview-box {
-  background-color: rgb(167, 167, 167);
-  border-radius: 0.25rem;
-  animation-name: fadeinout;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  z-index: 0;
-}
-
-.news-item-preview-line {
-  width:30ch;
-  height:1.5rem;
-  margin:1rem;
-}
-
-.news-item-preview-image {
-  width:calc(var(--global-news-image-size)*0.7)
-}
-
-@keyframes fadeinout {
-  from {
-    opacity: 25%;
-  }
-
-  to {
-    opacity: 100%;
-  }
-}

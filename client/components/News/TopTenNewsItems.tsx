@@ -1,5 +1,6 @@
 import useStore from "../useStore";
-import { NewsItem, NewsItemPreview } from ".";
+import { NewsItem } from ".";
+import { LoadingNewsItem } from "../Loading";
 
 export const TopTenNewsItems = () => {
   const { topSteamNews, topSteamNewsLoading } = useStore((state) => state);
@@ -15,7 +16,11 @@ export const TopTenNewsItems = () => {
   if (topSteamNewsLoading)
     return (
       <>
-        <NewsItemPreview />
+        <LoadingNewsItem />
+        <LoadingNewsItem />
+        <LoadingNewsItem />
+        <LoadingNewsItem />
+        <LoadingNewsItem />
       </>
     );
 
