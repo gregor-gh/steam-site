@@ -1,8 +1,8 @@
 {
-  "name": "fullstack-ts-template",
+  "name": "steam-site",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node build/backend/app.js --env env=prod",
     "dev": "run-p server client",
