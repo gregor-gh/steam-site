@@ -1,13 +1,12 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import config from "./config";
 import path from "path";
-import dotenv from "dotenv";
 import http from "http";
 import passport from "passport";
+import { steamStrategy } from "./strategies/steamStrategy";
 // import util from "util";
 // import session from "express-session";
 import cors from "cors";
-const SteamStrategy = require("passport-steam");
 import authRouter from "./routes/auth";
 import steamRouter from "./routes/steam";
 import { runSteamSpySchedule } from "./schedules/steamSpySchedule";
@@ -23,24 +22,7 @@ passport.deserializeUser(function (obj: any, done) {
 });
 
 // Use the SteamStrategy within Passport.
-passport.use(
-  new SteamStrategy(
-    {
-      returnURL: "http://localhost:3000/api/auth/callback",
-      realm: "http://localhost:3000/",
-      apiKey: "40966C4AD8B50D3BBBE04DC0ABF1F7EA",
-    },
-    function (identifier: any, profile: any, done: any) {
-      // asynchronous verification, for effect...
-      console.log(profile);
-      process.nextTick(function () {
-        profile.identifier = identifier;
-        console.log("THIS");
-        return done(null, profile);
-      }); //TODO come back to this
-    }
-  )
-);
+passport.use(steamStrategy);
 
 // Initialise passport
 app.use(passport.initialize());
