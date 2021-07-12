@@ -6,7 +6,7 @@ const router = express.Router();
 router.get(
   "/",
   passport.authenticate("steam", {
-    successRedirect: "/",
+    successRedirect: "/register",
     failureRedirect: "/",
   }),
   (req, res, next) => {
@@ -18,8 +18,8 @@ router.get(
   "/callback",
   passport.authenticate("steam", { failureRedirect: "/" }),
   function (req, res) {
-    if (process.env.NODE_ENV === "PROD") return res.redirect("/");
-    res.redirect("http://localhost:8080");
+    if (process.env.NODE_ENV === "PROD") return res.redirect("/register");
+    res.redirect("http://localhost:8080/register");
   }
 );
 

@@ -10,10 +10,10 @@ export const steamStrategy =
     },
     function (identifier: any, profile: any, done: any) {
       // TODO use profile here
-      process.nextTick(function () {
-        profile.identifier = identifier;
+      //process.nextTick(function () {
+        //profile.identifier = identifier;
         return done(null, profile);
-      });
+      //});
     }
   )
 
