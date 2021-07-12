@@ -11,11 +11,15 @@ export const Register = () => {
           tracking. No personal information is stored, only your username to log
           in and your SteamID to track achievements.
         </p>
-        <img
-          className="sign-in-with-steam"
-          src={SIGN_IN_WITH_STEAM}
-          alt="Sign in with Steam button"
-        />
+        <a href="/api/auth">
+          <img
+            className="sign-in-with-steam"
+            src={SIGN_IN_WITH_STEAM}
+            alt="Sign in with Steam button"
+          />
+        </a>
+
+        <p>Alternatively sign in as a demo account:</p>
       </div>
     </div>
   );
