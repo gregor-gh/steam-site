@@ -2,7 +2,7 @@ use SteamSite;
 go
 
 drop table if exists dbo.SteamSpyTopGamesTwoWeeks;
-create table SteamSpyTopGamesTwoWeeks(
+create table dbo.SteamSpyTopGamesTwoWeeks(
   appid int not null,
   average_2weeks int not null,
   average_forever int not null,
@@ -20,4 +20,11 @@ create table SteamSpyTopGamesTwoWeeks(
   publisher varchar(100) not null,
   score_rank varchar(10) not null,
   userscore tinyint not null,
+);
+
+drop table if exists dbo.SteamUsers;
+create table dbo.SteamUsers(
+  id varchar(60),
+  displayName varchar(60),
+  photoUrl varchar(300)
 );
