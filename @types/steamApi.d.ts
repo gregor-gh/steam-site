@@ -1,3 +1,32 @@
+type SteamPhoto = {
+  value: string;
+};
+
+interface SteamUser {
+  _json: {
+    avatar: string;
+    avatarfull: string;
+    avatarhash: string;
+    avatarmedium: string;
+    commentpermission: number;
+    communityvisibilitystate: number;
+    lastlogoff: number;
+    personaname: string;
+    personastate: number;
+    personastateflags: number;
+    primaryclanid: string;
+    profilestate: number;
+    profileurl: string;
+    realname: string;
+    steamid: string;
+    timecreated: number;
+  };
+  displayName: string;
+  id: string;
+  photos: SteamPhoto[];
+  provider: string;
+}
+
 interface SteamNewsItem {
   gid: string;
   title: string;
