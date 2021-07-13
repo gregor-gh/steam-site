@@ -3,14 +3,14 @@ type SteamPhoto = {
 };
 
 interface SteamUser {
-  _json: {
+  _json?: {
     avatar: string;
     avatarfull: string;
     avatarhash: string;
     avatarmedium: string;
     commentpermission: number;
     communityvisibilitystate: number;
-    lastlogoff: number;
+    lastlogoff: number;N
     personaname: string;
     personastate: number;
     personastateflags: number;
@@ -23,8 +23,8 @@ interface SteamUser {
   };
   displayName: string;
   id: string;
-  photos: SteamPhoto[];
-  provider: string;
+  photos?: SteamPhoto[];
+  provider?: string;
 }
 
 interface SteamNewsItem {
@@ -48,3 +48,4 @@ interface SteamGetNewsForApp {
 }
 
 type SteamResponseFormat = "json" | "xml" | "vdf";
+
