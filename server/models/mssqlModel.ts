@@ -21,7 +21,7 @@ const sqlConfig: SqlConfig = {
   },
 };
 
-const sqlPool = new ConnectionPool(sqlConfig).connect();
+const sqlPool = new ConnectionPool(sqlConfig);
 // check if SQL Pool is connected, return if it is, connect if not
 async function connectSqlPool() {
   try {
