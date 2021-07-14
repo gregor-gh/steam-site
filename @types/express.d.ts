@@ -1,10 +1,9 @@
+import { DbSteamUser } from "./database";
+
 export {};
 
 declare global {
   namespace Express {
-    interface User extends SteamUser {
-      username: string;
-      // Add whatever you're missing
-    }
+    interface User extends DbSteamUser {}
   }
 }
