@@ -125,24 +125,27 @@ export async function steamCreateReturnUser(
   user: SteamUser
 ): Promise<IRecordSet<DbSteamUser>> {
   const sql = await connectSqlPool();
-
   const { recordset: dbUser } = await sql.query(
-    `exec createReturnUser @steamId='${user.id}, @displayName='${
+    `exec createReturnUser @steamId='${user.id}', @displayName='${
       user.displayName
-    }', @photoUrl='${user.photos && user.photos[0]}'`
+    }', @photoUrl='${user.photos && user.photos[0].value}'`
   );
 
-  return dbUser;
+  return dbUser[0];
 }
 
-export async function steamReturnUser(
-  steamId: string
-): Promise<IRecordSet<DbSteamUser>> {
-  const sql = await connectSqlPool();
+export async function steamReturnUser(steamId: string): Promise<DbSteamUser> {
+  try {
+    const sql = await connectSqlPool();
 
-  const { recordset: dbUser } = await sql.query(
-    `exec returnUser @steamId='${steamId}'`
-  );
+    const {
+      recordset: dbUser,
+    }: { recordset: IRecordSet<DbSteamUser> } = await sql.query(
+      `exec returnUser @steamId='${steamId}'`
+    );
 
-  return dbUser;
+    return dbUser[0];
+  } catch (error) {
+    throw error;
+  }
 }
