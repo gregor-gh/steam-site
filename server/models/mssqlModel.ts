@@ -7,7 +7,7 @@ import {
   TinyInt,
   IRecordSet,
 } from "mssql";
-import { TableCreation } from "../../@types/database";
+import { DbSteamUser, TableCreation } from "../../@types/database";
 import config from "../config";
 
 const sqlConfig: SqlConfig = {
@@ -119,4 +119,30 @@ function createTable(
     table.columns.add(column[0], column[1], { nullable: column[2] });
   });
   return table;
+}
+
+export async function steamCreateReturnUser(
+  user: SteamUser
+): Promise<IRecordSet<DbSteamUser>> {
+  const sql = await connectSqlPool();
+
+  const { recordset: dbUser } = await sql.query(
+    `exec createReturnUser @steamId='${user.id}, @displayName='${
+      user.displayName
+    }', @photoUrl='${user.photos && user.photos[0]}'`
+  );
+
+  return dbUser;
+}
+
+export async function steamReturnUser(
+  steamId: string
+): Promise<IRecordSet<DbSteamUser>> {
+  const sql = await connectSqlPool();
+
+  const { recordset: dbUser } = await sql.query(
+    `exec returnUser @steamId='${steamId}'`
+  );
+
+  return dbUser;
 }
