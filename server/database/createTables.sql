@@ -24,8 +24,8 @@ create table dbo.SteamSpyTopGamesTwoWeeks(
 
 drop table if exists dbo.SteamUsers;
 create table dbo.SteamUsers(
-  id int primary key identity(0,1),
-  steamId varchar(60),
-  displayName varchar(300),
-  photoUrl varchar(300)
+  id bigint primary key identity(0,1),
+  steamId varchar(60) not null unique,
+  displayName varchar(300) not null,
+  photoUrl varchar(300) null
 );
