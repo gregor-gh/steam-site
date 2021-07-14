@@ -8,18 +8,17 @@ router.get(
   passport.authenticate("steam", {
     successRedirect: "/register",
     failureRedirect: "/",
-  }),
-  (req, res, next) => {
-    // Redirect to steam to authenticate
-  }
+  })
 );
 
 router.get(
   "/callback",
   passport.authenticate("steam", { failureRedirect: "/" }),
-  function (req, res) {
+  (req, res) => {
+    console.log(req.user?.id);
+
     if (process.env.NODE_ENV === "PROD") return res.redirect("/register");
-    res.redirect("http://localhost:8080/register");
+    res.redirect("http://localhost:8080/register"); //TODO give a proper route
   }
 );
 
