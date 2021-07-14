@@ -9,3 +9,13 @@ if not exists (select 0 from dbo.SteamUsers where id=@steamId)
 select steamId, displayName, photoUrl 
 from dbo.SteamUsers
 where steamId=@steamId;
+go
+
+-- Proc to find and return steam user
+create proc returnUser
+  @steamId varchar(60)
+as
+select steamId, displayName, photoUrl 
+from dbo.SteamUsers 
+where steamId=@steamId
+go
