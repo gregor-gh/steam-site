@@ -60,9 +60,18 @@ async function fetchNewsForApp(
 
 export async function getUserSteamGames(steamId: string) {
   const response = await fetch(
-    `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${config.steamApiKey}&steamid=76561197960434622&format=json&include_played_free_games=true&include_appinfo=true`
+    `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${config.steamApiKey}&steamid=${steamId}&format=json&include_played_free_games=true&include_appinfo=true`
   );
   const data = await response.json();
   console.log(data);
   return data;
+}
+
+export async function getAllGames() {
+  const response = await fetch(
+    "http://api.steampowered.com/ISteamApps/GetAppList/v0002/"
+  );
+  const { applist } = await response.json();
+  console.log(applist)
+  console.log(applist.apps.length);
 }

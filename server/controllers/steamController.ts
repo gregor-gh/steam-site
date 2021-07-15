@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { selectSteamSpyTopGamesTwoWeeks } from "../models/mssqlModel";
-import { fetchTopNewsTwoWeeks, getUserSteamGames } from "../models/steamModel";
+import {
+  fetchTopNewsTwoWeeks,
+  getAllGames,
+  getUserSteamGames,
+} from "../models/steamModel";
 
 export async function getTopGamesTwoWeeks(
   _req: Request,
@@ -37,14 +41,27 @@ export async function refreshUserSteamData(
   next: NextFunction
 ) {
   try {
-    console.log(req.user)
+    console.log(req.user);
     if (req.user?.steamId) {
       const steamGames = await getUserSteamGames(req.user?.steamId);
-      
+
       res.send("OK");
     } else {
       res.status(401).send("NO");
     }
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function refreshAllSteamGames(
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    getAllGames();
+    res.send("OK");
   } catch (err) {
     next(err);
   }
