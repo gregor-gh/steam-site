@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import config from "../config";
 import { selectSteamSpyTopGamesTwoWeeks } from "./mssqlModel";
 
 export async function fetchTopGamesTwoWeeks() {
@@ -55,4 +56,13 @@ async function fetchNewsForApp(
     //return Promise.reject("REJECT")
     throw error;
   }
+}
+
+export async function getUserSteamGames(steamId: string) {
+  const response = await fetch(
+    `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${config.steamApiKey}&steamid=76561197960434622&format=json&include_played_free_games=true&include_appinfo=true`
+  );
+  const data = await response.json();
+  console.log(data);
+  return data;
 }
