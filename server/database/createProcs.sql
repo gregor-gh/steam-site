@@ -20,3 +20,16 @@ select steamId, displayName, photoUrl
 from dbo.SteamUsers 
 where steamId=@steamId
 go
+
+-- Proc to update the steam games list
+create or alter proc dbo.UpdateSteamGames
+as
+merge dbo.SteamGames as target
+using dbo.SteamGamesStaging as source
+on target.appid=source.appid
+when matched and target.name<>source.name then
+update set target.name=source.name
+when not matched by target then insert values (source.appid,source.name);
+
+select @@rowcount;
+go
