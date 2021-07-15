@@ -4,8 +4,10 @@ import "./Navbar.css";
 import { ProfilePopup } from "./ProfilePopup";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import useStore from "../useStore";
 
 export const Navbar = () => {
+  const { steamProfile } = useStore((state) => state);
   const [profileVisible, setProfileVisible] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
 
@@ -37,16 +39,27 @@ export const Navbar = () => {
             <img
               className="navbar-logo"
               src="https://upload.wikimedia.org/wikipedia/commons/8/87/New_Steam_Logo_with_name.jpg"
+              alt="Steam Logo"
             />
           </Link>
         </div>
         <div className="navbar-profile" ref={profileRef}>
-          <FontAwesomeIcon
-            className="navbar-item navbar-profile-icon"
-            icon={faUserCircle}
-            size="2x"
-            onClick={showProfile}
-          />
+          {steamProfile?.photoUrl ? (
+            <img
+              className="navbar-item navbar-profile-icon"
+              src={steamProfile.photoUrl}
+              alt="User's profile picture."
+              onClick={showProfile}
+            />
+          ) : (
+            <FontAwesomeIcon
+              className="navbar-item navbar-profile-icon"
+              icon={faUserCircle}
+              size="2x"
+              onClick={showProfile}
+            />
+          )}
+
           <ProfilePopup visible={profileVisible} />
         </div>
       </nav>
