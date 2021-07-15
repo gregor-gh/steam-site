@@ -1,6 +1,8 @@
 import create from "zustand";
 
 interface StoreState {
+  isLoggedIn: boolean | null;
+  setIsLoggedIn: (flag: boolean) => void;
   topGameList: SteamSpyGameList[];
   setTopGameList: () => Promise<void>;
   topGameListLoading: boolean;
@@ -10,6 +12,8 @@ interface StoreState {
 }
 
 const useStore = create<StoreState>((set) => ({
+  isLoggedIn: null,
+  setIsLoggedIn: (flag) => set({ isLoggedIn: flag }),
   topGameList: [],
   setTopGameList: async () => {
     try {
