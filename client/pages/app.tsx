@@ -8,20 +8,27 @@ import { Navbar } from "../components/Navbar/Navbar";
 import "./app.css";
 import { Register } from "./register/Register";
 import useStore from "../components/useStore";
+import { DbSteamUser } from "../../@types/database";
 
 const App = () => {
-  const { setIsLoggedIn } = useStore((state) => state);
+  const { setIsLoggedIn, setSteamProfile } = useStore((state) => state);
 
   useEffect(() => {
     // check if user is logged in and set state
     fetch("/api/auth/is-logged-in")
-      .then((data) => {
-        if (data.status === 400) return setIsLoggedIn(true);
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data: DbSteamUser) => {
+            setIsLoggedIn(true);
+            setSteamProfile(data);
+          });
+        } else {
+          setIsLoggedIn(false);
+        }
       })
       .catch((_error) => {
         // do nothing
       });
-    setIsLoggedIn(false);
   }, []);
   return (
     // <>
