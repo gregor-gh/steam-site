@@ -14,7 +14,7 @@ router.get(
 router.get(
   "/callback",
   passport.authenticate("steam", { failureRedirect: "/" }),
-  (req, res) => {
+  (_req, res) => {
     if (process.env.NODE_ENV === "PROD") return res.redirect("/register");
     res.redirect("http://localhost:8080"); //TODO give a proper route
   }
@@ -23,6 +23,11 @@ router.get(
 router.get("/is-logged-in", (req, res, _next) => {
   if (req.isAuthenticated()) return res.send(req.user);
   else return res.status(401).send("NO");
+});
+
+router.get("/log-out", (req, res, _next) => {
+  req.logOut();
+  res.send("OK");
 });
 
 export default router;
