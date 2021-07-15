@@ -20,4 +20,9 @@ router.get(
   }
 );
 
+router.get("/is-logged-in", (req, res, _next) => {
+  if (req.isAuthenticated()) return res.send("OK");
+  else return res.status(401).send("NO");
+});
+
 export default router;
