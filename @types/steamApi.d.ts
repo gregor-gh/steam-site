@@ -10,7 +10,8 @@ interface SteamUser {
     avatarmedium: string;
     commentpermission: number;
     communityvisibilitystate: number;
-    lastlogoff: number;N
+    lastlogoff: number;
+    N;
     personaname: string;
     personastate: number;
     personastateflags: number;
@@ -47,5 +48,9 @@ interface SteamGetNewsForApp {
   count: number;
 }
 
-type SteamResponseFormat = "json" | "xml" | "vdf";
+interface SteamGameListItem {
+  appid: number;
+  name: string;
+}
 
+type SteamResponseFormat = "json" | "xml" | "vdf";
