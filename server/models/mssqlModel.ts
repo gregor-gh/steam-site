@@ -6,6 +6,7 @@ import {
   Int,
   TinyInt,
   IRecordSet,
+  MAX,
 } from "mssql";
 import { DbSteamUser, TableCreation } from "../../@types/database";
 import config from "../config";
@@ -15,6 +16,7 @@ const sqlConfig: SqlConfig = {
   password: config.sqlPw,
   server: config.sqlHost,
   database: config.sqlDb,
+  requestTimeout: 60_000,
   options: {
     trustServerCertificate: true,
     enableArithAbort: true,
@@ -147,5 +149,30 @@ export async function steamReturnUser(steamId: string): Promise<DbSteamUser> {
     return dbUser[0];
   } catch (error) {
     throw error;
+  }
+}
+
+export async function steamUpdateAllGames(gameList: SteamGameListItem[]) {
+  try {
+    const sql = await connectSqlPool();
+
+    const table = createTable("dbo.SteamGamesStaging", false, [
+      ["appid", Int, false],
+      ["name", VarChar(MAX), false],
+    ]);
+
+    gameList.forEach((game) => {
+      table.rows.add(game.appid, game.name);
+    });
+
+    await sql.query("delete from dbo.SteamGamesStaging");
+
+    await sql.request().bulk(table);
+
+    const { recordset } = await sql.query("exec dbo.UpdateSteamGames");
+    console.log(recordset[0]);
+    return recordset[0];
+  } catch (err) {
+    throw err;
   }
 }

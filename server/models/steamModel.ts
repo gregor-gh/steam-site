@@ -1,6 +1,9 @@
 import fetch from "node-fetch";
 import config from "../config";
-import { selectSteamSpyTopGamesTwoWeeks } from "./mssqlModel";
+import {
+  selectSteamSpyTopGamesTwoWeeks,
+  steamUpdateAllGames,
+} from "./mssqlModel";
 
 export async function fetchTopGamesTwoWeeks() {
   try {
@@ -68,10 +71,16 @@ export async function getUserSteamGames(steamId: string) {
 }
 
 export async function getAllGames() {
-  const response = await fetch(
-    "http://api.steampowered.com/ISteamApps/GetAppList/v0002/"
-  );
-  const { applist } = await response.json();
-  console.log(applist)
-  console.log(applist.apps.length);
+  try {
+    const response = await fetch(
+      "http://api.steampowered.com/ISteamApps/GetAppList/v0002/"
+    );
+    const { applist } = await response.json();
+    const recordsUpdated = await steamUpdateAllGames(applist.apps);
+
+    return recordsUpdated;
+
+  } catch (error) {
+    throw error;
+  }
 }

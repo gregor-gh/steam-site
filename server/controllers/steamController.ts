@@ -60,8 +60,8 @@ export async function refreshAllSteamGames(
   next: NextFunction
 ) {
   try {
-    getAllGames();
-    res.send("OK");
+    const recordsUpdated = await getAllGames();
+    res.send(recordsUpdated);
   } catch (err) {
     next(err);
   }
