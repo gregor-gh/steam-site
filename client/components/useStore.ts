@@ -1,8 +1,11 @@
 import create from "zustand";
+import { DbSteamUser } from "../../@types/database";
 
 interface StoreState {
   isLoggedIn: boolean | null;
   setIsLoggedIn: (flag: boolean) => void;
+  steamProfile: DbSteamUser | null;
+  setSteamProfile: (profile: DbSteamUser) => void;
   topGameList: SteamSpyGameList[];
   setTopGameList: () => Promise<void>;
   topGameListLoading: boolean;
@@ -14,6 +17,8 @@ interface StoreState {
 const useStore = create<StoreState>((set) => ({
   isLoggedIn: null,
   setIsLoggedIn: (flag) => set({ isLoggedIn: flag }),
+  steamProfile: null,
+  setSteamProfile: (profile) => set({ steamProfile: { ...profile } }),
   topGameList: [],
   setTopGameList: async () => {
     try {
