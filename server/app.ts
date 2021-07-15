@@ -12,6 +12,7 @@ import authRouter from "./routes/auth";
 import steamRouter from "./routes/steam";
 import { runSteamSpySchedule } from "./schedules/steamSpySchedule";
 import { steamReturnUser } from "./models/mssqlModel";
+import { runSteamSchedule } from "./schedules/steamSchedule";
 
 const app: Application = express();
 
@@ -64,3 +65,4 @@ server.listen(config.port || 3000);
 
 // Run data update schedules
 runSteamSpySchedule();
+runSteamSchedule();
