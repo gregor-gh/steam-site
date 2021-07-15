@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "../Button";
-import "./navbar.css";
+import "./Navbar.css";
 
 export const ProfilePopup: React.FunctionComponent<
   React.DetailedHTMLProps<
