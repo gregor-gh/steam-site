@@ -29,3 +29,13 @@ create table dbo.SteamUsers(
   displayName varchar(300) not null,
   photoUrl varchar(300) null
 );
+
+create table dbo.SteamGamesStaging(
+  appid int primary key not null,
+  name varchar(max) not null
+);
+
+create table dbo.SteamGames(
+  appid int primary key not null,
+  name varchar(max) not null
+);
