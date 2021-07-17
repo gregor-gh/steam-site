@@ -7,7 +7,7 @@
     "start": "node build/backend/app.js --env env=prod",
     "dev": "run-p server client",
     "server": "cd server && nodemon app.ts --env env=dev",
-    "client": "NODE_OPTIONS=--max_old_space_size=4096 webpack serve --config client/webpack/webpack.config.js --env env=dev",
+    "client": "webpack serve --config client/webpack/webpack.config.js --env env=dev",
     "build": "webpack --config client/webpack/webpack.config.js --env env=prod && npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
