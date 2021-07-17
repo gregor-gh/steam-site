@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { selectSteamSpyTopGamesTwoWeeks } from "../models/mssqlModel";
 import {
   fetchTopNewsTwoWeeks,
+  fetchUserNews,
   getAllGames,
   getUserSteamGames,
 } from "../models/steamModel";
@@ -27,9 +28,26 @@ export async function getTopNewsTwoWeeks(
   next: NextFunction
 ) {
   try {
-    const newList = await fetchTopNewsTwoWeeks();
+    const newsList = await fetchTopNewsTwoWeeks();
 
-    return res.status(200).send(newList);
+    return res.status(200).send(newsList);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getUserNewsTwoWeeks(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    if (req.user) {
+      const newsList = await fetchUserNews(req.user?.steamId);
+      return res.status(200).send(newsList);
+    } else {
+      return res.status(401).send();
+    }
   } catch (err) {
     next(err);
   }

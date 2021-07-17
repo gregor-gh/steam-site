@@ -2,6 +2,7 @@ import express from "express";
 import {
   getTopGamesTwoWeeks,
   getTopNewsTwoWeeks,
+  getUserNewsTwoWeeks,
   refreshAllSteamGames,
   refreshUserSteamData,
 } from "../controllers/steamController";
@@ -16,6 +17,10 @@ router.get("/top-news-two-weeks", (req, res, next) => {
 
 router.get("/top-games-two-weeks", (req, res, next) => {
   getTopGamesTwoWeeks(req, res, next);
+});
+
+router.get("/", (req, res, next) => {
+  getUserNewsTwoWeeks(req, res, next);
 });
 
 router.get("/refresh-user-steam-data", (req, res, next) => {
