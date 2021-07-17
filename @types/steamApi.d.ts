@@ -53,4 +53,23 @@ interface SteamGameListItem {
   name: string;
 }
 
+interface SteamUserGameListItem {
+  appid: number;
+  name: string;
+  playtime_2weeks: number;
+  playtime_forever: number;
+  img_icon_url: string;
+  img_logo_url: string;
+  playtime_windows_forever: string;
+  playtime_mac_forever: string;
+  playtime_linux_forever: string;
+}
+
+interface SteamGetRecentlyPlayedGames {
+  response: {
+    total_count: number;
+    games: SteamUserGameListItem[];
+  };
+}
+
 type SteamResponseFormat = "json" | "xml" | "vdf";
