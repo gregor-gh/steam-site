@@ -30,11 +30,13 @@ create table dbo.SteamUsers(
   photoUrl varchar(300) null
 );
 
+drop table if exists dbo.SteamGamesStaging;
 create table dbo.SteamGamesStaging(
   appid int primary key not null,
   name varchar(max) not null
 );
 
+drop table if exists dbo.SteamGames;
 create table dbo.SteamGames(
   appid int primary key not null,
   name varchar(max) not null
