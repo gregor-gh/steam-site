@@ -16,7 +16,7 @@ const sqlConfig: SqlConfig = {
   password: config.sqlPw,
   server: config.sqlHost,
   database: config.sqlDb,
-  requestTimeout: 60_000,
+  requestTimeout: 120_000,
   options: {
     trustServerCertificate: true,
     enableArithAbort: true,
@@ -170,7 +170,6 @@ export async function steamUpdateAllGames(gameList: SteamGameListItem[]) {
     await sql.request().bulk(table);
 
     const { recordset } = await sql.query("exec dbo.UpdateSteamGames");
-    console.log(recordset[0]);
     return recordset[0];
   } catch (err) {
     throw err;
