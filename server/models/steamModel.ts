@@ -1,4 +1,6 @@
+import { IRecordSet } from "mssql";
 import fetch from "node-fetch";
+import { SteamSpyGameListBasic } from "../../@types/database";
 import config from "../config";
 import {
   selectSteamSpyTopGamesTwoWeeks,
@@ -18,11 +20,33 @@ export async function fetchTopGamesTwoWeeks() {
   }
 }
 
+// fetch the top news stories based on the steamspy top games two weeks list
 export async function fetchTopNewsTwoWeeks() {
   try {
     const topGames = await selectSteamSpyTopGamesTwoWeeks();
+    fetchNewsForGameArray(topGames);
+  } catch (error) {
+    throw error;
+  }
+}
+
+// fetch the top news stories based on the user's recently played history
+export async function fetchUserNews(steamid: string) {
+  try {
+    const recentlyPlayedGames = await fetchUserRecentlyPlayedGames(steamid);
+    fetchNewsForGameArray(recentlyPlayedGames.response.games);
+  } catch (error) {
+    throw error;
+  }
+}
+
+// fetch news stories from steam based on a game list passed in
+async function fetchNewsForGameArray(
+  gameList: IRecordSet<SteamSpyGameListBasic> | SteamUserGameListItem[]
+) {
+  try {
     const topNewsItems = await Promise.all(
-      topGames.map(async (item) => {
+      gameList.map(async (item) => {
         const steamNews = await fetchNewsForApp(item.appid, 1);
         const steamNewsItems = steamNews.newsitems;
         return steamNewsItems;
@@ -42,6 +66,22 @@ export async function fetchTopNewsTwoWeeks() {
   }
 }
 
+// function to fetch a user's recently played games from steam
+async function fetchUserRecentlyPlayedGames(
+  steamid: string
+): Promise<SteamGetRecentlyPlayedGames> {
+  try {
+    const response = await fetch(
+      `http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${config.steamApiKey}&steamid=${steamid}&format=json`
+    );
+    const recentlyPlayedGames: SteamGetRecentlyPlayedGames = await response.json();
+    return recentlyPlayedGames;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// function to fetch newstories for a given app from steam
 async function fetchNewsForApp(
   appid: number,
   count: number = 3,
