@@ -8,7 +8,11 @@ import {
   IRecordSet,
   MAX,
 } from "mssql";
-import { DbSteamUser, TableCreation } from "../../@types/database";
+import {
+  DbSteamUser,
+  SteamSpyGameListBasic,
+  TableCreation,
+} from "../../@types/database";
 import config from "../config";
 
 const sqlConfig: SqlConfig = {
@@ -39,7 +43,7 @@ async function connectSqlPool() {
 }
 
 export async function selectSteamSpyTopGamesTwoWeeks(): Promise<
-  IRecordSet<Pick<SteamSpyGameList, "appid" | "name" | "ccu">>
+  IRecordSet<SteamSpyGameListBasic>
 > {
   try {
     const sql = await connectSqlPool();
