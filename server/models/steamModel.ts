@@ -46,11 +46,13 @@ async function fetchNewsForGameArray(
 ) {
   try {
     const topNewsItems = await Promise.all(
-      gameList.map(async (item) => {
-        const steamNews = await fetchNewsForApp(item.appid, 1);
-        const steamNewsItems = steamNews.newsitems;
-        return steamNewsItems;
-      })
+      gameList.map(
+        async (item: SteamSpyGameListBasic | SteamUserGameListItem) => {
+          const steamNews = await fetchNewsForApp(item.appid, 1);
+          const steamNewsItems = steamNews.newsitems;
+          return steamNewsItems;
+        }
+      )
     ).catch((error) => {
       throw error;
     });
