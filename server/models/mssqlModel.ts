@@ -156,6 +156,7 @@ export async function steamReturnUser(steamId: string): Promise<DbSteamUser> {
   }
 }
 
+// FIXME this throws Violation of PRIMARY KEY constraint 'PK__SteamGam__C00F024D2C779ACA'. Cannot insert duplicate key in object 'dbo.SteamGamesStaging'. The duplicate key value is (758570).'
 export async function steamUpdateAllGames(gameList: SteamGameListItem[]) {
   try {
     const sql = await connectSqlPool();
