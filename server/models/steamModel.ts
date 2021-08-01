@@ -24,7 +24,7 @@ export async function fetchTopGamesTwoWeeks() {
 export async function fetchTopNewsTwoWeeks() {
   try {
     const topGames = await selectSteamSpyTopGamesTwoWeeks();
-    fetchNewsForGameArray(topGames);
+    return fetchNewsForGameArray(topGames);
   } catch (error) {
     throw error;
   }
