@@ -1,5 +1,5 @@
 import React from "react";
-import "./Aside.css"
+import "./Aside.css";
 
 export const Aside = ({
   heading,
