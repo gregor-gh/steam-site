@@ -41,3 +41,14 @@ create table dbo.SteamGames(
   appid int primary key not null,
   name varchar(max) not null
 );
+
+drop table if exists dbo.SteamUserGames;
+create table dbo.SteamUserGames(
+  id bigint primary key identity(0,1),
+  steamUserID bigint not null,
+  appid int not null,
+  playtime_2weeks int null,
+  playtime_forever int null,
+  foreign key (appid) references dbo.SteamGames(appid),
+  foreign key (steamUserID) references dbo.SteamUsers(id)
+);
