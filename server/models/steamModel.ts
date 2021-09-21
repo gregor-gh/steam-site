@@ -4,6 +4,7 @@ import { SteamSpyGameListBasic } from "../../@types/database";
 import config from "../config";
 import {
   selectSteamSpyTopGamesTwoWeeks,
+  steamMergeUserGames,
   steamUpdateAllGames,
 } from "./mssqlModel";
 
@@ -103,7 +104,12 @@ async function fetchNewsForApp(
   }
 }
 
-export async function getUserSteamGames(steamId: string) {
+export async function downloadUserSteamGames(steamId: string) {
+  const steamGames = await getUserSteamGames(steamId);
+  await steamMergeUserGames(steamGames.response.games, steamId);
+}
+
+export async function getUserSteamGames(steamId: string): Promise<SteamGetOwnedGames> {
   const response = await fetch(
     `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${config.steamApiKey}&steamid=${steamId}&format=json&include_played_free_games=true`
   );

@@ -7,6 +7,7 @@ import {
   TinyInt,
   IRecordSet,
   MAX,
+  BigInt,
 } from "mssql";
 import {
   DbSteamUser,
@@ -178,5 +179,40 @@ export async function steamUpdateAllGames(gameList: SteamGameListItem[]) {
     return recordset[0];
   } catch (err) {
     throw err;
+  }
+}
+
+export async function steamMergeUserGames(
+  gameList: SteamUserGameListItem[],
+  steamId: string
+) {
+  try {
+    const sql = await connectSqlPool();
+
+    const table = createTable("dbo.SteamUserGamesStaging", false, [
+      ["steamId", VarChar(60), false],
+      ["appid", Int, false],
+      ["playtime_forever", Int, true],
+      ["playtime_2weeks", Int, true],
+    ]);
+
+    gameList.forEach((game) => {
+      table.rows.add(steamId, game.appid, game.playtime_forever);
+    });
+
+    await sql.query(
+      `delete from dbo.SteamUserGamesStaging where steamId=${steamId}`
+    );
+
+    //FIXME this does not work
+    await sql.request().bulk(table);
+
+    const { recordset } = await sql.query(
+      `exec dbo.UpdateSteamUserOwnedGames ${steamId}`
+    );
+
+    return recordset;
+  } catch (error) {
+    throw error;
   }
 }

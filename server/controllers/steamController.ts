@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { selectSteamSpyTopGamesTwoWeeks } from "../models/mssqlModel";
 import {
+  downloadUserSteamGames,
   fetchTopNewsTwoWeeks,
   fetchUserNews,
   getAllGames,
@@ -61,7 +62,7 @@ export async function refreshUserSteamData(
   try {
     console.log(req.user);
     if (req.user?.steamId) {
-      const steamGames = await getUserSteamGames(req.user?.steamId);
+      const steamGames = await downloadUserSteamGames(req.user.steamId);
 
       res.send("OK");
     } else {

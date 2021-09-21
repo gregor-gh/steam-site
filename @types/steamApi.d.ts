@@ -11,7 +11,6 @@ interface SteamUser {
     commentpermission: number;
     communityvisibilitystate: number;
     lastlogoff: number;
-    N;
     personaname: string;
     personastate: number;
     personastateflags: number;
