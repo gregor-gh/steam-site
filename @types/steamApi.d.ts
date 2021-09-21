@@ -55,14 +55,21 @@ interface SteamGameListItem {
 
 interface SteamUserGameListItem {
   appid: number;
-  name: string;
-  playtime_2weeks: number;
+  name?: string;
+  playtime_2weeks?: number;
   playtime_forever: number;
-  img_icon_url: string;
-  img_logo_url: string;
+  img_icon_url?: string;
+  img_logo_url?: string;
   playtime_windows_forever: string;
   playtime_mac_forever: string;
   playtime_linux_forever: string;
+}
+
+interface SteamGetOwnedGames {
+  response: {
+    game_count: number;
+    games:SteamUserGameListItem[];
+  }
 }
 
 interface SteamGetRecentlyPlayedGames {
