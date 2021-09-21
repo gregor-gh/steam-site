@@ -33,3 +33,16 @@ when not matched by target then insert values (source.appid,source.name);
 
 select @@rowcount;
 go
+
+create or alter proc dbo.UpdateSteamUserOwnedGames
+  @steamId varchar(60)
+as
+merge dbo.SteamUserGames as target
+using dbo.SteamUserGamesStaging as source
+on target.appid=source.appid and target.steamId=@steamId
+when matched and target.playtime_forever<>source.playtime_forever then
+update set target.playtime_forever=source.playtime_forever
+when not matched by target then insert (steamId, appid, playtime_forever) 
+  values (@steamId,appid,playtime_forever)
+when not matched by source then delete;
+go
