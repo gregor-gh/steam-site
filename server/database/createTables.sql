@@ -24,7 +24,7 @@ create table dbo.SteamSpyTopGamesTwoWeeks(
 
 drop table if exists dbo.SteamUsers;
 create table dbo.SteamUsers(
-  id bigint primary key identity(0,1),
+  id int primary key identity(0,1),
   steamId varchar(60) not null unique,
   displayName varchar(300) not null,
   photoUrl varchar(300) null
@@ -44,7 +44,7 @@ create table dbo.SteamGames(
 
 drop table if exists dbo.SteamUserGamesStaging;
 create table dbo.SteamUserGamesStaging (
-  steamUserID bigint not null,
+  steamId varchar(60) not null,
   appid int not null,
   playtime_forever int null,
   playtime_2weeks int null,
@@ -52,11 +52,13 @@ create table dbo.SteamUserGamesStaging (
 
 drop table if exists dbo.SteamUserGames;
 create table dbo.SteamUserGames(
-  id bigint primary key identity(0,1),
-  steamUserID bigint not null,
+  id int primary key identity(0,1),
+  steamUserID int not null,
   appid int not null,
   playtime_2weeks int null,
   playtime_forever int null,
   foreign key (appid) references dbo.SteamGames(appid),
   foreign key (steamUserID) references dbo.SteamUsers(id)
 );
+
+select * from SteamUsers

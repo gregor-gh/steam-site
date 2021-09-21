@@ -37,12 +37,16 @@ go
 create or alter proc dbo.UpdateSteamUserOwnedGames
   @steamId varchar(60)
 as
+declare @steamUserId int = (select id from SteamUsers where steamId=@steamId)
+
 merge dbo.SteamUserGames as target
 using dbo.SteamUserGamesStaging as source
-on target.appid=source.appid and target.steamId=@steamId
+on target.appid=source.appid and target.steamUserId=@steamUserId
 when matched and target.playtime_forever<>source.playtime_forever then
 update set target.playtime_forever=source.playtime_forever
-when not matched by target then insert (steamId, appid, playtime_forever) 
-  values (@steamId,appid,playtime_forever)
+when matched and target.playtime_2weeks<>source.playtime_2weeks then
+update set target.playtime_2weeks=source.playtime_2weeks
+when not matched by target then insert (steamUserId, appid, playtime_forever, playtime_2weeks) 
+  values (@steamUserId,appid,playtime_forever, playtime_2weeks)
 when not matched by source then delete;
 go
