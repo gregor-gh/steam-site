@@ -43,16 +43,32 @@ go
 create or alter proc dbo.UpdateSteamUserOwnedGames
   @steamId varchar(60)
 as
-declare @steamUserId int = (select id from SteamUsers where steamId=@steamId)
+declare @steamUserId int = (select id from SteamUsers where steamId=@steamId);
+
+-- add any missing games to the main game list
+insert into SteamGames
+select appid, name
+from SteamUserGamesStaging
+where appid in (
+  select appid from SteamUserGamesStaging
+  except
+  select appid from SteamGames
+) and steamId=@steamId;
 
 merge dbo.SteamUserGames as target
 using dbo.SteamUserGamesStaging as source
 on target.appid=source.appid and target.steamUserId=@steamUserId
-when matched and target.playtime_forever<>source.playtime_forever then
-update set target.playtime_forever=source.playtime_forever
-when matched and target.playtime_2weeks<>source.playtime_2weeks then
-update set target.playtime_2weeks=source.playtime_2weeks
+when matched and target.playtime_forever<>source.playtime_forever or target.playtime_2weeks<>source.playtime_2weeks then
+update set target.playtime_forever=source.playtime_forever, target.playtime_2weeks=source.playtime_2weeks
 when not matched by target then insert (steamUserId, appid, playtime_forever, playtime_2weeks) 
   values (@steamUserId,appid,playtime_forever, playtime_2weeks)
 when not matched by source then delete;
 go
+
+select * from steamusergames
+select * from steamusergamesstaging
+select appid from SteamUserGamesStaging
+except
+select appid from SteamGames
+delete from dbo.SteamUserGamesStaging where steamId='76561198044893617'
+select * from dbo.SteamUserGamesStaging
