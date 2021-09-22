@@ -6,6 +6,7 @@ import {
   selectSteamSpyTopGamesTwoWeeks,
   steamMergeUserOwnedGames,
   steamUpdateAllGames,
+  steamUpdateRecentlyPlayedGameTime,
 } from "./mssqlModel";
 
 export async function fetchTopGamesTwoWeeks() {
@@ -34,7 +35,9 @@ export async function fetchTopNewsTwoWeeks() {
 // fetch the top news stories based on the user's recently played history
 export async function fetchUserNews(steamid: string) {
   try {
-    const recentlyPlayedGames = await fetchUserRecentlyPlayedGames(steamid);
+    const recentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
+      steamid
+    );
     fetchNewsForGameArray(recentlyPlayedGames.response.games);
   } catch (error) {
     throw error;
@@ -69,21 +72,6 @@ async function fetchNewsForGameArray(
   }
 }
 
-// function to fetch a user's recently played games from steam
-async function fetchUserRecentlyPlayedGames(
-  steamid: string
-): Promise<SteamGetRecentlyPlayedGames> {
-  try {
-    const response = await fetch(
-      `http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${config.steamApiKey}&steamid=${steamid}&format=json`
-    );
-    const recentlyPlayedGames: SteamGetRecentlyPlayedGames = await response.json();
-    return recentlyPlayedGames;
-  } catch (error) {
-    throw error;
-  }
-}
-
 // function to fetch newstories for a given app from steam
 async function fetchNewsForApp(
   appid: number,
@@ -105,19 +93,42 @@ async function fetchNewsForApp(
 }
 
 export async function downloadUserSteamGames(steamId: string) {
-  const steamGames = await getUserSteamGames(steamId);
-  await steamMergeUserOwnedGames(steamGames.response.games, steamId);
+  // first fetch user's owned games and add to database
+  const steamUserOwnedGames = await fetchSteamUserOwnedGames(steamId);
+  await steamMergeUserOwnedGames(steamUserOwnedGames.response.games, steamId);
+
+  // then fetch recently played games to update the 2 week playtime
+  const steamRecentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
+    steamId
+  );
+  await steamUpdateRecentlyPlayedGameTime(
+    steamRecentlyPlayedGames.response.games,
+    steamId
+  );
 }
 
-export async function getUserSteamGames(steamId: string): Promise<SteamGetOwnedGames> {
+// fetch and reutrn a given user's owned games
+export async function fetchSteamUserOwnedGames(
+  steamId: string
+): Promise<SteamGetOwnedGames> {
   const response = await fetch(
     `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${config.steamApiKey}&steamid=${steamId}&format=json&include_played_free_games=true&include_appinfo=true`
   );
   const data = await response.json();
-  console.log(data);
   return data;
 }
 
+// fetch and return a given user's recently played games
+async function fetchSteamUserRecentlyPlayedGames(steamId: string) {
+  const response = await fetch(
+    `http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${config.steamApiKey}&steamid=${steamId}&format=json&include_played_free_games=true`
+  );
+
+  const data: SteamGetRecentlyPlayedGames = await response.json();
+  return data;
+}
+
+// fetch and update SQL database with the entire steam catalogue
 export async function getAllGames() {
   try {
     const response = await fetch(

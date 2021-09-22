@@ -5,7 +5,7 @@ import {
   fetchTopNewsTwoWeeks,
   fetchUserNews,
   getAllGames,
-  getUserSteamGames,
+  fetchSteamUserOwnedGames,
 } from "../models/steamModel";
 
 export async function getTopGamesTwoWeeks(
@@ -54,6 +54,7 @@ export async function getUserNewsTwoWeeks(
   }
 }
 
+// refresh an individual user's games and achievements list
 export async function refreshUserSteamData(
   req: Request,
   res: Response,
@@ -73,6 +74,7 @@ export async function refreshUserSteamData(
   }
 }
 
+// fetch the entire steam game catalogue
 export async function refreshAllSteamGames(
   _req: Request,
   res: Response,

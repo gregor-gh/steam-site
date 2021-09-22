@@ -65,10 +65,30 @@ when not matched by target then insert (steamUserId, appid, playtime_forever, pl
 when not matched by source then delete;
 go
 
-select * from steamusergames
+create or alter proc dbo.UpdateSteamUserRecentlyPlayed
+  @steamId varchar(60),
+  @appid int,
+  @playtime_2weeks int
+as
+declare @steamUserId int = (select id from SteamUsers where steamId=@steamId);
+
+-- reset the recently played time back to zero
+update SteamUserGames
+set playtime_2weeks=0
+where playtime_2weeks<>0;
+
+-- and then set to the current time
+update SteamUserGames 
+set playtime_2weeks=@playtime_2weeks
+where steamUserId=@steamUserId
+  and appid=@appid;
+go
+
+select * from steamusergames where appid='680420'
 select * from steamusergamesstaging
 select appid from SteamUserGamesStaging
 except
 select appid from SteamGames
 delete from dbo.SteamUserGamesStaging where steamId='76561198044893617'
 select * from dbo.SteamUserGamesStaging
+exec UpdateSteamUserRecentlyPlayed 123,123,''

@@ -219,6 +219,7 @@ export async function steamMergeUserOwnedGames(
   }
 }
 
+// update the SteamUserGames table with the recently played time
 export async function steamUpdateRecentlyPlayedGameTime(
   gameList: SteamUserGameListItem[],
   steamId: string
@@ -226,9 +227,12 @@ export async function steamUpdateRecentlyPlayedGameTime(
   try {
     const sql = await connectSqlPool();
 
-    // await sql.query(
-
-    // )
+    // there won't be too many recently played games so just loop through
+    gameList.forEach(async (game) => {
+      await sql.query(
+        `exec UpdateSteamUserRecentlyPlayed ${steamId}, ${game.appid}, ${game.playtime_2weeks}` // FIXME this does not work
+      );
+    });
   } catch (error) {
     throw error;
   }
