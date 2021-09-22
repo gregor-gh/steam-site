@@ -46,9 +46,10 @@ drop table if exists dbo.SteamUserGamesStaging;
 create table dbo.SteamUserGamesStaging (
   steamId varchar(60) not null,
   appid int not null,
+  name varchar(max) not null,
   playtime_forever int null,
   playtime_2weeks int null,
-)
+);
 
 drop table if exists dbo.SteamUserGames;
 create table dbo.SteamUserGames(
@@ -60,5 +61,3 @@ create table dbo.SteamUserGames(
   foreign key (appid) references dbo.SteamGames(appid),
   foreign key (steamUserID) references dbo.SteamUsers(id)
 );
-
-select * from SteamUsers
