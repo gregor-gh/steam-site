@@ -7,7 +7,6 @@ import {
   TinyInt,
   IRecordSet,
   MAX,
-  BigInt,
 } from "mssql";
 import {
   DbSteamUser,
@@ -182,7 +181,10 @@ export async function steamUpdateAllGames(gameList: SteamGameListItem[]) {
   }
 }
 
-export async function steamMergeUserGames(
+// Update the database with a given user's list of steam games,
+// inserting new games, updating their playtime_forever and
+// deleting games that are no longer in the game library.
+export async function steamMergeUserOwnedGames(
   gameList: SteamUserGameListItem[],
   steamId: string
 ) {
@@ -192,19 +194,19 @@ export async function steamMergeUserGames(
     const table = createTable("dbo.SteamUserGamesStaging", false, [
       ["steamId", VarChar(60), false],
       ["appid", Int, false],
+      ["name", VarChar(MAX), false],
       ["playtime_forever", Int, true],
       ["playtime_2weeks", Int, true],
     ]);
 
     gameList.forEach((game) => {
-      table.rows.add(steamId, game.appid, game.playtime_forever);
+      table.rows.add(steamId, game.appid, game.name, game.playtime_forever, 0); // Add 0 for playtime 2 weeks, this will be updated later
     });
 
-    await sql.query(
-      `delete from dbo.SteamUserGamesStaging where steamId=${steamId}`
-    );
+    const query = `exec dbo.DeleteFromSteamUserGamesStaging ${steamId}`;
 
-    //FIXME this does not work
+    await sql.query(query);
+
     await sql.request().bulk(table);
 
     const { recordset } = await sql.query(
@@ -212,6 +214,21 @@ export async function steamMergeUserGames(
     );
 
     return recordset;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function steamUpdateRecentlyPlayedGameTime(
+  gameList: SteamUserGameListItem[],
+  steamId: string
+) {
+  try {
+    const sql = await connectSqlPool();
+
+    // await sql.query(
+
+    // )
   } catch (error) {
     throw error;
   }
