@@ -34,6 +34,12 @@ when not matched by target then insert values (source.appid,source.name);
 select @@rowcount;
 go
 
+create or alter proc dbo.DeleteFromSteamUserGamesStaging
+  @steamId varchar(60)
+as
+delete from dbo.SteamUserGamesStaging where steamId=@steamId;
+go
+
 create or alter proc dbo.UpdateSteamUserOwnedGames
   @steamId varchar(60)
 as
