@@ -1,5 +1,5 @@
 import config from "../config";
-import { steamCreateReturnUser } from "../models/mssqlModel";
+import { createReturnSteamUser } from "../models/mssqlModel";
 import { downloadUserSteamGames } from "../models/steamModel";
 const SteamStrategy = require("passport-steam");
 
@@ -11,8 +11,8 @@ export const steamStrategy = new SteamStrategy(
   },
   async function (_identifier: any, profile: SteamUser, done: any) {
     try {
-      const dbUser = await steamCreateReturnUser(profile);
-      downloadUserSteamGames(dbUser[0].steamId);
+      const dbUser = await createReturnSteamUser(profile);
+      await downloadUserSteamGames(dbUser.steamId);
       return done(null, dbUser);
     } catch (error) {
       console.error(error);

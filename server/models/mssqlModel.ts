@@ -129,7 +129,7 @@ function createTable(
 
 export async function steamCreateReturnUser(
   user: SteamUser
-): Promise<IRecordSet<DbSteamUser>> {
+): Promise<DbSteamUser> {
   const sql = await connectSqlPool();
   const { recordset: dbUser } = await sql.query(
     `exec createReturnUser @steamId='${user.id}', @displayName='${
