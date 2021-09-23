@@ -22,12 +22,16 @@ export const NumberedList = ({
           <LoadingLine />
           <LoadingLine />
         </>
-      ) : (
+      ) : list.length > 0 ? (
         <ol className="numbered-list">
           {list.slice(0, 10).map((item, index) => {
             return <li key={index}>{item.name}</li>;
           })}
         </ol>
+      ) : (
+        <ul>
+          <li>Nothing 😢</li>
+        </ul>
       )}
     </Aside>
   );
