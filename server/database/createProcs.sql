@@ -65,6 +65,7 @@ when not matched by target then insert (steamUserId, appid, playtime_forever, pl
 when not matched by source then delete;
 go
 
+-- update the steamusergames table with the playtime_2weeks figure
 create or alter proc dbo.UpdateSteamUserRecentlyPlayed
   @steamId varchar(60),
   @appid int,
@@ -72,12 +73,6 @@ create or alter proc dbo.UpdateSteamUserRecentlyPlayed
 as
 declare @steamUserId int = (select id from SteamUsers where steamId=@steamId);
 
--- reset the recently played time back to zero
-update SteamUserGames
-set playtime_2weeks=0
-where playtime_2weeks<>0;
-
--- and then set to the current time
 update SteamUserGames 
 set playtime_2weeks=@playtime_2weeks
 where steamUserId=@steamUserId
@@ -92,3 +87,6 @@ select appid from SteamGames
 delete from dbo.SteamUserGamesStaging where steamId='76561198044893617'
 select * from dbo.SteamUserGamesStaging
 exec UpdateSteamUserRecentlyPlayed 123,123,''
+select * from steamusergames where playtime_2weeks<>0
+exec UpdateSteamUserRecentlyPlayed 76561198044893617, 221680, 374
+exec UpdateSteamUserRecentlyPlayed 76561198044893617, 1252330, 840
