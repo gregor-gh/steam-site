@@ -2,10 +2,10 @@ ol {
   margin-left: -1rem;
 }
 
-.top-games-list li {
+.numbered-list li {
   border-top: var(--global-divider-border);
   padding: 0.25rem;
 }
-.top-games-list li:last-child {
+.numbered-list li:last-child {
   border-bottom: var(--global-divider-border);
 }
