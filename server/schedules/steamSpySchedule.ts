@@ -1,6 +1,6 @@
 import schedule from "node-schedule";
 import { insertSteamSpyTopGamesTwoWeeks } from "../models/mssqlModel";
-import { fetchTopGamesTwoWeeks } from "../models/steamModel";
+import { fetchTopGamesTwoWeeks } from "../models/steamSpyModel";
 
 export async function updateSteamSpyTopGames() {
   const topGames = await fetchTopGamesTwoWeeks();
