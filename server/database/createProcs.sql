@@ -79,6 +79,19 @@ where steamUserId=@steamUserId
   and appid=@appid;
 go
 
+create or alter proc dbo.SelectSteamUserRecentlyPlayed
+  @steamId varchar(60)
+as
+select sug.appid, sg.name, sug.playtime_2weeks, sug.playtime_forever
+from SteamUserGames sug
+  join SteamUsers su on sug.steamUserID=su.id
+  join SteamGames sg on sug.appid=sg.appid
+where su.steamId=@steamId
+  and playtime_2weeks<>0
+order by playtime_2weeks desc
+go
+
+
 select * from steamusergames where appid='680420'
 select * from steamusergamesstaging
 select appid from SteamUserGamesStaging

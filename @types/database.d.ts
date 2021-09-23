@@ -16,3 +16,10 @@ interface DbSteamUser {
 }
 
 type SteamSpyGameListBasic = Pick<SteamSpyGameList, "appid" | "name" | "ccu">;
+
+interface DbSteamUserRecentlyPlayed {
+  appid: number;
+  name: string;
+  playtime_2weeks: number;
+  playtime_forever: number;
+}

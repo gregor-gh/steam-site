@@ -1,10 +1,11 @@
 import express from "express";
 import {
+  getSteamUserRecentlyPlayed,
   getTopGamesTwoWeeks,
   getTopNewsTwoWeeks,
   getUserNewsTwoWeeks,
   refreshAllSteamGames,
-  refreshUserSteamData,
+  refreshSteamUserData,
 } from "../controllers/steamController";
 import { updateSteamSpyTopGames } from "../schedules/steamSpySchedule";
 import config from "../config";
@@ -24,9 +25,11 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/refresh-user-steam-data", (req, res, next) => {
-  console.log(req.user);
-  console.log(req.isAuthenticated());
-  refreshUserSteamData(req, res, next);
+  refreshSteamUserData(req, res, next);
+});
+
+router.get("/steam-user-recently-played", (req, res, next) => {
+  getSteamUserRecentlyPlayed(req, res, next);
 });
 
 if (config.node_env === "DEV") {

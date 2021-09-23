@@ -127,7 +127,7 @@ function createTable(
   return table;
 }
 
-export async function steamCreateReturnUser(
+export async function createReturnSteamUser(
   user: SteamUser
 ): Promise<DbSteamUser> {
   const sql = await connectSqlPool();
@@ -140,7 +140,7 @@ export async function steamCreateReturnUser(
   return dbUser[0];
 }
 
-export async function steamReturnUser(steamId: string): Promise<DbSteamUser> {
+export async function returnSteamUser(steamId: string): Promise<DbSteamUser> {
   try {
     const sql = await connectSqlPool();
 
@@ -157,7 +157,7 @@ export async function steamReturnUser(steamId: string): Promise<DbSteamUser> {
 }
 
 // FIXME this throws Violation of PRIMARY KEY constraint 'PK__SteamGam__C00F024D2C779ACA'. Cannot insert duplicate key in object 'dbo.SteamGamesStaging'. The duplicate key value is (758570).'
-export async function steamUpdateAllGames(gameList: SteamGameListItem[]) {
+export async function updateAllSteamGames(gameList: SteamGameListItem[]) {
   try {
     const sql = await connectSqlPool();
 
@@ -184,7 +184,7 @@ export async function steamUpdateAllGames(gameList: SteamGameListItem[]) {
 // Update the database with a given user's list of steam games,
 // inserting new games, updating their playtime_forever and
 // deleting games that are no longer in the game library.
-export async function steamMergeUserOwnedGames(
+export async function mergeSteamUserOwnedGames(
   gameList: SteamUserGameListItem[],
   steamId: string
 ) {
@@ -220,7 +220,7 @@ export async function steamMergeUserOwnedGames(
 }
 
 // update the SteamUserGames table with the recently played time
-export async function steamUpdateRecentlyPlayedGameTime(
+export async function updateSteamUserRecentlyPlayed(
   gameList: SteamUserGameListItem[],
   steamId: string
 ) {
@@ -233,6 +233,20 @@ export async function steamUpdateRecentlyPlayedGameTime(
         `exec UpdateSteamUserRecentlyPlayed ${steamId}, ${game.appid}, ${game.playtime_2weeks}` // FIXME this does not work
       );
     });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function selectSteamUserRecentlyPlayed(steamId: string) {
+  try {
+    const sql = await connectSqlPool();
+
+    const recentlyPlayed = await sql.query(
+      `exec dbo.SelectSteamUserRecentlyPlayed ${steamId}`
+    );
+
+    return recentlyPlayed.recordset;
   } catch (error) {
     throw error;
   }

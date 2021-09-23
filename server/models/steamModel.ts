@@ -4,9 +4,9 @@ import { SteamSpyGameListBasic } from "../../@types/database";
 import config from "../config";
 import {
   selectSteamSpyTopGamesTwoWeeks,
-  steamMergeUserOwnedGames,
-  steamUpdateAllGames,
-  steamUpdateRecentlyPlayedGameTime,
+  mergeSteamUserOwnedGames,
+  updateAllSteamGames,
+  updateSteamUserRecentlyPlayed,
 } from "./mssqlModel";
 
 export async function fetchTopGamesTwoWeeks() {
@@ -95,13 +95,13 @@ async function fetchNewsForApp(
 export async function downloadUserSteamGames(steamId: string) {
   // first fetch user's owned games and add to database
   const steamUserOwnedGames = await fetchSteamUserOwnedGames(steamId);
-  await steamMergeUserOwnedGames(steamUserOwnedGames.response.games, steamId);
+  await mergeSteamUserOwnedGames(steamUserOwnedGames.response.games, steamId);
 
   // then fetch recently played games to update the 2 week playtime
   const steamRecentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
     steamId
   );
-  await steamUpdateRecentlyPlayedGameTime(
+  await updateSteamUserRecentlyPlayed(
     steamRecentlyPlayedGames.response.games,
     steamId
   );
@@ -135,7 +135,7 @@ export async function getAllGames() {
       "http://api.steampowered.com/ISteamApps/GetAppList/v0002/"
     );
     const { applist } = await response.json();
-    const recordsUpdated = await steamUpdateAllGames(applist.apps);
+    const recordsUpdated = await updateAllSteamGames(applist.apps);
 
     return recordsUpdated;
   } catch (error) {

@@ -7,7 +7,7 @@ export const TopGames = () => {
 
   return (
     <NumberedList
-      heading="🎮 Playing now"
+      heading="🎮 Steam playing now"
       list={topGameList}
       listLoading={topGameListLoading}
     />

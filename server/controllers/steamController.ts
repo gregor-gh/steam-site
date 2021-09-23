@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { selectSteamSpyTopGamesTwoWeeks } from "../models/mssqlModel";
 import {
-  downloadUserSteamGames,
+  selectSteamSpyTopGamesTwoWeeks,
+  selectSteamUserRecentlyPlayed,
+} from "../models/mssqlModel";
+import {
+  downloadUserSteamGames as downloadSteamUserGames,
   fetchTopNewsTwoWeeks,
   fetchUserNews,
   getAllGames,
@@ -54,18 +57,35 @@ export async function getUserNewsTwoWeeks(
   }
 }
 
-// refresh an individual user's games and achievements list
-export async function refreshUserSteamData(
+export async function getSteamUserRecentlyPlayed(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
-    console.log(req.user);
     if (req.user?.steamId) {
-      const steamGames = await downloadUserSteamGames(req.user.steamId);
+      const steamUserRecentlyPlayed = await selectSteamUserRecentlyPlayed(
+        req.user.steamId
+      );
+      res.status(200).send(steamUserRecentlyPlayed);
+    } else {
+      res.status(401).send("NO");
+    }
+  } catch (err) {
+    next(err);
+  }
+}
 
-      res.send("OK");
+// refresh an individual user's games and achievements list
+export async function refreshSteamUserData(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    if (req.user?.steamId) {
+      await downloadSteamUserGames(req.user.steamId);
+      res.status(200).send();
     } else {
       res.status(401).send("NO");
     }

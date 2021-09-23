@@ -11,7 +11,7 @@ import cors from "cors";
 import authRouter from "./routes/auth";
 import steamRouter from "./routes/steam";
 import { runSteamSpySchedule } from "./schedules/steamSpySchedule";
-import { steamReturnUser } from "./models/mssqlModel";
+import { returnSteamUser } from "./models/mssqlModel";
 import { runSteamSchedule } from "./schedules/steamSchedule";
 
 const app: Application = express();
@@ -29,7 +29,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id: string, done) => {
-  const dbUser = await steamReturnUser(id);
+  const dbUser = await returnSteamUser(id);
   done(null, dbUser);
 });
 
