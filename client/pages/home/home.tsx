@@ -7,7 +7,9 @@ import { useEffect } from "react";
 import { RegisterAside } from "../../components/Asides/RegisterAside";
 
 export const Home = () => {
-  const { setTopGameList, setTopSteamNews } = useStore((state) => state);
+  const { setTopGameList, setTopSteamNews, isLoggedIn } = useStore(
+    (state) => state
+  );
   useEffect(() => {
     setTopGameList();
     setTopSteamNews();
@@ -22,7 +24,7 @@ export const Home = () => {
       </div>
       <div className="asides">
         <Tile item={<TopGames />} />
-        <Tile item={<RegisterAside />} />
+        {isLoggedIn === false && <Tile item={<RegisterAside />} />}
       </div>
     </div>
   );

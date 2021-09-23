@@ -3,7 +3,7 @@ import { Button } from "../../Button";
 import { Aside } from "../Aside";
 
 export const RegisterAside = () => {
-  return (
+   return (
     <Aside heading="Register!">
       <>
         <p>
