@@ -1,4 +1,3 @@
-import React from "react";
 import { NumberedList } from ".";
 import useStore from "../../useStore";
 

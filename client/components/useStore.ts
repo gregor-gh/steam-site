@@ -1,24 +1,40 @@
+import { response } from "express";
 import create from "zustand";
-import { DbSteamUser } from "../../@types/database";
+import { DbSteamUser, DbSteamUserRecentlyPlayed } from "../../@types/database";
+
+type SetStatePromise = () => Promise<void>;
 
 interface StoreState {
+  // User
   isLoggedIn: boolean | null;
   setIsLoggedIn: (flag: boolean) => void;
   steamProfile: DbSteamUser | null;
   setSteamProfile: (profile: DbSteamUser) => void;
+
+  // Top game list
   topGameList: SteamSpyGameList[];
-  setTopGameList: () => Promise<void>;
+  setTopGameList: SetStatePromise;
   topGameListLoading: boolean;
+
+  // Top steam news
   topSteamNews: SteamNewsItem[];
-  setTopSteamNews: () => Promise<void>;
+  setTopSteamNews: SetStatePromise;
   topSteamNewsLoading: boolean;
+
+  // User recently played list
+  userRecentlyPlayedList: DbSteamUserRecentlyPlayed[];
+  setUserRecentlyPlayedList: SetStatePromise;
+  userRecentlyPlayedListLoading: boolean;
 }
 
 const useStore = create<StoreState>((set) => ({
+  // User
   isLoggedIn: null,
   setIsLoggedIn: (flag) => set({ isLoggedIn: flag }),
   steamProfile: null,
   setSteamProfile: (profile) => set({ steamProfile: { ...profile } }),
+
+  // Top game list
   topGameList: [],
   setTopGameList: async () => {
     try {
@@ -29,6 +45,8 @@ const useStore = create<StoreState>((set) => ({
     }
   },
   topGameListLoading: true,
+
+  // Top steam news
   topSteamNews: [],
   setTopSteamNews: async () => {
     try {
@@ -39,6 +57,21 @@ const useStore = create<StoreState>((set) => ({
     }
   },
   topSteamNewsLoading: true,
+
+  // User recently played
+  userRecentlyPlayedList: [],
+  setUserRecentlyPlayedList: async () => {
+    try {
+      const response = await fetch("/api/steam/steam-user-recently-played");
+      set({
+        userRecentlyPlayedList: await response.json(),
+        userRecentlyPlayedListLoading: false,
+      });
+    } catch (error) {
+      // do nothing
+    }
+  },
+  userRecentlyPlayedListLoading: true,
 }));
 
 export default useStore;

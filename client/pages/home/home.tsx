@@ -1,18 +1,23 @@
 import "./home.css";
 import { News, TopTenNewsItems } from "../../components/News";
-import { NumberedList, TopGames } from "../../components/Asides/NumberedList";
+import {
+  NumberedList,
+  TopGames,
+  UserRecentlyPlayed,
+} from "../../components/Asides/NumberedList";
 import { Tile } from "../../components/Tile";
 import useStore from "../../components/useStore";
 import { useEffect } from "react";
 import { RegisterAside } from "../../components/Asides/RegisterAside";
 
 export const Home = () => {
-  const { setTopGameList, setTopSteamNews, isLoggedIn } = useStore(
+  const { setTopGameList, setTopSteamNews, setUserRecentlyPlayedList, isLoggedIn } = useStore(
     (state) => state
   );
   useEffect(() => {
     setTopGameList();
     setTopSteamNews();
+    setUserRecentlyPlayedList();
   }, []);
 
   return (
@@ -24,6 +29,7 @@ export const Home = () => {
       </div>
       <div className="asides">
         <Tile item={<TopGames />} />
+        {isLoggedIn === true && <Tile item={<UserRecentlyPlayed />} />}
         {isLoggedIn === false && <Tile item={<RegisterAside />} />}
       </div>
     </div>
