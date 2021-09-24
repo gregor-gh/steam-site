@@ -1,12 +1,11 @@
-import { IRecordSet } from "mssql";
 import fetch from "node-fetch";
-import { SteamSpyGameListBasic } from "../../@types/database";
 import config from "../config";
 import {
   selectSteamSpyTopGamesTwoWeeks,
   mergeSteamUserOwnedGames,
   updateAllSteamGames,
   updateSteamUserRecentlyPlayed,
+  selectSteamUserRecentlyPlayed,
 } from "./mssqlModel";
 
 // fetch the top news stories based on the steamspy top games two weeks list
@@ -19,31 +18,27 @@ export async function fetchTopNewsTwoWeeks() {
   }
 }
 
-// fetch the top news stories based on the user's recently played history
-export async function fetchUserNews(steamid: string) {
-  try {
-    const recentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
-      steamid
-    );
-    fetchNewsForGameArray(recentlyPlayedGames.response.games);
-  } catch (error) {
-    throw error;
-  }
-}
+// // fetch the top news stories based on the user's recently played history
+// export async function fetchUserNews(steamid: string) {
+//   try {
+//     const recentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
+//       steamid
+//     );
+//     fetchNewsForGameArray(recentlyPlayedGames.response.games);
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
 // fetch news stories from steam based on a game list passed in
-async function fetchNewsForGameArray(
-  gameList: IRecordSet<SteamSpyGameListBasic> | SteamUserGameListItem[]
-) {
+async function fetchNewsForGameArray(gameList: { appid: number }[]) {
   try {
     const topNewsItems = await Promise.all(
-      gameList.map(
-        async (item: SteamSpyGameListBasic | SteamUserGameListItem) => {
-          const steamNews = await fetchNewsForApp(item.appid, 1);
-          const steamNewsItems = steamNews.newsitems;
-          return steamNewsItems;
-        }
-      )
+      gameList.map(async (item) => {
+        const steamNews = await fetchNewsForApp(item.appid, 1);
+        const steamNewsItems = steamNews.newsitems;
+        return steamNewsItems;
+      })
     ).catch((error) => {
       throw error;
     });
@@ -125,6 +120,21 @@ export async function getAllGames() {
     const recordsUpdated = await updateAllSteamGames(applist.apps);
 
     return recordsUpdated;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// fetch news items based on a user's recently played game list
+export async function fetchSteamUserRecentlyPlayedGamesNews(steamId: string) {
+  try {
+    const recentlyPlayedGames = await selectSteamUserRecentlyPlayed(steamId);
+
+    const recentlyPlayedGameNews = await fetchNewsForGameArray(
+      recentlyPlayedGames
+    );
+
+    return recentlyPlayedGameNews;
   } catch (error) {
     throw error;
   }

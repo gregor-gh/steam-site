@@ -10,6 +10,7 @@ import {
 } from "mssql";
 import {
   DbSteamUser,
+  DbSteamUserRecentlyPlayed,
   SteamSpyGameListBasic,
   TableCreation,
 } from "../../@types/database";
@@ -238,7 +239,9 @@ export async function updateSteamUserRecentlyPlayed(
   }
 }
 
-export async function selectSteamUserRecentlyPlayed(steamId: string) {
+export async function selectSteamUserRecentlyPlayed(
+  steamId: string
+): Promise<IRecordSet<DbSteamUserRecentlyPlayed>> {
   try {
     const sql = await connectSqlPool();
 

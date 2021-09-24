@@ -5,10 +5,9 @@ import {
 } from "../models/mssqlModel";
 import {
   downloadUserSteamGames as downloadSteamUserGames,
+  fetchSteamUserRecentlyPlayedGamesNews,
   fetchTopNewsTwoWeeks,
-  fetchUserNews,
   getAllGames,
-  fetchSteamUserOwnedGames,
 } from "../models/steamModel";
 
 export async function getTopGamesTwoWeeks(
@@ -40,22 +39,22 @@ export async function getTopNewsTwoWeeks(
   }
 }
 
-export async function getUserNewsTwoWeeks(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    if (req.user) {
-      const newsList = await fetchUserNews(req.user?.steamId);
-      return res.status(200).send(newsList);
-    } else {
-      return res.status(401).send();
-    }
-  } catch (err) {
-    next(err);
-  }
-}
+// export async function getUserNewsTwoWeeks(
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) {
+//   try {
+//     if (req.user) {
+//       const newsList = await fetchUserNews(req.user?.steamId);
+//       return res.status(200).send(newsList);
+//     } else {
+//       return res.status(401).send();
+//     }
+//   } catch (err) {
+//     next(err);
+//   }
+// }
 
 export async function getSteamUserRecentlyPlayed(
   req: Request,
@@ -73,6 +72,25 @@ export async function getSteamUserRecentlyPlayed(
     }
   } catch (err) {
     next(err);
+  }
+}
+
+export async function getSteamUserRecentlyPlayedNews(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    if (req.user?.steamId) {
+      const steamUserRecentlyPlayedNews = await fetchSteamUserRecentlyPlayedGamesNews(
+        req.user.steamId
+      );
+      res.status(200).send(steamUserRecentlyPlayedNews);
+    } else {
+      res.status(401).send("NO");
+    }
+  } catch (error) {
+    next(error);
   }
 }
 
