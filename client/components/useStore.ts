@@ -21,6 +21,11 @@ interface StoreState {
   setTopSteamNews: SetStatePromise;
   topSteamNewsLoading: boolean;
 
+  // User recently played news
+  recentlyPlayedNews: SteamNewsItem[];
+  setRecentlyPlayedNews: SetStatePromise;
+  recentlyPlayedNewsLoading: boolean;
+
   // User recently played list
   userRecentlyPlayedList: DbSteamUserRecentlyPlayed[];
   setUserRecentlyPlayedList: SetStatePromise;
@@ -57,6 +62,23 @@ const useStore = create<StoreState>((set) => ({
     }
   },
   topSteamNewsLoading: true,
+
+  // User recently played news
+  recentlyPlayedNews: [],
+  setRecentlyPlayedNews: async () => {
+    try {
+      const response = await fetch(
+        "/api/steam/steam-user-recently-played-news"
+      );
+      set({
+        recentlyPlayedNews: await response.json(),
+        recentlyPlayedNewsLoading: false,
+      });
+    } catch (error) {
+      // do nothing
+    }
+  },
+  recentlyPlayedNewsLoading: true,
 
   // User recently played
   userRecentlyPlayedList: [],
