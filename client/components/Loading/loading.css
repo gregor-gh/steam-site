@@ -9,7 +9,7 @@
 }
 
 .news-item-preview-line {
-  width: 30ch;
+  max-width:30ch;
   height: 1.5rem;
   margin: 1rem;
 }
