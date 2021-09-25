@@ -35,8 +35,6 @@ export const Home = () => {
       <div className="articles">
         {isLoggedIn === true && <Tile item={<TopTenRecentlyPlayedNews />} />}
         <Tile item={<TopTenSteamNews />} />
-        <Tile item={<News />} />
-        <Tile item={<News />} />
       </div>
       <div className="asides">
         <Tile item={<TopGames />} />
