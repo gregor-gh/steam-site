@@ -39,6 +39,7 @@ interface SteamNewsItem {
   feedname: string;
   feed_type: number;
   appid: number;
+  tags?: string[]
 }
 
 interface SteamGetNewsForApp {

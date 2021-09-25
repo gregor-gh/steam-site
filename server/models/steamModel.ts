@@ -58,7 +58,7 @@ async function fetchNewsForGameArray(gameList: { appid: number }[]) {
 async function fetchNewsForApp(
   appid: number,
   count: number = 3,
-  maxlength: number = 300,
+  maxlength: number = 0,
   format: SteamResponseFormat = "json"
 ): Promise<SteamGetNewsForApp> {
   try {

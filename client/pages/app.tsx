@@ -9,6 +9,7 @@ import "./app.css";
 import { Register } from "./register/Register";
 import useStore from "../components/useStore";
 import { DbSteamUser } from "../../@types/database";
+import NewsArticle from "./newsArticle/newsArticle";
 
 const App = () => {
   const { setIsLoggedIn, setSteamProfile } = useStore((state) => state);
@@ -50,6 +51,9 @@ const App = () => {
         </Route>
         <Route exact path="/register">
           <Register />
+        </Route>
+        <Route exact path="/news-test">
+          <NewsArticle />
         </Route>
       </Switch>
     </div>

@@ -1,6 +1,6 @@
 .home {
   display:flex;
-  background: hsl(226, 29%, 32%) 100%
+  background: var(--global-color-foreground);
 }
 
 .articles {
