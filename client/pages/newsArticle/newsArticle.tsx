@@ -1,3 +1,4 @@
+import { steamHeroImageUrl } from "../../helpers/steamImages";
 import "./newsArticle.css";
 
 const NewsArticle = () => {
@@ -1556,7 +1557,7 @@ const NewsArticle = () => {
     <div className="news-article">
       <img
         className="news-article-heading"
-        src={`https://steamcdn-a.akamaihd.net/steam/apps/${testArray[1].appid}/library_hero.jpg`}
+        src={steamHeroImageUrl(testArray[0].appid)}
       />
       <article className="single-article">
         <div

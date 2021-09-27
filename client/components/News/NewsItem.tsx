@@ -1,12 +1,12 @@
+import { steam600x900ImageUrl } from "../../helpers/steamImages";
 import { stripHtmlFromString } from "../../helpers/text";
 import "./news.css";
 
 export const NewsItem = ({ newsItem }: { newsItem: SteamNewsItem }) => {
-  const gameImage = `https://steamcdn-a.akamaihd.net/steam/apps/${newsItem.appid}/library_600x900.jpg`;
   const parsedContents = stripHtmlFromString(newsItem.contents);
   return (
     <div className="news-big-item">
-      <img className="news-big-item-image" src={gameImage} />
+      <img className="news-big-item-image" src={steam600x900ImageUrl(newsItem.appid)} />
 
       <div>
         <p className="news-big-item-title">{newsItem.title}</p>
