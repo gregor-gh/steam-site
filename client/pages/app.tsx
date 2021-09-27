@@ -39,7 +39,7 @@ const App = () => {
         <Route exact path="/register">
           <Register />
         </Route>
-        <Route exact path="/news-test">
+        <Route path="/game/:appid/news/:newsid" >
           <NewsArticle />
         </Route>
       </Switch>

@@ -1553,6 +1553,8 @@ const NewsArticle = () => {
     },
   ];
 
+  const params = new URLSearchParams(document.location.search.substring(1));
+  console.log(params.get("page"));
   return (
     <div className="news-article">
       <img
@@ -1565,7 +1567,7 @@ const NewsArticle = () => {
           dangerouslySetInnerHTML={{
             // this is very sketchy and open to xss attack, safe enough for a test project
             // as Steam is the source but definitely would not use this in a live system
-            __html: testArray[77].contents 
+            __html: testArray[77].contents
               .replaceAll("<script", "")
               .replaceAll("[script", "")
               .replaceAll("[*]", "<br/>")
