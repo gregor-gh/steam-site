@@ -1,4 +1,3 @@
-import { stripHtmlFromString } from "../../helpers/text";
 import "./newsArticle.css";
 
 const NewsArticle = () => {
@@ -1563,7 +1562,11 @@ const NewsArticle = () => {
         <div
           className="article-text"
           dangerouslySetInnerHTML={{
-            __html: testArray[77].contents
+            // this is very sketchy and open to xss attack, safe enough for a test project
+            // as Steam is the source but definitely would not use this in a live system
+            __html: testArray[77].contents 
+              .replaceAll("<script", "")
+              .replaceAll("[script", "")
               .replaceAll("[*]", "<br/>")
               .replaceAll("[", "<")
               .replaceAll("]", ">"),
