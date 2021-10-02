@@ -1,9 +1,8 @@
-import "./home.css";
+import "./Home.css";
 import {
-  News,
   TopTenSteamNews,
   TopTenRecentlyPlayedNews,
-} from "../../components/News";
+} from "../../components/NewsItem";
 import {
   TopGames,
   UserRecentlyPlayed,

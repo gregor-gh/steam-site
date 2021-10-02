@@ -1,7 +1,7 @@
 import { steamHeroImageUrl } from "../../helpers/steamImages";
-import "./newsArticle.css";
+import "./Article.css";
 
-const NewsArticle = () => {
+const Article = () => {
   const testArray: SteamNewsItem[] = [
     {
       gid: "3936699406875255966",
@@ -1582,4 +1582,4 @@ const NewsArticle = () => {
   );
 };
 
-export default NewsArticle;
+export { Article };

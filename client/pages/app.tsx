@@ -1,13 +1,14 @@
 import "../styles/App.css";
 import { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { Home } from "./home/home";
+import { Home } from "./Home/Home";
 import { Navbar } from "../components/Navbar/Navbar";
 import "./app.css";
-import { Register } from "./register/Register";
+import { Register } from "./Register/Register";
 import useStore from "../components/useStore";
 import { DbSteamUser } from "../../@types/database";
-import NewsArticle from "./newsArticle/newsArticle";
+import {Article} from "../components/Article";
+import Game from "./Game/Game";
 
 const App = () => {
   const { setIsLoggedIn, setSteamProfile } = useStore((state) => state);
@@ -39,8 +40,11 @@ const App = () => {
         <Route exact path="/register">
           <Register />
         </Route>
+        <Route path="/game">
+          <Game/>
+          </Route>
         <Route path="/game/:appid/news/:newsid" >
-          <NewsArticle />
+          <Article />
         </Route>
       </Switch>
     </div>
