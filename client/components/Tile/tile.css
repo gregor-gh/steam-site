@@ -1,7 +1,6 @@
 .tile {
-  background: hsl(226, 100%, 98%) 100%;
   margin:1rem 1rem 1rem 0.25rem;
   padding: 0.25rem 1rem 0.25rem 0rem;
-  
+  background: var(--global-color-tile);
   border-radius: 5px;
 }

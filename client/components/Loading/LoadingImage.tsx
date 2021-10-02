@@ -1,5 +1,5 @@
 import "./loading.css";
-import "../NewsItem/news.css";
+import "../NewsItem/NewsItem.css";
 
 export const LoadingImage = () => {
   return (

@@ -5,7 +5,9 @@
   --global-news-image-size: 10rem;
   --global-color-primary: hsl(226, 100%, 35%);
   --global-color-background: hsl(226, 100%, 20%);
-  --global-color-foreground:hsl(226, 29%, 32%) 100%;
+  --global-color-foreground: hsl(226, 29%, 32%) 100%;
+  --global-color-tile: hsl(226, 100%, 98%) 100%;
+  --global-color-tile-hover: hsl(226, 0%, 75%);
 }
 
 html,

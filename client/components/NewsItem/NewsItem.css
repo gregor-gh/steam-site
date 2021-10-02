@@ -1,7 +1,16 @@
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .news-big-item {
   display: flex;
   border-bottom: var(--global-divider-border);
   padding: 5px;
+}
+
+.news-big-item:hover {
+  background-color: var(--global-color-tile-hover);
 }
 
 .news-big-item-image {
@@ -12,7 +21,12 @@
 .news-big-item-title {
   font-size: large;
 }
+.news-big-item-title:hover {
+  text-decoration: underline;
+}
 
 .news-big-item-posted-by {
   font-style: italic;
 }
+
+
