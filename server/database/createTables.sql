@@ -1,6 +1,6 @@
-if not exists (select * from sys.databases where name = 'SteamSite')
+if not exists (select 0 from sys.databases where name = 'SteamSite')
   create database SteamSite
-
+go
 use SteamSite;
 go
 

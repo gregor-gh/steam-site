@@ -90,16 +90,3 @@ where su.steamId=@steamId
   and playtime_2weeks<>0
 order by playtime_2weeks desc
 go
-
-
-select * from steamusergames where appid='680420'
-select * from steamusergamesstaging
-select appid from SteamUserGamesStaging
-except
-select appid from SteamGames
-delete from dbo.SteamUserGamesStaging where steamId='76561198044893617'
-select * from dbo.SteamUserGamesStaging
-exec UpdateSteamUserRecentlyPlayed 123,123,''
-select * from steamusergames where playtime_2weeks<>0
-exec UpdateSteamUserRecentlyPlayed 76561198044893617, 221680, 374
-exec UpdateSteamUserRecentlyPlayed 76561198044893617, 1252330, 840
