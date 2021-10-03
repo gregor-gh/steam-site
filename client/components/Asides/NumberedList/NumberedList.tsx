@@ -1,6 +1,7 @@
 import "./NumberedList.css";
 import { Aside } from "../Aside";
 import { LoadingLine } from "../../Loading";
+import { Link } from "react-router-dom";
 
 export const NumberedList = ({
   heading,
@@ -8,7 +9,7 @@ export const NumberedList = ({
   listLoading,
 }: {
   heading: string;
-  list: { name: string }[];
+  list: { name: string; appid: number }[];
   listLoading: boolean;
 }) => {
   return (
@@ -24,7 +25,11 @@ export const NumberedList = ({
       ) : list.length > 0 ? ( // once list has loaded display the contents of the list
         <ol className="numbered-list">
           {list.slice(0, 10).map((item, index) => {
-            return <li key={index}>{item.name}</li>;
+            return (
+              <Link to={`/game/${item.appid}`}>
+                <li key={index}>{item.name}</li>
+              </Link>
+            );
           })}
         </ol>
       ) : (
