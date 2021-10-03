@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { steamHeroImageUrl } from "../../helpers/steamImages";
+import { getAppIdFromUrl } from "../../helpers/url";
 import "./Article.css";
 
 const Article = () => {
@@ -1553,13 +1555,19 @@ const Article = () => {
     },
   ];
 
-  const params = new URLSearchParams(document.location.search.substring(1));
-  console.log(params.get("page"));
+  const [newsArticle, setNewsArticle] = useState();
+
+  useEffect(() => {
+    //const response = fetch()
+  },[])
+
+  const appid = getAppIdFromUrl(window.location.href)
+  console.log(appid)
   return (
     <div className="news-article">
       <img
         className="news-article-heading"
-        src={steamHeroImageUrl(testArray[0].appid)}
+        src={steamHeroImageUrl(appid||"")}
       />
       <article className="single-article">
         <div
