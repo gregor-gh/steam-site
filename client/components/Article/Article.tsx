@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { steamHeroImageUrl } from "../../helpers/steamImages";
-import { getAppIdFromUrl } from "../../helpers/url";
+import { getAppIdFromUrl, getNewsIdFromUrl } from "../../helpers/url";
+import useStore from "../useStore";
 import "./Article.css";
 
 const Article = () => {
+  const {
+    steamSingleGameNews,
+    setSteamSingleGamesNews,
+    steamSingleGameNewsLoading,
+  } = useStore((state) => state);
   const testArray: SteamNewsItem[] = [
     {
       gid: "3936699406875255966",
@@ -1555,19 +1561,20 @@ const Article = () => {
     },
   ];
 
-  const [newsArticle, setNewsArticle] = useState();
-
   useEffect(() => {
-    //const response = fetch()
-  },[])
+    if (appid) {
+      setSteamSingleGamesNews(appid);
+    }
+  }, [setSteamSingleGamesNews]);
 
-  const appid = getAppIdFromUrl(window.location.href)
-  console.log(appid)
+  const appid = getAppIdFromUrl(window.location.href);
+  const newsid = getNewsIdFromUrl(window.location.href);
+
   return (
     <div className="news-article">
       <img
         className="news-article-heading"
-        src={steamHeroImageUrl(appid||"")}
+        src={steamHeroImageUrl(appid || "")}
       />
       <article className="single-article">
         <div
@@ -1575,7 +1582,7 @@ const Article = () => {
           dangerouslySetInnerHTML={{
             // this is very sketchy and open to xss attack, safe enough for a test project
             // as Steam is the source but definitely would not use this in a live system
-            __html: testArray[77].contents
+            __html: steamSingleGameNews[0].contents
               .replaceAll("<script", "")
               .replaceAll("[script", "")
               .replaceAll("[*]", "<br/>")

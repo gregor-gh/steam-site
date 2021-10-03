@@ -30,6 +30,11 @@ interface StoreState {
   userRecentlyPlayedList: DbSteamUserRecentlyPlayed[];
   setUserRecentlyPlayedList: SetStatePromise;
   userRecentlyPlayedListLoading: boolean;
+
+  // Steam single game news
+  steamSingleGameNews: SteamNewsItem[];
+  setSteamSingleGamesNews: (appid:string) => Promise<void>;
+  steamSingleGameNewsLoading: boolean;
 }
 
 const useStore = create<StoreState>((set) => ({
@@ -94,6 +99,21 @@ const useStore = create<StoreState>((set) => ({
     }
   },
   userRecentlyPlayedListLoading: true,
+
+  // Steam single game news
+  steamSingleGameNews: [],
+  setSteamSingleGamesNews: async (appid) => {
+    try {
+      const response = await fetch(`/api/steam/steam-single-game-news/${appid}`);
+      set({
+        steamSingleGameNews: await response.json(),
+        steamSingleGameNewsLoading: false,
+      });
+    } catch (error) {
+      // do nothing
+    }
+  },
+  steamSingleGameNewsLoading: true,
 }));
 
 export default useStore;
