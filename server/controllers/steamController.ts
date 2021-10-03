@@ -5,6 +5,7 @@ import {
 } from "../models/mssqlModel";
 import {
   downloadUserSteamGames as downloadSteamUserGames,
+  fetchSteamSingleGameNews,
   fetchSteamUserRecentlyPlayedGamesNews,
   fetchTopNewsTwoWeeks,
   getAllGames,
@@ -121,6 +122,24 @@ export async function refreshAllSteamGames(
   try {
     const recordsUpdated = await getAllGames();
     res.send(recordsUpdated);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getSteamSingleGameNews(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const appid = req.params.appid?.toString();
+    if (appid) {
+      const steamSingleGameNews = await fetchSteamSingleGameNews(appid);
+      res.status(200).send(steamSingleGameNews);
+    } else {
+      return res.status(500);
+    }
   } catch (err) {
     next(err);
   }

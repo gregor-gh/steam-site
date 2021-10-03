@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getSteamSingleGameNews,
   getSteamUserRecentlyPlayed,
   getSteamUserRecentlyPlayedNews,
   getTopGamesTwoWeeks,
@@ -35,6 +36,10 @@ router.get("/refresh-user-steam-data", (req, res, next) => {
 router.get("/steam-user-recently-played", (req, res, next) => {
   getSteamUserRecentlyPlayed(req, res, next);
 });
+
+router.get("/steam-single-game-news/:appid", (req, res, next) => {
+  getSteamSingleGameNews(req, res, next);
+})
 
 if (config.node_env === "DEV") {
   router.get("/update-steamspy", (req, res, next) => {

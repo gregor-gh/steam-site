@@ -56,7 +56,7 @@ async function fetchNewsForGameArray(gameList: { appid: number }[]) {
 
 // function to fetch newstories for a given app from steam
 async function fetchNewsForApp(
-  appid: number,
+  appid: string | number,
   count: number = 3,
   maxlength: number = 0,
   format: SteamResponseFormat = "json"
@@ -72,6 +72,10 @@ async function fetchNewsForApp(
     //return Promise.reject("REJECT")
     throw error;
   }
+}
+
+export async function fetchSteamSingleGameNews(appid: string) {
+  return (await fetchNewsForApp(appid, 20)).newsitems;
 }
 
 export async function downloadUserSteamGames(steamId: string) {
