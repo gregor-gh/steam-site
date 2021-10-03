@@ -32,13 +32,29 @@ export const Home = () => {
   return (
     <div className="home">
       <div className="articles">
-        {isLoggedIn === true && <Tile item={<TopTenRecentlyPlayedNews />} />}
-        <Tile item={<TopTenSteamNews />} />
+        {isLoggedIn === true && (
+          <Tile>
+            <TopTenRecentlyPlayedNews />
+          </Tile>
+        )}
+        <Tile>
+          <TopTenSteamNews />
+        </Tile>
       </div>
       <div className="asides">
-        <Tile item={<TopGames />} />
-        {isLoggedIn === true && <Tile item={<UserRecentlyPlayed />} />}
-        {isLoggedIn === false && <Tile item={<RegisterAside />} />}
+        <Tile>
+          <TopGames />
+        </Tile>
+        {isLoggedIn === true && (
+          <Tile>
+            <UserRecentlyPlayed />
+          </Tile>
+        )}
+        {isLoggedIn === false && (
+          <Tile>
+            <RegisterAside />
+          </Tile>
+        )}
       </div>
     </div>
   );

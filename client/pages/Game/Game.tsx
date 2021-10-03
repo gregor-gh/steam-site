@@ -1,6 +1,7 @@
 import { Article } from "../../components/Article";
 import { RegisterAside } from "../../components/Asides/RegisterAside";
-import "../Home/home.css";
+import { Tile } from "../../components/Tile";
+import "../Home/Home.css";
 
 const Game = () => {
   return (
@@ -9,7 +10,9 @@ const Game = () => {
         <Article />
       </div>
       <div className="asides">
-        <RegisterAside />
+        <Tile >
+          <RegisterAside/>
+        </Tile>
       </div>
     </div>
   );
