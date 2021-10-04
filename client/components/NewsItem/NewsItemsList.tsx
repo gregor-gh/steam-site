@@ -10,7 +10,6 @@ export const NewsItemsList = ({
   listLoading: boolean;
   numberOfItems: number;
   }) => {
-  console.log(list)
   const slicedList = list
     .slice(0, numberOfItems)
     .map((newsItem: SteamNewsItem, index) => {
