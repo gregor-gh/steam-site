@@ -1582,7 +1582,7 @@ const Article = () => {
           dangerouslySetInnerHTML={{
             // this is very sketchy and open to xss attack, safe enough for a test project
             // as Steam is the source but definitely would not use this in a live system
-            __html: steamSingleGameNews[0].contents
+            __html: steamSingleGameNews[0]?.contents
               .replaceAll("<script", "")
               .replaceAll("[script", "")
               .replaceAll("[*]", "<br/>")

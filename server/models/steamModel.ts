@@ -75,7 +75,8 @@ async function fetchNewsForApp(
 }
 
 export async function fetchSteamSingleGameNews(appid: string) {
-  return (await fetchNewsForApp(appid, 20)).newsitems;
+  const singleGameNews = await fetchNewsForApp(appid, 20);
+  return singleGameNews.newsitems;
 }
 
 export async function downloadUserSteamGames(steamId: string) {
