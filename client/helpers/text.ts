@@ -6,6 +6,8 @@ export function stripHtmlFromString(content: string) {
 }
 
 export function dangerouslyAddHtmlToSteamContents(content: string) {
+  if (!content) return "";
+
   return content
     .replaceAll("<script", "")
     .replaceAll("[script", "")
