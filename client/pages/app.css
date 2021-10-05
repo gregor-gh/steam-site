@@ -3,3 +3,16 @@
   max-width: var(--global-page-width-xl);
   margin-top: var(--global-navbar-height);
 }
+
+.page {
+  display:flex;
+  background: var(--global-color-foreground);
+}
+
+.content {
+  width: 70%;
+}
+
+.asides {
+  width: 30%;
+}

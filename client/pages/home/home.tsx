@@ -1,4 +1,4 @@
-import "./Home.css";
+import "../App.css";
 import {
   TopTenSteamNews,
   TopTenRecentlyPlayedNews,
@@ -30,8 +30,8 @@ export const Home = () => {
   }, [isLoggedIn]);
 
   return (
-    <div className="home">
-      <div className="articles">
+    <div className="page">
+      <div className="content">
         {isLoggedIn === true && (
           <Tile>
             <TopTenRecentlyPlayedNews />
