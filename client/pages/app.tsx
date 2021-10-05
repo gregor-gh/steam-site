@@ -7,7 +7,6 @@ import "./app.css";
 import { Register } from "./Register/Register";
 import useStore from "../components/useStore";
 import { DbSteamUser } from "../../@types/database";
-import {Article} from "../components/Article";
 import Game from "./Game/Game";
 
 const App = () => {
@@ -43,9 +42,6 @@ const App = () => {
         <Route path="/game">
           <Game/>
           </Route>
-        <Route path="/game/:appid/news/:newsid" >
-          <Article />
-        </Route>
       </Switch>
     </div>
   );

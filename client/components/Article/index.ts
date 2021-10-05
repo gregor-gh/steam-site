@@ -1,2 +1,2 @@
-import { Article } from "./Article";
-export { Article };
+import { NewsArticle } from "./NewsArticle";
+export { NewsArticle };
