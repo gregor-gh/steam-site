@@ -29,7 +29,12 @@ const Game = () => {
         <Tile>
           <>
             <img className="hero-image" src={steamHeroImageUrl(appid || "")} />
-            <div>headings</div>
+            <div className="game-nav">
+              <nav className="game-nav-item">Achievements</nav>
+              <nav className="game-nav-item">News</nav>
+              <nav className="game-nav-item">Forum</nav>
+            </div>
+
             <article className="single-article">
               <NewsArticle list={steamSingleGameNews} />
             </article>
