@@ -7,7 +7,7 @@ import "./app.css";
 import { Register } from "./Register/Register";
 import useStore from "../components/useStore";
 import { DbSteamUser } from "../../@types/database";
-import Game from "./Game/Game";
+import Game from "./Game/GamePage";
 
 const App = () => {
   const { setIsLoggedIn, setSteamProfile } = useStore((state) => state);

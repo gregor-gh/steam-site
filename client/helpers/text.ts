@@ -13,5 +13,6 @@ export function dangerouslyAddHtmlToSteamContents(content: string) {
     .replaceAll("[script", "")
     .replaceAll("[*]", "<br/>")
     .replaceAll("[", "<")
-    .replaceAll("]", ">");
+    .replaceAll("]", ">")
+    .replaceAll("<img","<img style=max-width:100%"); // hardcode in a style to avoid image being shown at full size.
 }
