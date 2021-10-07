@@ -1,11 +1,11 @@
 .app {
-  margin:auto;
+  margin: auto;
   max-width: var(--global-page-width-xl);
   margin-top: var(--global-navbar-height);
 }
 
 .page {
-  display:flex;
+  display: flex;
   background: var(--global-color-foreground);
 }
 
@@ -15,4 +15,18 @@
 
 .asides {
   width: 30%;
+}
+
+@media screen and (max-width: 800px) {
+  .page {
+    flex-direction: column;
+  }
+
+  .content {
+    width: 100%;
+  }
+
+  .asides {
+    width: 100%;
+  }
 }

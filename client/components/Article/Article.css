@@ -13,3 +13,10 @@
 .article-text {
   font-size: large;
 }
+
+@media screen and (max-width:600px) {
+  .single-article{
+    margin:2ch;
+    padding:1ch;
+  }
+}
