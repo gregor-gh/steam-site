@@ -4,18 +4,12 @@
   background: var(--global-color-foreground);
 }
 
-.news-article-heading {
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
-}
-
-.single-article{
-    margin:5ch;
+.single-article {
+  margin: 5ch;
   background: white;
-  padding:5ch;
+  padding: 5ch;
 }
 
-.article-text{
-
+.article-text {
   font-size: large;
-
 }
