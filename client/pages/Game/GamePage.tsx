@@ -29,6 +29,7 @@ const Game = () => {
         <Tile>
           <>
             <img className="hero-image" src={steamHeroImageUrl(appid || "")} />
+            <div>headings</div>
             <article className="single-article">
               <NewsArticle list={steamSingleGameNews} />
             </article>
