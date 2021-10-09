@@ -12,6 +12,14 @@ router.get(
 );
 
 router.get(
+  "/demo",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })
+);
+
+router.get(
   "/callback",
   passport.authenticate("steam", { failureRedirect: "/" }),
   (_req, res) => {
