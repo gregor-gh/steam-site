@@ -1,6 +1,7 @@
 import React from "react";
 import "./Register.css";
 import SIGN_IN_WITH_STEAM from "../../public/sign-in-with-steam.png";
+import { Button } from "../../components/Button";
 
 export const Register = () => {
   return (
@@ -20,6 +21,7 @@ export const Register = () => {
         </a>
 
         <p>Alternatively sign in as a demo account:</p>
+        <a href="/api/auth/demo"><Button>Sign in with demo account[not currently working]</Button></a>
       </div>
     </div>
   );
