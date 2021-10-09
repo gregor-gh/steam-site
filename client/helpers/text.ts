@@ -5,14 +5,29 @@ export function stripHtmlFromString(content: string) {
   return removeSquareBrackets.replace(/\S*.jpg|\S*.png|{\S*/g, ""); // remove images/steam clan links
 }
 
+function replaceSteamClanImage(original: string) {
+  const originalWithoutClanImg = original
+    .replace(">", "")
+    .replace("{STEAM_CLAN_IMAGE}", "")
+    .replace("</img>", "");
+  console.log(originalWithoutClanImg);
+  const fullImg = ` src=https://cdn.akamai.steamstatic.com/steamcommunity/public/images/clans${originalWithoutClanImg} />`;
+  console.log(fullImg);
+  return fullImg;
+}
+
 export function dangerouslyAddHtmlToSteamContents(content: string) {
   if (!content) return "";
 
-  return content
+  const formatted = content
     .replaceAll("<script", "")
     .replaceAll("[script", "")
     .replaceAll("[*]", "<br/>")
     .replaceAll("[", "<")
     .replaceAll("]", ">")
-    .replaceAll("<img","<img style=max-width:100%"); // hardcode in a style to avoid image being shown at full size.
+    .replaceAll("<img", "<img style=max-width:100%") // hardcode in a style to avoid image being shown at full size.
+    .replaceAll(/>\W*{STEAM_CLAN_IMAGE}\S*/g, replaceSteamClanImage);
+
+  console.log(formatted);
+  return formatted;
 }
