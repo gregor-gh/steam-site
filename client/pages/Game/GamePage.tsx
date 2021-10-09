@@ -1,13 +1,12 @@
 import { Link, Route, Router, Switch } from "react-router-dom";
-import { useEffect } from "react";
 import { NewsArticle } from "../../components/Article";
 import { RegisterAside } from "../../components/Asides/RegisterAside";
 import { Tile } from "../../components/Tile";
-import useStore from "../../components/useStore";
 import { steamHeroImageUrl } from "../../helpers/steamImages";
 import { getAppIdFromUrl } from "../../helpers/url";
 import "../App.css";
 import "./Game.css";
+import { SingleGameNews } from "../../components/NewsItem";
 
 const Game = () => {
   const appid = getAppIdFromUrl(window.location.href);
@@ -37,7 +36,7 @@ const Game = () => {
                 game
               </Route>
               <Route exact path="/game/:appid/news">
-                news
+                <SingleGameNews appid={appid || ""} />
               </Route>
               <Route exact path="/game/:appid/news/:newsid">
                 <NewsArticle />
