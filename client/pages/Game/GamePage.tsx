@@ -1,4 +1,4 @@
-import { Link, Route, Router, Switch } from "react-router-dom";
+import { Link, Redirect, Route, Router, Switch } from "react-router-dom";
 import { NewsArticle } from "../../components/Article";
 import { RegisterAside } from "../../components/Asides/RegisterAside";
 import { Tile } from "../../components/Tile";
@@ -33,11 +33,17 @@ const Game = () => {
             </nav>
             <Switch>
               <Route exact path="/game/:appid">
-                game
+                <Redirect to={`/game/${appid}/achievements`} />
+              </Route>
+              <Route exact path="/game/:appid/achievements">
+                achs
               </Route>
               <Route exact path="/game/:appid/news">
                 <SingleGameNews appid={appid || ""} />
               </Route>
+              <Route exact path="/game/:appid/forum">
+                foryum
+                </Route>
               <Route exact path="/game/:appid/news/:newsid">
                 <NewsArticle />
               </Route>
