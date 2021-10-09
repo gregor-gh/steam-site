@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { Home } from "./Home/Home";
 import { Navbar } from "../components/Navbar/Navbar";
-import "./app.css";
+import "./App.css";
 import { Register } from "./Register/Register";
 import useStore from "../components/useStore";
 import { DbSteamUser } from "../../@types/database";
