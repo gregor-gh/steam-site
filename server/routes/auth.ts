@@ -13,10 +13,13 @@ router.get(
 
 router.get(
   "/demo",
-  passport.authenticate("local", {
+  passport.authenticate("demo", {
     successRedirect: "/",
-    failureRedirect: "/",
-  })
+    failureRedirect: "/register",
+  }),
+  (_req, res, _next) => {
+    res.redirect("/");
+  }
 );
 
 router.get(

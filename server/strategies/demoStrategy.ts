@@ -4,7 +4,7 @@ import * as passportLocal from "passport-local";
 const LocalStrategy = passportLocal.Strategy;
 
 // note, this strategy is used for the demo account only
-export const localStrategy = new LocalStrategy(async function (
+export const demoStrategy = new LocalStrategy(async function (
   _username,
   _password,
   done

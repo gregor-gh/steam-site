@@ -5,6 +5,7 @@ import http from "http";
 import session from "express-session";
 import passport from "passport";
 import { steamStrategy } from "./strategies/steamStrategy";
+import { demoStrategy } from "./strategies/demoStrategy";
 // import util from "util";
 // import session from "express-session";
 import cors from "cors";
@@ -23,6 +24,8 @@ app.use(passport.session());
 
 // Use the SteamStrategy within Passport.
 passport.use(steamStrategy);
+// Use the LocalStategy for use with the demo account
+passport.use("demo",demoStrategy);
 
 passport.serializeUser((user, done) => {
   done(null, user.steamId);
@@ -55,7 +58,7 @@ router.get("/", (_req, res) => {
 // );
 
 // Error Handler
-app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err);
   res.status(500).send(err.description);
 });
