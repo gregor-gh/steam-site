@@ -26,7 +26,7 @@ export const NumberedList = ({
         <ol className="numbered-list">
           {list.slice(0, 10).map((item, index) => {
             return (
-              <Link to={`/game/${item.appid}`}>
+              <Link key={index} to={`/game/${item.appid}`}>
                 <li key={index}>{item.name}</li>
               </Link>
             );
