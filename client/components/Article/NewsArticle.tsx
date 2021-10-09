@@ -1,22 +1,51 @@
+import { useEffect } from "react";
 import { dangerouslyAddHtmlToSteamContents } from "../../helpers/text";
 import { getAppIdFromUrl, getNewsIdFromUrl } from "../../helpers/url";
+import { LoadingImage, LoadingLine, LoadingNewsItem } from "../Loading";
+import useStore from "../useStore";
 import "./Article.css";
 
-const NewsArticle = ({ list }: { list: SteamNewsItem[] }) => {
+const NewsArticle = () => {
+  const {
+    steamSingleGameNews,
+    setSteamSingleGamesNews,
+    steamSingleGameNewsLoading,
+  } = useStore((state) => state);
+
   const appid = getAppIdFromUrl(window.location.href);
   const newsid = getNewsIdFromUrl(window.location.href);
 
-  const thisNewsItem = list.filter((newsItem) => newsItem.gid === newsid)[0]
-    ?.contents;
+  useEffect(() => {
+    // fetch 30 most recent stories as steam doesn't allow querying a particular news GID
+    if (appid) {
+      setSteamSingleGamesNews(appid);
+    }
+  }, [setSteamSingleGamesNews]);
+
+  const thisNewsItem = steamSingleGameNews.filter(
+    (newsItem) => newsItem.gid === newsid
+  )[0]?.contents;
   return (
-    <div
-      className="article-text"
-      dangerouslySetInnerHTML={{
-        // this is very bad practice and open to xss attack, safe enough for a test project
-        // as Steam is the source but definitely would not use this in a live system
-        __html: dangerouslyAddHtmlToSteamContents(thisNewsItem),
-      }}
-    />
+    <article className="single-article">
+      {steamSingleGameNewsLoading ? (
+        <>
+          <LoadingLine />
+          <LoadingLine />
+          <LoadingLine />
+          <LoadingLine />
+          <LoadingLine />
+        </>
+      ) : (
+        <div
+          className="article-text"
+          dangerouslySetInnerHTML={{
+            // this is very bad practice and open to xss attack, safe enough for a test project
+            // as Steam is the source but definitely would not use this in a live system
+            __html: dangerouslyAddHtmlToSteamContents(thisNewsItem),
+          }}
+        />
+      )}
+    </article>
   );
 };
 

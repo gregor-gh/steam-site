@@ -1,4 +1,4 @@
-import { Link, Router } from "react-router-dom";
+import { Link, Route, Router, Switch } from "react-router-dom";
 import { useEffect } from "react";
 import { NewsArticle } from "../../components/Article";
 import { RegisterAside } from "../../components/Asides/RegisterAside";
@@ -11,18 +11,6 @@ import "./Game.css";
 
 const Game = () => {
   const appid = getAppIdFromUrl(window.location.href);
-  const {
-    steamSingleGameNews,
-    setSteamSingleGamesNews,
-    steamSingleGameNewsLoading,
-  } = useStore((state) => state);
-
-  useEffect(() => {
-    // fetch 30 most recent stories as steam doesn't allow querying a particular news GID
-    if (appid) {
-      setSteamSingleGamesNews(appid);
-    }
-  }, [setSteamSingleGamesNews]);
 
   return (
     <div className="page">
@@ -44,9 +32,17 @@ const Game = () => {
                 Forum
               </Link>
             </nav>
-            <article className="single-article">
-              <NewsArticle list={steamSingleGameNews} />
-            </article>
+            <Switch>
+              <Route exact path="/game/:appid">
+                game
+              </Route>
+              <Route exact path="/game/:appid/news">
+                news
+              </Route>
+              <Route exact path="/game/:appid/news/:newsid">
+                <NewsArticle />
+              </Route>
+            </Switch>
           </>
         </Tile>
       </div>
