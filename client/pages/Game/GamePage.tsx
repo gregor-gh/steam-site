@@ -7,9 +7,11 @@ import { getAppIdFromUrl } from "../../helpers/url";
 import "../App.css";
 import "./Game.css";
 import { SingleGameNews } from "../../components/NewsItem";
+import useStore from "../../components/useStore";
 
 const Game = () => {
   const appid = getAppIdFromUrl(window.location.href);
+  const { isLoggedIn } = useStore((state) => state);
 
   return (
     <div className="page">
@@ -43,7 +45,7 @@ const Game = () => {
               </Route>
               <Route exact path="/game/:appid/forum">
                 foryum
-                </Route>
+              </Route>
               <Route exact path="/game/:appid/news/:newsid">
                 <NewsArticle />
               </Route>
@@ -53,9 +55,11 @@ const Game = () => {
       </div>
 
       <div className="asides">
-        <Tile>
-          <RegisterAside />
-        </Tile>
+        {isLoggedIn === false && (
+          <Tile>
+            <RegisterAside />
+          </Tile>
+        )}
       </div>
     </div>
   );
