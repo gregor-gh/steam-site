@@ -19,3 +19,6 @@
   z-index: 1;
   background: var(--global-color-tile);
 }
+.game-nav-item:hover {
+  background-color: var(--global-color-tile-hover);
+}

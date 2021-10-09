@@ -1,3 +1,4 @@
+import { Link, Router } from "react-router-dom";
 import { useEffect } from "react";
 import { NewsArticle } from "../../components/Article";
 import { RegisterAside } from "../../components/Asides/RegisterAside";
@@ -29,12 +30,20 @@ const Game = () => {
         <Tile>
           <>
             <img className="hero-image" src={steamHeroImageUrl(appid || "")} />
-            <div className="game-nav">
-              <nav className="game-nav-item">Achievements</nav>
-              <nav className="game-nav-item">News</nav>
-              <nav className="game-nav-item">Forum</nav>
-            </div>
-
+            <nav className="game-nav">
+              <Link
+                className="game-nav-item"
+                to={`/game/${appid}/achievements`}
+              >
+                Achievements
+              </Link>
+              <Link className="game-nav-item" to={`/game/${appid}/news`}>
+                News
+              </Link>
+              <Link className="game-nav-item" to={`/game/${appid}/forum`}>
+                Forum
+              </Link>
+            </nav>
             <article className="single-article">
               <NewsArticle list={steamSingleGameNews} />
             </article>
