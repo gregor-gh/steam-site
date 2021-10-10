@@ -3,20 +3,20 @@ import "./button.css";
 
 export const Button: React.FunctionComponent<
   React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { type?: ButtonType }
-> = ({ type, children, ...rest }) => {
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > & { buttonType?: ButtonType }
+> = ({ buttonType, children, ...rest }) => {
   return (
-    <div
+    <button
       {...rest}
       className={
-        type === "secondary"
+        buttonType === "secondary"
           ? "button button-secondary"
           : "button button-primary"
       }
     >
       {children}
-    </div>
+    </button>
   );
 };

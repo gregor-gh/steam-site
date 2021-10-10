@@ -25,7 +25,7 @@ export const ProfilePopup: React.FunctionComponent<
             <Button>Sign into Steam-Site</Button>
           </a>
           <Link to="/register">
-            <Button type="secondary">Register with Steam-Site</Button>
+            <Button buttonType="secondary">Register with Steam-Site</Button>
           </Link>
         </>
       )}
