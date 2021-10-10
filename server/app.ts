@@ -7,7 +7,6 @@ import passport from "passport";
 import { steamStrategy } from "./strategies/steamStrategy";
 import { demoStrategy } from "./strategies/demoStrategy";
 // import util from "util";
-// import session from "express-session";
 import cors from "cors";
 import authRouter from "./routes/auth";
 import steamRouter from "./routes/steam";
@@ -16,11 +15,19 @@ import { returnSteamUser } from "./models/mssqlModel";
 import { runSteamSchedule } from "./schedules/steamSchedule";
 
 const app: Application = express();
-
 // Initialise passport
-app.use(session({ secret: "TEST" }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  session({
+    secret: "TESTEROONI",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.authenticate("session"));
 
 // Use the SteamStrategy within Passport.
 passport.use(steamStrategy);
