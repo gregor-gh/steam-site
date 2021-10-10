@@ -80,18 +80,31 @@ export async function fetchSteamSingleGameNews(appid: string) {
 }
 
 export async function downloadUserSteamGames(steamId: string) {
-  // first fetch user's owned games and add to database
-  const steamUserOwnedGames = await fetchSteamUserOwnedGames(steamId);
-  await mergeSteamUserOwnedGames(steamUserOwnedGames.response.games, steamId);
+  try {
+    // first fetch user's owned games and add to database
+    const steamUserOwnedGames = await fetchSteamUserOwnedGames(steamId);
+    if (steamUserOwnedGames?.response?.game_count > 0) {
+      await mergeSteamUserOwnedGames(
+        steamUserOwnedGames.response.games,
+        steamId
+      );
+    }
 
-  // then fetch recently played games to update the 2 week playtime
-  const steamRecentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
-    steamId
-  );
-  await updateSteamUserRecentlyPlayed(
-    steamRecentlyPlayedGames.response.games,
-    steamId
-  );
+    // then fetch recently played games to update the 2 week playtime
+    const steamRecentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
+      steamId
+    );
+
+    // If any games are found
+    if (steamRecentlyPlayedGames?.response?.total_count > 0) {
+      await updateSteamUserRecentlyPlayed(
+        steamRecentlyPlayedGames.response.games,
+        steamId
+      );
+    }
+  } catch (error) {
+    throw error;
+  }
 }
 
 // fetch and reutrn a given user's owned games
