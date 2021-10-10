@@ -1,4 +1,3 @@
-import React from "react";
 import "./Register.css";
 import SIGN_IN_WITH_STEAM from "../../public/sign-in-with-steam.png";
 import { Button } from "../../components/Button";
@@ -19,9 +18,13 @@ export const Register = () => {
             alt="Sign in with Steam button"
           />
         </a>
-
-        <p>Alternatively sign in as a demo account:</p>
-        <a href="/api/auth/demo"><Button>Sign in with demo account[not currently working]</Button></a>
+        <p>Alternatively sign in with a demo account:</p>
+        <form action="/api/auth/demo" method="post">
+          {/* local authentication requires a username and password */}
+          <input hidden defaultValue="0" name="username" /> 
+          <input hidden defaultValue="0" name="password" />
+          <Button type="submit">Sign in with demo account</Button>
+        </form>
       </div>
     </div>
   );

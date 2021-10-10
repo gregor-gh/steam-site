@@ -11,15 +11,12 @@ router.get(
   })
 );
 
-router.get(
+router.post(
   "/demo",
   passport.authenticate("demo", {
     successRedirect: "/",
     failureRedirect: "/register",
-  }),
-  (_req, res, _next) => {
-    res.redirect("/");
-  }
+  })
 );
 
 router.get(
