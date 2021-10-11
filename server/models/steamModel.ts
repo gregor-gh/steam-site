@@ -157,3 +157,34 @@ export async function fetchSteamUserRecentlyPlayedGamesNews(steamId: string) {
     throw error;
   }
 }
+
+export async function fetchSteamGameGlobalAchs(
+  appid: string
+): Promise<SteamGetGlobalAchPercentForApp> {
+  try {
+    const response = await fetch(
+      `http://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid=${appid}&format=json&l=english`
+    );
+    const globalAchs = await response.json();
+
+    if (Object.keys(globalAchs)?.length > 0) {
+      // failures will return an empty object so check for this
+      return globalAchs;
+    } else {
+      throw new Error("Game not found.");
+    }
+  } catch (error) {
+    throw error; // throw back up to controller
+  }
+}
+
+export async function fetchSteamGameUserAchs(appid: string, steamId: string):Promise<SteamGetPlayerAchievements> {
+  try {
+    const response = await fetch(
+      `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${config.steamApiKey}&steamid=${steamId}&l=english`
+    );
+    
+  } catch (error) {
+    throw error; // throw back up to controller.
+  }
+}
