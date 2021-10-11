@@ -85,7 +85,7 @@ type SteamGetPlayerAchievement = {
   unlocktime: number;
   name: string;
   description: string;
-}
+};
 
 type SteamGetPlayerAchievements = {
   playerstats: {
@@ -100,7 +100,18 @@ type SteamGetPlayerAchievementsFail = {
   playerstats: {
     error: string;
     success: false;
-  }
-}
+  };
+};
+
+type SteamGetGlobalAchPercent = {
+  name: string;
+  percent: number;
+};
+
+type SteamGetGlobalAchPercentForApp = {
+  achievementpercentages: {
+    achievements: SteamGetGlobalAchPercent[];
+  };
+};
 
 type SteamResponseFormat = "json" | "xml" | "vdf";
