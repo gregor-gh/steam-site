@@ -144,3 +144,17 @@ export async function getSteamSingleGameNews(
     next(err);
   }
 }
+
+export async function getSteamGameAchievements(req: Request, res: Response, next: NextFunction) {
+  try {
+    const appid = req.params.appid?.toString();
+    if (appid) {
+      return res.status(200)
+    } else {
+      return res.status(500);
+    }
+
+  } catch (error) {
+    next(error);
+  }
+}

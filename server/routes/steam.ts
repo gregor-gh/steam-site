@@ -39,6 +39,10 @@ router.get("/steam-user-recently-played", (req, res, next) => {
 
 router.get("/steam-single-game-news/:appid", (req, res, next) => {
   getSteamSingleGameNews(req, res, next);
+});
+
+router.get("steam-game-achievements/:appid", (req, res, next) => {
+  getSteamGameAchievements(req, res, next);
 })
 
 if (config.node_env === "DEV") {
