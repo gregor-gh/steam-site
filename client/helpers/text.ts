@@ -1,3 +1,5 @@
+const IMG_WITH_STYLE = "<img style=max-width:100% ";
+
 export function stripHtmlFromString(content: string) {
   const document = new DOMParser().parseFromString(content, "text/html"); // strip out html
   const textContent = document.body.textContent || ""; // replace with empty string if requried
@@ -11,10 +13,13 @@ function replaceSteamClanImage(original: string) {
     .replace(">", "")
     .replace("{STEAM_CLAN_IMAGE}", "")
     .replace("</img>", "");
-  console.log(originalWithoutClanImg);
   const fullImg = ` src=https://cdn.akamai.steamstatic.com/steamcommunity/public/images/clans${originalWithoutClanImg} />`;
-  console.log(fullImg);
   return fullImg;
+}
+
+function replaceImgImages(original: string) {
+  const originalWithoutImg = original.replaceAll(/<[^>]+>/g, "");
+  return `${IMG_WITH_STYLE} src="${originalWithoutImg}"/>`;
 }
 
 export function dangerouslyAddHtmlToSteamContents(content: string) {
@@ -26,9 +31,9 @@ export function dangerouslyAddHtmlToSteamContents(content: string) {
     .replaceAll("[*]", "<br/>")
     .replaceAll("[", "<")
     .replaceAll("]", ">")
-    .replaceAll("<img", "<img style=max-width:100%") // hardcode in a style to avoid image being shown at full size.
-    .replaceAll(/>\W*{STEAM_CLAN_IMAGE}\S*/g, replaceSteamClanImage);
+    .replaceAll("<img", IMG_WITH_STYLE) // hardcode in a style to avoid image being shown at full size.
+    .replaceAll(/>\W*{STEAM_CLAN_IMAGE}\S*/g, replaceSteamClanImage)
+    .replaceAll(/<img.+<\/img>/g, replaceImgImages);
 
-  console.log(formatted);
   return formatted;
 }
