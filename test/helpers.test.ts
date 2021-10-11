@@ -23,7 +23,7 @@ test("parse invalid url", () => {
 test("parse valid url", () => {
   expect(
     getNewsIdFromUrl("http://localhost:8080/game/570/news/3938951840891790038")
-  ).toBe("570");
+  ).toBe("3938951840891790038");
 });
 
 test("parse missing newsid", () => {
