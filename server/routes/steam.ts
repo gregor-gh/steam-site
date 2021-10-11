@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getSteamGameAchievements,
   getSteamSingleGameNews,
   getSteamUserRecentlyPlayed,
   getSteamUserRecentlyPlayedNews,
