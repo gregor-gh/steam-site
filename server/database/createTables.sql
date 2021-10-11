@@ -64,3 +64,42 @@ create table dbo.SteamUserGames(
   foreign key (appid) references dbo.SteamGames(appid),
   foreign key (steamUserID) references dbo.SteamUsers(id)
 );
+
+--create table dbo.SteamGameAchievementsStaging(
+--  appid int not null,
+--  apiname varchar(max),
+--  name varchar(max),
+--  description varchar(max) -- setting these to varchar max as apparently these can be very long
+--);
+
+create table dbo.SteamGameAchievements(
+  id bigint primary key identity(0,1),
+  appid int not null,
+  apiname varchar(max) not null,
+  name varchar(max) not null,
+  description varchar(max) not null, -- setting these to varchar max as apparently these can be very long
+  globalAchievementPercent decimal(16,14) not null default 0,
+  foreign key (appid) references dbo.SteamGames(appid)
+);
+
+create table dbo.SteamGameUserAchievementsStaging(
+  appid int not null,
+  apiname varchar(max),
+  achieved tinyint,
+  unlocktime bigint
+);
+
+create table dbo.SteamGameUserAchievements(
+  id bigint primary key identity(0,1),
+  appid int not null,
+  steamGameAchievementId bigint not null,
+  unlocktime datetime not null,
+  foreign key (appid) references dbo.SteamGames(appid),
+  foreign key (steamGameAchievementId) references dbo.SteamGameAchievements(id)
+);
+
+create table dbo.SteamGameGlobalAchStaging(
+  appid int not null,
+  apiname varchar(max) not null,
+  [percent] decimal(16,14)
+);
