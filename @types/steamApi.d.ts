@@ -2,7 +2,7 @@ type SteamPhoto = {
   value: string;
 };
 
-interface SteamUser {
+type SteamUser = {
   _json?: {
     avatar: string;
     avatarfull: string;
@@ -25,9 +25,9 @@ interface SteamUser {
   id: string;
   photos?: SteamPhoto[];
   provider?: string;
-}
+};
 
-interface SteamNewsItem {
+type SteamNewsItem = {
   gid: string;
   title: string;
   url: string;
@@ -39,21 +39,21 @@ interface SteamNewsItem {
   feedname: string;
   feed_type: number;
   appid: number;
-  tags?: string[]
-}
+  tags?: string[];
+};
 
-interface SteamGetNewsForApp {
+type SteamGetNewsForApp = {
   appid: number;
   newsitems: SteamNewsItem[];
   count: number;
-}
+};
 
-interface SteamGameListItem {
+type SteamGameListItem = {
   appid: number;
   name: string;
-}
+};
 
-interface SteamUserGameListItem {
+type SteamUserGameListItem = {
   appid: number;
   name?: string;
   playtime_2weeks?: number;
@@ -63,20 +63,44 @@ interface SteamUserGameListItem {
   playtime_windows_forever: string;
   playtime_mac_forever: string;
   playtime_linux_forever: string;
-}
+};
 
-interface SteamGetOwnedGames {
+type SteamGetOwnedGames = {
   response: {
     game_count: number;
-    games:SteamUserGameListItem[];
-  }
-}
+    games: SteamUserGameListItem[];
+  };
+};
 
-interface SteamGetRecentlyPlayedGames {
+type SteamGetRecentlyPlayedGames = {
   response: {
     total_count: number;
     games: SteamUserGameListItem[];
   };
+};
+
+type SteamGetPlayerAchievement = {
+  apiname: string;
+  achieved: number;
+  unlocktime: number;
+  name: string;
+  description: string;
+}
+
+type SteamGetPlayerAchievements = {
+  playerstats: {
+    steamID: string;
+    gameName: string;
+    achievements: SteamGetPlayerAchievement[];
+    success: true;
+  };
+};
+
+type SteamGetPlayerAchievementsFail = {
+  playerstats: {
+    error: string;
+    success: false;
+  }
 }
 
 type SteamResponseFormat = "json" | "xml" | "vdf";
