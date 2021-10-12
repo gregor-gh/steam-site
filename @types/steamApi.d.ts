@@ -43,18 +43,18 @@ type SteamNewsItem = {
 };
 
 type SteamGetNewsForApp = {
-  appid: number;
+  appid: string;
   newsitems: SteamNewsItem[];
   count: number;
 };
 
 type SteamGameListItem = {
-  appid: number;
+  appid: string;
   name: string;
 };
 
 type SteamUserGameListItem = {
-  appid: number;
+  appid: string;
   name?: string;
   playtime_2weeks?: number;
   playtime_forever: number;
