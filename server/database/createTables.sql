@@ -88,10 +88,12 @@ create table dbo.SteamGameUserAchievementsStaging(
 create table dbo.SteamGameUserAchievements(
   id bigint primary key identity(0,1),
   appid int not null,
+  steamUserId int not null,
   steamGameAchievementId bigint not null,
   unlocktime datetime not null,
   foreign key (appid) references dbo.SteamGames(appid),
-  foreign key (steamGameAchievementId) references dbo.SteamGameAchievements(id)
+  foreign key (steamGameAchievementId) references dbo.SteamGameAchievements(id),
+  foreign key (steamUserId) references dbo.SteamUsers(id)
 );
 
 create table dbo.SteamGameGlobalAchStaging(

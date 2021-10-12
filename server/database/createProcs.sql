@@ -57,12 +57,15 @@ where appid in (
 
 merge dbo.SteamUserGames as target
 using dbo.SteamUserGamesStaging as source
-on target.appid=source.appid and target.steamUserId=@steamUserId
-when matched and target.playtime_forever<>source.playtime_forever or target.playtime_2weeks<>source.playtime_2weeks then
-update set target.playtime_forever=source.playtime_forever, target.playtime_2weeks=source.playtime_2weeks
+on target.appid=source.appid 
+  and target.steamUserId=@steamUserId
+when matched and target.playtime_forever<>source.playtime_forever 
+  or target.playtime_2weeks<>source.playtime_2weeks then
+update set target.playtime_forever=source.playtime_forever, 
+  target.playtime_2weeks=source.playtime_2weeks
 when not matched by target then insert (steamUserId, appid, playtime_forever, playtime_2weeks) 
   values (@steamUserId,appid,playtime_forever, playtime_2weeks)
-when not matched by source then delete;
+when not matched by source and target.steamUserId=@steamUserId then delete;
 go
 
 -- update the steamusergames table with the playtime_2weeks figure
@@ -98,4 +101,47 @@ as
 delete from SteamGameUserAchievementsStaging
 where steamId=@steamId
   and appid=@appid;
+go
+
+create or alter proc dbo.MergeSteamGameUserAchievements
+  @steamId varchar(60),
+  @appid int
+as
+
+-- First ensure that games exist in game list
+merge dbo.SteamGameAchievements as target
+using dbo.SteamGameUserAchievementsStaging as source
+on target.appid=source.appid
+  and target.apiname=source.apiname
+when matched and target.name<>source.name 
+  or target.description<>source.description
+then
+update set target.name=source.name, 
+  target.description=source.description
+when not matched by target then insert (appid, apiname, name, description) 
+  values (appid, apiname, name, description)
+when not matched by source and target.appid=@appid then delete;
+
+-- Then add user's achievements
+merge dbo.SteamGameUserAchievements as target
+using (select u.id as steamUserId,
+  s.appid,
+  a.id as steamGameAchievementId,
+  dateadd(S,s.unlocktime,'1970-01-01') as unlocktime
+  from dbo.SteamGameUserAchievementsStaging s
+    join dbo.SteamUsers as u on s.steamId=u.steamId
+    join dbo.SteamGameAchievements as a on s.apiname=a.apiname
+  where s.achieved=1) as source
+on target.appid=source.appid
+  and target.steamUserId=source.steamUserId
+  and target.steamGameAchievementId=source.steamGameAchievementId
+-- this merge should never update values as unlocktime won't change
+when not matched by target then insert (appid, steamUserId, steamGameAchievementId, unlocktime)
+  values (appid, steamUserId, steamGameAchievementId, unlocktime)
+when not matched by source and target.appid=@appid 
+  and target.steamUserId=(select id from SteamUsers where steamId=@steamId)
+  then delete;
+
+-- finally clear staging
+exec dbo.DeleteFromSteamGameUserAchievementsStaging @steamId=@steamId, @appid=@appid;
 go
