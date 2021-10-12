@@ -90,3 +90,12 @@ where su.steamId=@steamId
   and playtime_2weeks<>0
 order by playtime_2weeks desc
 go
+
+create or alter proc dbo.DeleteFromSteamGameUserAchievementsStaging
+  @steamId varchar(60),
+  @appid int
+as
+delete from SteamGameUserAchievementsStaging
+where steamId=@steamId
+  and appid=@appid;
+go
