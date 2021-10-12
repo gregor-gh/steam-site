@@ -6,6 +6,7 @@ import {
   updateAllSteamGames,
   updateSteamUserRecentlyPlayed,
   selectSteamUserRecentlyPlayed,
+  mergeSteamUserAchievements,
 } from "./mssqlModel";
 
 // fetch the top news stories based on the steamspy top games two weeks list
@@ -102,8 +103,24 @@ export async function downloadUserSteamGames(steamId: string) {
         steamId
       );
     }
+
+    // Next loop through the user's owned games and update achivements
+    steamUserOwnedGames.response.games.forEach(async (game) => {
+      const userAchievements = await fetchSteamGameUserAchs(
+        game.appid,
+        steamId
+      );
+
+      // If achievements were found, log to database
+      if (userAchievements.playerstats.success === true) {
+        await mergeSteamUserAchievements(
+          game.appid,
+          userAchievements as SteamGetPlayerAchievements
+        );
+      }
+    });
   } catch (error) {
-    throw error;
+    throw error; // throw to controller
   }
 }
 
@@ -178,12 +195,18 @@ export async function fetchSteamGameGlobalAchs(
   }
 }
 
-export async function fetchSteamGameUserAchs(appid: string, steamId: string):Promise<SteamGetPlayerAchievements> {
+export async function fetchSteamGameUserAchs(
+  appid: string,
+  steamId: string = config.steamDemoUserId // use demo user if no user is passed
+): Promise<SteamGetPlayerAchievements | SteamGetPlayerAchievementsFail> {
   try {
     const response = await fetch(
       `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${config.steamApiKey}&steamid=${steamId}&l=english`
     );
-    
+    const userAchievements:
+      | SteamGetPlayerAchievements
+      | SteamGetPlayerAchievementsFail = await response.json();
+    return userAchievements;
   } catch (error) {
     throw error; // throw back up to controller.
   }

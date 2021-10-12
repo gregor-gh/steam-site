@@ -255,7 +255,7 @@ export async function selectSteamUserRecentlyPlayed(
     throw error;
   }
 }
-
+// FIXME this does not work
 export async function mergeSteamUserAchievements(
   appid: string,
   userAchievements: SteamGetPlayerAchievements
@@ -285,11 +285,11 @@ export async function mergeSteamUserAchievements(
     );
   });
 
-  const deleteQuery = `exec dbo.DeleteFromSteamGameUserAchievementsStaging ${steamId} ${appid};`;
+  const deleteQuery = `exec dbo.DeleteFromSteamGameUserAchievementsStaging '${steamId}', ${appid};`;
   await sql.query(deleteQuery);
 
   await sql.request().bulk(table);
 
-  const mergeQuery = `exec dbo.MergeSteamGameUserAchievements ${steamId} ${appid};`;
+  const mergeQuery = `exec dbo.MergeSteamGameUserAchievements '${steamId}', ${appid};`;
   await sql.query(mergeQuery);
 }
