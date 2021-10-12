@@ -65,13 +65,6 @@ create table dbo.SteamUserGames(
   foreign key (steamUserID) references dbo.SteamUsers(id)
 );
 
---create table dbo.SteamGameAchievementsStaging(
---  appid int not null,
---  apiname varchar(max),
---  name varchar(max),
---  description varchar(max) -- setting these to varchar max as apparently these can be very long
---);
-
 create table dbo.SteamGameAchievements(
   id bigint primary key identity(0,1),
   appid int not null,
@@ -83,10 +76,13 @@ create table dbo.SteamGameAchievements(
 );
 
 create table dbo.SteamGameUserAchievementsStaging(
+  steamId varchar(60) not null,
   appid int not null,
-  apiname varchar(max),
-  achieved tinyint,
-  unlocktime bigint
+  apiname varchar(max) not null,
+  name varchar(max) not null,
+  description varchar(max) not null,
+  achieved tinyint not null,
+  unlocktime bigint not null
 );
 
 create table dbo.SteamGameUserAchievements(
