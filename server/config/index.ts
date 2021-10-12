@@ -9,4 +9,5 @@ export default {
   sqlPw: process.env.SQLPW || "Password1",
   sqlDb: process.env.SQLDB || "SteamSite",
   steamApiKey: process.env.STEAM_API_KEY || "",
+  steamDemoUserId: process.env.STEAM_DEMO_USER_ID || "",
 };

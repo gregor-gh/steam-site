@@ -1,6 +1,7 @@
 import { createReturnSteamUser } from "../models/mssqlModel";
 import { downloadUserSteamGames } from "../models/steamModel";
 import * as passportLocal from "passport-local";
+import config from "../config"
 const LocalStrategy = passportLocal.Strategy;
 
 // note, this strategy is used for the demo account only
@@ -11,7 +12,7 @@ export const demoStrategy = new LocalStrategy(async function (
 ) {
   const demoProfile: SteamUser = {
     displayName: "demo",
-    id: "76561198044893617",
+    id: config.steamDemoUserId,
     photos: [
       {
         value:
