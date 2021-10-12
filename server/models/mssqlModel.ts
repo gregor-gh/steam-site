@@ -7,6 +7,7 @@ import {
   TinyInt,
   IRecordSet,
   MAX,
+  BigInt,
 } from "mssql";
 import {
   DbSteamUser,
@@ -253,4 +254,42 @@ export async function selectSteamUserRecentlyPlayed(
   } catch (error) {
     throw error;
   }
+}
+
+export async function mergeSteamUserAchievements(
+  appid: string,
+  userAchievements: SteamGetPlayerAchievements
+) {
+  const sql = await connectSqlPool();
+  const steamId = userAchievements.playerstats.steamID;
+
+  const table = createTable("dbo.SteamGameUserAchievementsStaging", false, [
+    ["steamId", VarChar(60), false],
+    ["appid", Int, false],
+    ["apiname", VarChar(MAX), false],
+    ["name", VarChar(MAX), false],
+    ["description", VarChar(MAX), false],
+    ["achieved", TinyInt, false],
+    ["unlocktime", BigInt, false],
+  ]);
+
+  userAchievements.playerstats.achievements.forEach((game) => {
+    table.rows.add(
+      steamId,
+      appid,
+      game.apiname,
+      game.name,
+      game.description,
+      game.achieved,
+      game.unlocktime
+    );
+  });
+
+  const deleteQuery = `exec dbo.DeleteFromSteamGameUserAchievementsStaging ${steamId} ${appid};`;
+  await sql.query(deleteQuery);
+
+  await sql.request().bulk(table);
+
+  const mergeQuery = `exec dbo.MergeSteamGameUserAchievements ${steamId} ${appid};`;
+  await sql.query(mergeQuery);
 }
