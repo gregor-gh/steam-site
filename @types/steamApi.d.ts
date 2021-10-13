@@ -96,6 +96,12 @@ type SteamGetPlayerAchievements = {
   };
 };
 
+type SteamGetPlayerAchievementWithAppId = SteamGetPlayerAchievements & {
+  playerstats: {
+    appid: string;
+  };
+};
+
 type SteamGetPlayerAchievementsFail = {
   playerstats: {
     error: string;
@@ -106,6 +112,10 @@ type SteamGetPlayerAchievementsFail = {
 type SteamGetGlobalAchPercent = {
   name: string;
   percent: number;
+};
+
+type SteamGetGlobalAchPercentWithAppId = SteamGetGlobalAchPercent & {
+  appid: string;
 };
 
 type SteamGetGlobalAchPercentForApp = {
