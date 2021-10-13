@@ -95,17 +95,14 @@ order by playtime_2weeks desc
 go
 
 create or alter proc dbo.DeleteFromSteamGameUserAchievementsStaging
-  @steamId varchar(60),
-  @appid int
+  @steamId varchar(60)
 as
 delete from SteamGameUserAchievementsStaging
 where steamId=@steamId
-  and appid=@appid;
 go
 
 create or alter proc dbo.MergeSteamGameUserAchievements
-  @steamId varchar(60),
-  @appid int
+  @steamId varchar(60)
 as
 
 -- First ensure that games exist in game list
@@ -119,8 +116,7 @@ then
 update set target.name=source.name, 
   target.description=source.description
 when not matched by target then insert (appid, apiname, name, description) 
-  values (appid, apiname, name, description)
-when not matched by source and target.appid=@appid then delete;
+  values (appid, apiname, name, description);
 
 -- Then add user's achievements
 merge dbo.SteamGameUserAchievements as target
@@ -137,11 +133,8 @@ on target.appid=source.appid
   and target.steamGameAchievementId=source.steamGameAchievementId
 -- this merge should never update values as unlocktime won't change
 when not matched by target then insert (appid, steamUserId, steamGameAchievementId, unlocktime)
-  values (appid, steamUserId, steamGameAchievementId, unlocktime)
-when not matched by source and target.appid=@appid 
-  and target.steamUserId=(select id from SteamUsers where steamId=@steamId)
-  then delete;
+  values (appid, steamUserId, steamGameAchievementId, unlocktime);
 
 -- finally clear staging
-exec dbo.DeleteFromSteamGameUserAchievementsStaging @steamId=@steamId, @appid=@appid;
+exec dbo.DeleteFromSteamGameUserAchievementsStaging @steamId;
 go
