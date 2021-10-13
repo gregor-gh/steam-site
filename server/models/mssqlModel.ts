@@ -257,11 +257,10 @@ export async function selectSteamUserRecentlyPlayed(
 }
 // FIXME this does not work
 export async function mergeSteamUserAchievements(
-  appid: string,
-  userAchievements: SteamGetPlayerAchievements
+  userAllGameAchievements: SteamGetPlayerAchievementsWithAppId[]
 ) {
+  const steamId = userAllGameAchievements[0].playerstats.steamID;
   const sql = await connectSqlPool();
-  const steamId = userAchievements.playerstats.steamID;
 
   const table = createTable("dbo.SteamGameUserAchievementsStaging", false, [
     ["steamId", VarChar(60), false],
@@ -273,23 +272,28 @@ export async function mergeSteamUserAchievements(
     ["unlocktime", BigInt, false],
   ]);
 
-  userAchievements.playerstats.achievements.forEach((game) => {
-    table.rows.add(
-      steamId,
-      appid,
-      game.apiname,
-      game.name,
-      game.description,
-      game.achieved,
-      game.unlocktime
-    );
+  userAllGameAchievements.forEach((game) => {
+    if (game.playerstats.achievements) {
+      game.playerstats.achievements.forEach((achievement) => {
+        table.rows.add(
+          steamId,
+          game.appid,
+          achievement.apiname,
+          achievement.name,
+          achievement.description,
+          achievement.achieved,
+          achievement.unlocktime
+        );
+      });
+    }
   });
 
-  const deleteQuery = `exec dbo.DeleteFromSteamGameUserAchievementsStaging '${steamId}', ${appid};`;
+  const deleteQuery = `exec dbo.DeleteFromSteamGameUserAchievementsStaging '${steamId}';`;
   await sql.query(deleteQuery);
 
   await sql.request().bulk(table);
 
-  const mergeQuery = `exec dbo.MergeSteamGameUserAchievements '${steamId}', ${appid};`;
-  await sql.query(mergeQuery);
+  const mergeQuery = `exec dbo.MergeSteamGameUserAchievements '${steamId}';`;
+  const response = await sql.query(mergeQuery);
+  console.log(response);
 }
