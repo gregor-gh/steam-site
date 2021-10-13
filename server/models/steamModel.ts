@@ -105,18 +105,30 @@ export async function downloadUserSteamGames(steamId: string) {
     }
 
     // Next loop through the user's owned games and update achivements
-    steamUserOwnedGames.response.games.forEach(async (game) => {
-      const userAchievements = await fetchSteamGameUserAchs(
-        game.appid,
-        steamId
-      );
-
-      // If achievements were found, log to database
-      if (userAchievements.playerstats.success === true) {
-        await mergeSteamUserAchievements(
-          game.appid,
-          userAchievements as SteamGetPlayerAchievements
+    Promise.all(
+      steamUserOwnedGames.response.games.map(async (game) => {
+        const appid = game.appid;
+        const userSingleGameAchievements = await fetchSteamGameUserAchs(
+          appid,
+          steamId
         );
+
+        // If achievements were found, log to database
+        if (userSingleGameAchievements.playerstats.success === true) {
+          const userSingleGameAchievementsWithAppId = {
+            ...(userSingleGameAchievements as SteamGetPlayerAchievements),
+            appid,
+          } as SteamGetPlayerAchievementsWithAppId;
+
+          return userSingleGameAchievementsWithAppId;
+        }
+      })
+    ).then(async (gameArray) => {
+      if (gameArray.length > 0) {
+        const filteredGameArray = gameArray.filter(
+          (game) => game !== undefined
+        ) as SteamGetPlayerAchievementsWithAppId[];
+        await mergeSteamUserAchievements(filteredGameArray);
       }
     });
   } catch (error) {
