@@ -7,6 +7,7 @@ import {
   updateSteamUserRecentlyPlayed,
   selectSteamUserRecentlyPlayed,
   mergeSteamUserAchievements,
+  returnAllSteamGamesWithAchievements,
 } from "./mssqlModel";
 
 // fetch the top news stories based on the steamspy top games two weeks list
@@ -113,7 +114,7 @@ export async function downloadUserSteamGames(steamId: string) {
           steamId
         );
 
-        // If achievements were found, log to database
+        // if achievements were found, pass back up to be logged to database
         if (userSingleGameAchievements.playerstats.success === true) {
           const userSingleGameAchievementsWithAppId = {
             ...(userSingleGameAchievements as SteamGetPlayerAchievements),
@@ -221,5 +222,20 @@ export async function fetchSteamGameUserAchs(
     return userAchievements;
   } catch (error) {
     throw error; // throw back up to controller.
+  }
+}
+
+export async function updateAllSteamGameGlobalAchs() {
+  try {
+    const gameList = await returnAllSteamGamesWithAchievements();
+
+    let gameAchieveList = [] as SteamGetGlobalAchPercentForApp[];
+
+    await gameList.forEach(async (game) => {
+      const achievements = await fetchSteamGameGlobalAchs(game.appid);
+      gameList.push(achievements)
+    })
+  } catch (error) {
+    throw error;
   }
 }
