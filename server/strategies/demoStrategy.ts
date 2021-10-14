@@ -1,7 +1,7 @@
-import { createReturnSteamUser } from "../models/mssqlModel";
+import { createReturnSteamUser, returnSteamUser } from "../models/mssqlModel";
 import { downloadUserSteamGames } from "../models/steamModel";
 import * as passportLocal from "passport-local";
-import config from "../config"
+import config from "../config";
 const LocalStrategy = passportLocal.Strategy;
 
 // note, this strategy is used for the demo account only
@@ -20,7 +20,17 @@ export const demoStrategy = new LocalStrategy(async function (
       },
     ],
   };
-  const dbUser = await createReturnSteamUser(demoProfile);
-  await downloadUserSteamGames(dbUser.steamId);
-  return done(null, dbUser);
+
+  // check if user already exists
+  const dbUser = await returnSteamUser(config.steamDemoUserId);
+
+  // return existing user if so
+  if (dbUser) {
+    return done(null, dbUser);
+  }
+
+  // otherwise create new user and sync games
+  const newDbUser = await createReturnSteamUser(demoProfile);
+  downloadUserSteamGames(newDbUser.steamId);
+  return done(null, newDbUser);
 });
