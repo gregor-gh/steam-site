@@ -158,3 +158,11 @@ from SteamGames g
 where a.appid=@appid
   and (u.steamUserId=@steamId or u.steamUserId is null)
 go
+
+create or alter proc dbo.ReturnAllSteamGamesWithAchievements
+as
+select g.appid 
+from SteamGames g
+  join SteamGameAchievements a on g.appid=a.appid
+group by g.appid
+go
