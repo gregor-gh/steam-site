@@ -145,15 +145,22 @@ export async function getSteamSingleGameNews(
   }
 }
 
-export async function getSteamGameAchievements(req: Request, res: Response, next: NextFunction) {
+export async function getSteamGameAchievements(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const appid = req.params.appid?.toString();
     if (appid) {
-      return res.status(200)
-    } else {
-      return res.status(500);
-    }
+      // First check that game achievements exist in database
 
+      // If not then fetch and add
+
+      // Return to user
+    } else {
+      return res.status(400);
+    }
   } catch (error) {
     next(error);
   }

@@ -22,10 +22,6 @@ router.get("/top-games-two-weeks", (req, res, next) => {
   getTopGamesTwoWeeks(req, res, next);
 });
 
-// router.get("/", (req, res, next) => {
-//   getUserNewsTwoWeeks(req, res, next);
-// });
-
 router.get("/steam-user-recently-played-news", (req, res, next) => {
   getSteamUserRecentlyPlayedNews(req, res, next);
 });
