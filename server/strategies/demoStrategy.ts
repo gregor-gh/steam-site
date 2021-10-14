@@ -31,6 +31,6 @@ export const demoStrategy = new LocalStrategy(async function (
 
   // otherwise create new user and sync games
   const newDbUser = await createReturnSteamUser(demoProfile);
-  downloadUserSteamGames(newDbUser.steamId);
+  await downloadUserSteamGames(newDbUser.steamId);
   return done(null, newDbUser);
 });
