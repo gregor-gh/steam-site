@@ -138,3 +138,23 @@ when not matched by target then insert (appid, steamUserId, steamGameAchievement
 -- finally clear staging
 exec dbo.DeleteFromSteamGameUserAchievementsStaging @steamId;
 go
+
+-- proc to select a single games achievements, with user info if available
+create or alter proc dbo.ReturnSingleGameAndUserAchievements
+  @appid int,
+  @steamId varchar(60)=''
+as
+select g.appid, 
+  g.name as gameName,
+  a.id as steamGameAchievementId,
+  a.apiname as achievementApiName,
+  a.name as achievementName,
+  a.description as achievementDescription,
+  a.globalAchievementPercent,
+  u.unlocktime
+from SteamGames g
+  join SteamGameAchievements a on g.appid=a.appid
+  left join SteamGameUserAchievements u on a.id=u.steamGameAchievementId
+where a.appid=@appid
+  and (u.steamUserId=@steamId or u.steamUserId is null)
+go
