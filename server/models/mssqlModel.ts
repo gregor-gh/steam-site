@@ -255,7 +255,7 @@ export async function selectSteamUserRecentlyPlayed(
     throw error;
   }
 }
-// FIXME this does not work
+
 export async function mergeSteamUserAchievements(
   userAllGameAchievements: SteamGetPlayerAchievementsWithAppId[]
 ) {
@@ -296,4 +296,11 @@ export async function mergeSteamUserAchievements(
   const mergeQuery = `exec dbo.MergeSteamGameUserAchievements '${steamId}';`;
   const response = await sql.query(mergeQuery);
   console.log(response);
+}
+
+export async function returnAllSteamGamesWithAchievements():Promise<IRecordSet<{appid:string}>> {
+  const sql = await connectSqlPool();
+
+  const response = await sql.query("exec dbo.ReturnAllSteamGamesWithAchievements");
+  return response.recordset;
 }
