@@ -176,3 +176,15 @@ else
   delete from dbo.DeleteFromSteamGameGlobalAchStaging
   where appid=@appid;
 go
+
+create or alter proc dbo.MergeSteamGameGlobalAchs
+  @appid int=-1 -- for running DeleteFromSteamGameGlobalAchStaging when this is a single game
+as
+merge dbo.SteamGameAchievements as target
+using dbo.SteamGameGlobalAchStaging as source
+on target.appid=source.appid
+when matched and target.globalAchievementPercent<>source.[percent]
+then update set target.globalAchievementPercent=source.[percent];
+
+exec dbo.DeleteFromSteamGameGlobalAchStaging @appid;
+go
