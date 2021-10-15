@@ -8,6 +8,7 @@ import {
   selectSteamUserRecentlyPlayed,
   mergeSteamUserAchievements,
   returnAllSteamGamesWithAchievements,
+  updateSteamGameGlobalAchs,
 } from "./mssqlModel";
 
 // fetch the top news stories based on the steamspy top games two weeks list
@@ -229,12 +230,14 @@ export async function updateAllSteamGameGlobalAchs() {
   try {
     const gameList = await returnAllSteamGamesWithAchievements();
 
-    let gameAchieveList = [] as SteamGetGlobalAchPercentForApp[];
+    let gameAchieveList = [] as SteamGetGlobalAchPercentWithAppId[];
 
     await gameList.forEach(async (game) => {
       const achievements = await fetchSteamGameGlobalAchs(game.appid);
-      gameList.push(achievements)
-    })
+      gameAchieveList.push({ ...achievements, appid: game.appid });
+    });
+
+    await updateSteamGameGlobalAchs(gameAchieveList);
   } catch (error) {
     throw error;
   }

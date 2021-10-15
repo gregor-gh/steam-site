@@ -8,6 +8,7 @@ import {
   IRecordSet,
   MAX,
   BigInt,
+  Decimal,
 } from "mssql";
 import {
   DbSteamUser,
@@ -294,13 +295,49 @@ export async function mergeSteamUserAchievements(
   await sql.request().bulk(table);
 
   const mergeQuery = `exec dbo.MergeSteamGameUserAchievements '${steamId}';`;
-  const response = await sql.query(mergeQuery);
-  console.log(response);
+  await sql.query(mergeQuery);
 }
 
-export async function returnAllSteamGamesWithAchievements():Promise<IRecordSet<{appid:string}>> {
+export async function returnAllSteamGamesWithAchievements(): Promise<
+  IRecordSet<{ appid: string }>
+> {
   const sql = await connectSqlPool();
 
-  const response = await sql.query("exec dbo.ReturnAllSteamGamesWithAchievements");
+  const response = await sql.query(
+    "exec dbo.ReturnAllSteamGamesWithAchievements"
+  );
   return response.recordset;
+}
+
+export async function updateSteamGameGlobalAchs(
+  gameAchieveList: SteamGetGlobalAchPercentWithAppId[],
+  appid: string = '-1' // -1 for all games
+) {
+  const sql = await connectSqlPool();
+
+  const table = createTable("dbo.SteamGameGlobalAchStaging", false, [
+    ["appid", Int, false],
+    ["apiname", VarChar(MAX), false],
+    ["percent", Decimal(16, 14), false],
+  ]);
+
+  gameAchieveList.forEach((game) => {
+    if (game.achievementpercentages) {
+      game.achievementpercentages.achievements.forEach((achievement) => {
+        table.rows.add(
+          game.appid,
+          achievement.name,
+          achievement.percent
+        );
+      });
+    }
+  });
+
+  const deleteQuery = `exec dbo.DeleteFromSteamGameGlobalAchStaging '${appid}';`;
+  await sql.query(deleteQuery);
+
+  await sql.request().bulk(table);
+
+  const mergeQuery = `exec dbo.MergeSteamGameGlobalAchs;`;
+  await sql.query(mergeQuery);
 }
