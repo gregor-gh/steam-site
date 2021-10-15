@@ -166,3 +166,13 @@ from SteamGames g
   join SteamGameAchievements a on g.appid=a.appid
 group by g.appid
 go
+
+create or alter proc dbo.DeleteFromSteamGameGlobalAchStaging
+  @appid int = -1 -- set when updating a single game
+as
+if @appid=-1
+  delete from dbo.DeleteFromSteamGameGlobalAchStaging;
+else
+  delete from dbo.DeleteFromSteamGameGlobalAchStaging
+  where appid=@appid;
+go
