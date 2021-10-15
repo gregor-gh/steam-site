@@ -183,6 +183,7 @@ as
 merge dbo.SteamGameAchievements as target
 using dbo.SteamGameGlobalAchStaging as source
 on target.appid=source.appid
+  and target.apiname=source.apiname
 when matched and target.globalAchievementPercent<>source.[percent]
 then update set target.globalAchievementPercent=source.[percent];
 
