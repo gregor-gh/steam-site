@@ -171,9 +171,9 @@ create or alter proc dbo.DeleteFromSteamGameGlobalAchStaging
   @appid int = -1 -- set when updating a single game
 as
 if @appid=-1
-  delete from dbo.DeleteFromSteamGameGlobalAchStaging;
+  delete from dbo.SteamGameGlobalAchStaging;
 else
-  delete from dbo.DeleteFromSteamGameGlobalAchStaging
+  delete from dbo.SteamGameGlobalAchStaging
   where appid=@appid;
 go
 
