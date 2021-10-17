@@ -11,6 +11,16 @@ import {
   updateSteamGameGlobalAchs,
 } from "./mssqlModel";
 
+let STEAM_API_CALL_COUNT = 0;
+
+function makeSteamApiCall(url: string) {
+  STEAM_API_CALL_COUNT++;
+  if (STEAM_API_CALL_COUNT % 10 === 0) {
+    console.log(`Steam API Count: ${STEAM_API_CALL_COUNT} ${url}`);
+  }
+  return fetch(url);
+}
+
 // fetch the top news stories based on the steamspy top games two weeks list
 export async function fetchTopNewsTwoWeeks() {
   try {
@@ -53,7 +63,7 @@ async function fetchNewsForApp(
   format: SteamResponseFormat = "json"
 ): Promise<SteamGetNewsForApp> {
   try {
-    const response = await fetch(
+    const response = await makeSteamApiCall(
       `http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=${appid}&count=${count}&maxlength=${maxlength}&format=${format}`
       //"api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json"
     );
@@ -130,7 +140,7 @@ export async function downloadUserSteamGames(steamId: string) {
 export async function fetchSteamUserOwnedGames(
   steamId: string
 ): Promise<SteamGetOwnedGames> {
-  const response = await fetch(
+  const response = await makeSteamApiCall(
     `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${config.steamApiKey}&steamid=${steamId}&format=json&include_played_free_games=true&include_appinfo=true`
   );
   const data = await response.json();
@@ -139,7 +149,7 @@ export async function fetchSteamUserOwnedGames(
 
 // fetch and return a given user's recently played games
 async function fetchSteamUserRecentlyPlayedGames(steamId: string) {
-  const response = await fetch(
+  const response = await makeSteamApiCall(
     `http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${config.steamApiKey}&steamid=${steamId}&format=json&include_played_free_games=true`
   );
 
@@ -150,7 +160,7 @@ async function fetchSteamUserRecentlyPlayedGames(steamId: string) {
 // fetch and update SQL database with the entire steam catalogue
 export async function getAllGames() {
   try {
-    const response = await fetch(
+    const response = await makeSteamApiCall(
       "http://api.steampowered.com/ISteamApps/GetAppList/v0002/"
     );
     const { applist } = await response.json();
@@ -181,7 +191,7 @@ export async function fetchSteamGameGlobalAchs(
   appid: string
 ): Promise<SteamGetGlobalAchPercentForApp> {
   try {
-    const response = await fetch(
+    const response = await makeSteamApiCall(
       `http://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid=${appid}&format=json&l=english`
     );
     const globalAchs = await response.json();
@@ -202,7 +212,7 @@ export async function fetchSteamGameUserAchs(
   steamId: string = config.steamDemoUserId // use demo user if no user is passed
 ): Promise<SteamGetPlayerAchievements | SteamGetPlayerAchievementsFail> {
   try {
-    const response = await fetch(
+    const response = await makeSteamApiCall(
       `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${config.steamApiKey}&steamid=${steamId}&l=english`
     );
     const userAchievements:
