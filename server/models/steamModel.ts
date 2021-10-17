@@ -21,18 +21,6 @@ export async function fetchTopNewsTwoWeeks() {
   }
 }
 
-// // fetch the top news stories based on the user's recently played history
-// export async function fetchUserNews(steamid: string) {
-//   try {
-//     const recentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
-//       steamid
-//     );
-//     fetchNewsForGameArray(recentlyPlayedGames.response.games);
-//   } catch (error) {
-//     throw error;
-//   }
-// }
-
 // fetch news stories from steam based on a game list passed in
 async function fetchNewsForGameArray(gameList: { appid: number }[]) {
   try {
