@@ -99,5 +99,5 @@ create table dbo.SteamGameUserAchievements(
 create table dbo.SteamGameGlobalAchStaging(
   appid int not null,
   apiname varchar(max) not null,
-  [percent] decimal(16,14)
+  [percent] decimal(16,14) not null
 );
