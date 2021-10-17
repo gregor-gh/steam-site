@@ -9,6 +9,7 @@ import {
   fetchSteamUserRecentlyPlayedGamesNews,
   fetchTopNewsTwoWeeks,
   getAllGames,
+  updateAllSteamGameGlobalAchs,
 } from "../models/steamModel";
 
 export async function getTopGamesTwoWeeks(
@@ -163,5 +164,17 @@ export async function getSteamGameAchievements(
     }
   } catch (error) {
     next(error);
+  }
+}
+
+export async function refreshSteamGameGlobalAchievements(req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    await updateAllSteamGameGlobalAchs();
+    res.send("OK");
+  } catch (error) {
+    next(error)
   }
 }

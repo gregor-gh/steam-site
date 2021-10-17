@@ -7,6 +7,7 @@ import {
   getTopGamesTwoWeeks,
   getTopNewsTwoWeeks,
   refreshAllSteamGames,
+  refreshSteamGameGlobalAchievements,
   refreshSteamUserData,
 } from "../controllers/steamController";
 import { updateSteamSpyTopGames } from "../schedules/steamSpySchedule";
@@ -40,7 +41,7 @@ router.get("/steam-single-game-news/:appid", (req, res, next) => {
 
 router.get("steam-game-achievements/:appid", (req, res, next) => {
   getSteamGameAchievements(req, res, next);
-})
+});
 
 if (config.node_env === "DEV") {
   router.get("/update-steamspy", (req, res, next) => {
@@ -50,6 +51,10 @@ if (config.node_env === "DEV") {
 
   router.get("/update-steam-all", (req, res, next) => {
     refreshAllSteamGames(req, res, next);
+  });
+
+  router.get("/update-global-achs", (req, res, next) => {
+    refreshSteamGameGlobalAchievements(req, res, next);
   });
 }
 
