@@ -220,12 +220,30 @@ export async function updateAllSteamGameGlobalAchs() {
 
     let gameAchieveList = [] as SteamGetGlobalAchPercentWithAppId[];
 
-    await gameList.forEach(async (game) => {
-      const achievements = await fetchSteamGameGlobalAchs(game.appid);
-      gameAchieveList.push({ ...achievements, appid: game.appid });
-    });
+    // Next loop through the user's owned games and update achivements
+    Promise.all(
+      gameList.map(async (game) => {
+        const appid = game.appid;
+        const achievements = await fetchSteamGameGlobalAchs(appid);
 
-    await updateSteamGameGlobalAchs(gameAchieveList);
+        // if achievements were found, pass back up to be logged to database
+        if (achievements.achievementpercentages) {
+          const achievementsWithAppId = {
+            ...achievements,
+            appid,
+          } as SteamGetGlobalAchPercentWithAppId;
+
+          return achievementsWithAppId;
+        }
+      })
+    ).then(async (gameArray) => {
+      if (gameArray.length > 0) {
+        const filteredGameArray = gameArray.filter(
+          (game) => game !== undefined
+        ) as SteamGetGlobalAchPercentWithAppId[];
+        await updateSteamGameGlobalAchs(filteredGameArray);
+      }
+    });
   } catch (error) {
     throw error;
   }
