@@ -15,33 +15,19 @@ import config from "../config";
 
 const router = express.Router();
 
-router.get("/top-news-two-weeks", (req, res, next) => {
-  getTopNewsTwoWeeks(req, res, next);
-});
+router.get("/top-news-two-weeks", getTopNewsTwoWeeks);
 
-router.get("/top-games-two-weeks", (req, res, next) => {
-  getTopGamesTwoWeeks(req, res, next);
-});
+router.get("/top-games-two-weeks", getTopGamesTwoWeeks);
 
-router.get("/steam-user-recently-played-news", (req, res, next) => {
-  getSteamUserRecentlyPlayedNews(req, res, next);
-});
+router.get("/steam-user-recently-played-news", getSteamUserRecentlyPlayedNews);
 
-router.get("/refresh-user-steam-data", (req, res, next) => {
-  refreshSteamUserData(req, res, next);
-});
+router.get("/refresh-user-steam-data", refreshSteamUserData);
 
-router.get("/steam-user-recently-played", (req, res, next) => {
-  getSteamUserRecentlyPlayed(req, res, next);
-});
+router.get("/steam-user-recently-played", getSteamUserRecentlyPlayed);
 
-router.get("/steam-single-game-news/:appid", (req, res, next) => {
-  getSteamSingleGameNews(req, res, next);
-});
+router.get("/steam-single-game-news/:appid", getSteamSingleGameNews);
 
-router.get("steam-game-achievements/:appid", (req, res, next) => {
-  getSteamGameAchievements(req, res, next);
-});
+router.get("steam-game-achievements/:appid", getSteamGameAchievements);
 
 if (config.node_env === "DEV") {
   router.get("/update-steamspy", (req, res, next) => {
@@ -49,13 +35,8 @@ if (config.node_env === "DEV") {
     res.send("OK");
   });
 
-  router.get("/update-steam-all", (req, res, next) => {
-    refreshAllSteamGames(req, res, next);
-  });
+  router.get("/update-steam-all", refreshAllSteamGames);
 
-  router.get("/update-global-achs", (req, res, next) => {
-    refreshSteamGameGlobalAchievements(req, res, next);
-  });
+  router.get("/update-global-achs", refreshSteamGameGlobalAchievements);
 }
-
 export default router;
