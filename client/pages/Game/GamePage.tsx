@@ -8,10 +8,12 @@ import "../App.css";
 import "./Game.css";
 import { SingleGameNews } from "../../components/NewsItem";
 import useStore from "../../components/useStore";
+import React from "react";
+import { AchievementList } from "../../components/Achievements";
 
 const Game = () => {
   const appid = getAppIdFromUrl(window.location.href);
-  const { isLoggedIn } = useStore((state) => state);
+  const { isLoggedIn,steamProfile } = useStore((state) => state);
 
   return (
     <div className="page">
@@ -38,7 +40,7 @@ const Game = () => {
                 <Redirect to={`/game/${appid}/achievements`} />
               </Route>
               <Route exact path="/game/:appid/achievements">
-                achs
+                <AchievementList appid={appid} steamUserId={steamProfile?.steamId} />
               </Route>
               <Route exact path="/game/:appid/news">
                 <SingleGameNews appid={appid || ""} />

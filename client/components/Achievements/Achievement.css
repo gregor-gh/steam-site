@@ -1,0 +1,13 @@
+.achievement {
+  display: flex;
+}
+
+.achievement-image {
+  height: 90px;
+  object-fit: contain;
+  padding: 5px;
+}
+
+.achievement-name {
+  
+}
