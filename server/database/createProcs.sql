@@ -189,3 +189,19 @@ then update set target.globalAchievementPercent=source.[percent];
 
 exec dbo.DeleteFromSteamGameGlobalAchStaging @appid;
 go
+
+create or alter proc dbo.SelectSingleGameAchievements 
+  @appid int,
+  @steamid varchar(60) = -1
+as 
+select a.apiname,
+  a.name,
+  a.description,
+  a.globalAchievementPercent,
+  ua.unlocktime
+from SteamGameAchievements a
+  left join SteamGameUserAchievements ua on a.id=ua.steamGameAchievementId
+  left join SteamUsers u on ua.steamUserId=u.id
+where a.appid=@appid
+  and u.steamId=@steamid or u.steamId is null
+go
