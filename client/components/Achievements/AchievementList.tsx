@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Achievement } from ".";
+import useStore from "../useStore";
 
-export const AchievementList = ({
-  appid,
-  steamUserId,
-}: {
-  appid: string;
-  steamUserId?: string;
-}) => {
-  return <Achievement />;
+export const AchievementList = ({ appid }: { appid: string }) => {
+  const {
+    steamGameAchievements,
+    setSteamGameAchievements,
+    steamGameAchievementsLoading,
+  } = useStore((state) => state);
+
+  useEffect(() => {
+    setSteamGameAchievements(appid);
+  }, []);
+
+    useEffect(() => {
+      console.log(steamGameAchievements);
+    }, [steamGameAchievements]);
+
+
+  return (
+    <>{steamGameAchievementsLoading ? <div>loading</div> : <Achievement />}</>
+  );
 };
