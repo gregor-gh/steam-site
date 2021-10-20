@@ -9,6 +9,7 @@ import {
   mergeSteamUserAchievements,
   returnAllSteamGamesWithAchievements,
   updateSteamGameGlobalAchs,
+  selectSteamGameAchievements,
 } from "./mssqlModel";
 
 let STEAM_API_CALL_COUNT = 0;
@@ -114,7 +115,7 @@ export async function downloadUserSteamGames(steamId: string) {
         );
 
         // if achievements were found, pass back up to be logged to database
-        if (userSingleGameAchievements.playerstats.success === true) {
+        if (userSingleGameAchievements.playerstats.success) {
           const userSingleGameAchievementsWithAppId = {
             ...(userSingleGameAchievements as SteamGetPlayerAchievements),
             appid,
@@ -254,5 +255,45 @@ export async function updateAllSteamGameGlobalAchs() {
     });
   } catch (error) {
     throw error;
+  }
+}
+
+export async function selectOrFetchSteamGameAchievements(
+  appid: string,
+  steamid?: string
+) {
+  // First check that game achievements exist in database
+  const gameAchievements = await selectSteamGameAchievements(appid, steamid);
+
+  // If achievements are found then return
+  if (gameAchievements.length > 0) return gameAchievements;
+
+  // If not then fetch and add
+  if (gameAchievements.length === 0) {
+    const userGameAchs = await fetchSteamGameUserAchs(appid, steamid);
+    const globalAchs = await fetchSteamGameGlobalAchs(appid);
+
+    // check if the achievement retrieve was a success and push to array
+    if (userGameAchs.playerstats.success) {
+      const userGameAchArray = [] as SteamGetPlayerAchievementsWithAppId[];
+      userGameAchArray.push({
+        ...(userGameAchs as SteamGetPlayerAchievements),
+        appid,
+      });
+
+      // update to database
+      await mergeSteamUserAchievements(userGameAchArray);
+
+      if (globalAchs.achievementpercentages) {
+        // now do the same for globalAchs
+        const globalGameAchArray = [] as SteamGetGlobalAchPercentWithAppId[];
+        globalGameAchArray.push({ ...globalAchs, appid });
+
+        await updateSteamGameGlobalAchs(globalGameAchArray, appid);
+      }
+
+      // now return the achievements
+      return await selectSteamGameAchievements(appid, steamid);
+    }
   }
 }
