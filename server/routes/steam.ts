@@ -27,7 +27,7 @@ router.get("/steam-user-recently-played", getSteamUserRecentlyPlayed);
 
 router.get("/steam-single-game-news/:appid", getSteamSingleGameNews);
 
-router.get("steam-game-achievements/:appid", getSteamGameAchievements);
+router.get("/steam-game-achievements/:appid", getSteamGameAchievements);
 
 if (config.node_env === "DEV") {
   router.get("/update-steamspy", (req, res, next) => {
