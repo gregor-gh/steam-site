@@ -228,8 +228,6 @@ export async function updateAllSteamGameGlobalAchs() {
   try {
     const gameList = await returnAllSteamGamesWithAchievements();
 
-    let gameAchieveList = [] as SteamGetGlobalAchPercentWithAppId[];
-
     // Next loop through the user's owned games and update achivements
     Promise.all(
       gameList.map(async (game) => {
