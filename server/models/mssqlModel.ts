@@ -11,6 +11,7 @@ import {
   Decimal,
 } from "mssql";
 import {
+  DbSteamSingleGameAchievements,
   DbSteamUser,
   DbSteamUserRecentlyPlayed,
   SteamSpyGameListBasic,
@@ -311,7 +312,7 @@ export async function returnAllSteamGamesWithAchievements(): Promise<
 
 export async function updateSteamGameGlobalAchs(
   gameAchieveList: SteamGetGlobalAchPercentWithAppId[],
-  appid: string = '-1' // -1 for all games
+  appid: string = "-1" // -1 for all games
 ) {
   const sql = await connectSqlPool();
 
@@ -324,11 +325,7 @@ export async function updateSteamGameGlobalAchs(
   gameAchieveList.forEach((game) => {
     if (game.achievementpercentages) {
       game.achievementpercentages.achievements.forEach((achievement) => {
-        table.rows.add(
-          game.appid,
-          achievement.name,
-          achievement.percent
-        );
+        table.rows.add(game.appid, achievement.name, achievement.percent);
       });
     }
   });
@@ -340,4 +337,21 @@ export async function updateSteamGameGlobalAchs(
 
   const mergeQuery = `exec dbo.MergeSteamGameGlobalAchs;`;
   await sql.query(mergeQuery);
+}
+
+export async function selectSteamGameAchievements(
+  appid: string,
+  steamid?: string
+) {
+  const sql = await connectSqlPool();
+
+  // pass query appid and, if exists, steamid (will default to -1)
+  let selectQuery = `exec dbo.SelectSingleGameAchievements '${appid}'`;
+  if (steamid) {
+    selectQuery += ` '${steamid}'`;
+  }
+
+  const response = await sql.query(selectQuery);
+
+  return response.recordset as IRecordSet<DbSteamSingleGameAchievements>
 }
