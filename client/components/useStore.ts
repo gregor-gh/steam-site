@@ -1,6 +1,10 @@
 import { response } from "express";
 import create from "zustand";
-import { DbSteamUser, DbSteamUserRecentlyPlayed } from "../../@types/database";
+import {
+  DbSteamSingleGameAchievements,
+  DbSteamUser,
+  DbSteamUserRecentlyPlayed,
+} from "../../@types/database";
 
 type SetStatePromise = () => Promise<void>;
 
@@ -33,8 +37,13 @@ interface StoreState {
 
   // Steam single game news
   steamSingleGameNews: SteamNewsItem[];
-  setSteamSingleGamesNews: (appid:string) => Promise<void>;
+  setSteamSingleGamesNews: (appid: string) => Promise<void>;
   steamSingleGameNewsLoading: boolean;
+
+  // Steam game achievements
+  steamGameAchievements: DbSteamSingleGameAchievements[];
+  setSteamGameAchievements: (appid: string) => Promise<void>;
+  steamGameAchievementsLoading: boolean;
 }
 
 const useStore = create<StoreState>((set) => ({
@@ -104,7 +113,9 @@ const useStore = create<StoreState>((set) => ({
   steamSingleGameNews: [],
   setSteamSingleGamesNews: async (appid) => {
     try {
-      const response = await fetch(`/api/steam/steam-single-game-news/${appid}`);
+      const response = await fetch(
+        `/api/steam/steam-single-game-news/${appid}`
+      );
       set({
         steamSingleGameNews: await response.json(),
         steamSingleGameNewsLoading: false,
@@ -114,6 +125,23 @@ const useStore = create<StoreState>((set) => ({
     }
   },
   steamSingleGameNewsLoading: true,
+
+  // Steam game achievements
+  steamGameAchievements: [],
+  setSteamGameAchievements: async (appid) => {
+    try {
+      const response = await fetch(
+        `/api/steam/steam-game-achievements/${appid}`
+      );
+      set({
+        steamGameAchievements: await response.json(),
+        steamGameAchievementsLoading: false,
+      });
+    } catch (error) {
+      // do nothing
+    }
+  },
+  steamGameAchievementsLoading: true,
 }));
 
 export default useStore;
