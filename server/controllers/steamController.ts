@@ -9,6 +9,7 @@ import {
   fetchSteamUserRecentlyPlayedGamesNews,
   fetchTopNewsTwoWeeks,
   getAllGames,
+  selectOrFetchSteamGameAchievements,
   updateAllSteamGameGlobalAchs,
 } from "../models/steamModel";
 
@@ -153,12 +154,17 @@ export async function getSteamGameAchievements(
 ) {
   try {
     const appid = req.params.appid?.toString();
-    if (appid) {
-      // First check that game achievements exist in database
+    const steamid = req.user?.steamId;
 
-      // If not then fetch and add
+    if (appid) {
+      // select game achievements from db (or fetch and add if they don't exist)
+      const gameAchievements = await selectOrFetchSteamGameAchievements(
+        appid,
+        steamid
+      );
 
       // Return to user
+      res.send(gameAchievements);
     } else {
       return res.status(400);
     }
@@ -167,7 +173,8 @@ export async function getSteamGameAchievements(
   }
 }
 
-export async function refreshSteamGameGlobalAchievements(req: Request,
+export async function refreshSteamGameGlobalAchievements(
+  req: Request,
   res: Response,
   next: NextFunction
 ) {
@@ -175,6 +182,6 @@ export async function refreshSteamGameGlobalAchievements(req: Request,
     await updateAllSteamGameGlobalAchs();
     res.send("OK");
   } catch (error) {
-    next(error)
+    next(error);
   }
 }
