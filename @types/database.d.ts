@@ -23,3 +23,11 @@ interface DbSteamUserRecentlyPlayed {
   playtime_2weeks: number;
   playtime_forever: number;
 }
+
+interface DbSteamSingleGameAchievements {
+  apiname: string;
+  name: string;
+  description: string;
+  globalAchievementPercent: number;
+  unlocktime: datetime | null;
+}
