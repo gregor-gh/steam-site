@@ -203,5 +203,5 @@ from SteamGameAchievements a
   left join SteamGameUserAchievements ua on a.id=ua.steamGameAchievementId
   left join SteamUsers u on ua.steamUserId=u.id
 where a.appid=@appid
-  and u.steamId=@steamid or u.steamId is null
+  and (u.steamId=@steamid or u.steamId is null)
 go
