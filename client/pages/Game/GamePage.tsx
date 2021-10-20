@@ -40,7 +40,7 @@ const Game = () => {
                 <Redirect to={`/game/${appid}/achievements`} />
               </Route>
               <Route exact path="/game/:appid/achievements">
-                <AchievementList appid={appid} steamUserId={steamProfile?.steamId} />
+                {appid && <AchievementList appid={appid} steamUserId={steamProfile?.steamId} />}
               </Route>
               <Route exact path="/game/:appid/news">
                 <SingleGameNews appid={appid || ""} />
