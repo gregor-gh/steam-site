@@ -193,15 +193,17 @@ go
 create or alter proc dbo.SelectSingleGameAchievements 
   @appid int,
   @steamid varchar(60) = -1
-as 
+as
 select a.apiname,
   a.name,
   a.description,
   a.globalAchievementPercent,
   ua.unlocktime
 from SteamGameAchievements a
-  left join SteamGameUserAchievements ua on a.id=ua.steamGameAchievementId
-  left join SteamUsers u on ua.steamUserId=u.id
+  left join (
+    select ua.steamGameAchievementId, ua.unlocktime 
+    from SteamGameUserAchievements ua 
+      join SteamUsers u on ua.steamUserId=u.id
+    where u.steamId=@steamid) as ua on ua.steamGameAchievementId=a.id
 where a.appid=@appid
-  and (u.steamId=@steamid or u.steamId is null)
 go
