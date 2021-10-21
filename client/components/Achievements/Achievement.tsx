@@ -31,12 +31,14 @@ export const Achievement = ({
       <div>
         <h4 className="achievement-name">{name}</h4>
         <p className="achievement-description">{description}</p>
-        <p>
+        <p className="achievement-description">
           Global unlock:{" "}
           {Math.round((globalUnlock + Number.EPSILON) * 100) / 100}%
         </p>
         {unlocktime && (
-          <p>You unlocked on {new Date(unlocktime).toLocaleString()}</p>
+          <p className="achievement-description">
+            You unlocked on {new Date(unlocktime).toLocaleString()}
+          </p>
         )}
       </div>
     </div>

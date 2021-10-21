@@ -1,5 +1,6 @@
 .achievement {
   display: flex;
+  padding:5px;
 }
 
 .achievement-image {
@@ -9,5 +10,8 @@
 }
 
 .achievement-name {
-  
+  margin:5px;
+}
+.achievement-description {
+  margin:5px;
 }
