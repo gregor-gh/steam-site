@@ -11,7 +11,7 @@ export const Achievement = ({
   name: string;
   description: string;
   globalUnlock: number;
-  unlocktime: Date;
+  unlocktime: string;
 }) => {
   return (
     <div className="achievement">
@@ -29,9 +29,15 @@ export const Achievement = ({
         />
       )}
       <div>
-        <h4>{name}</h4>
-        <p>{description}</p>
-        <p>{Math.round(globalUnlock)}%</p>
+        <h4 className="achievement-name">{name}</h4>
+        <p className="achievement-description">{description}</p>
+        <p>
+          Global unlock:{" "}
+          {Math.round((globalUnlock + Number.EPSILON) * 100) / 100}%
+        </p>
+        {unlocktime && (
+          <p>You unlocked on {new Date(unlocktime).toLocaleString()}</p>
+        )}
       </div>
     </div>
   );
