@@ -348,7 +348,7 @@ export async function selectSteamGameAchievements(
   // pass query appid and, if exists, steamid (will default to -1)
   let selectQuery = `exec dbo.SelectSingleGameAchievements '${appid}'`;
   if (steamid) {
-    selectQuery += ` '${steamid}'`;
+    selectQuery += `, '${steamid}'`;
   }
 
   const response = await sql.query(selectQuery);
