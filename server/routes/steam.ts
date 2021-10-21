@@ -9,6 +9,7 @@ import {
   refreshAllSteamGames,
   refreshSteamGameGlobalAchievements,
   refreshSteamUserData,
+  updateSingleGameAchievements,
 } from "../controllers/steamController";
 import { updateSteamSpyTopGames } from "../schedules/steamSpySchedule";
 import config from "../config";
@@ -38,5 +39,7 @@ if (config.node_env === "DEV") {
   router.get("/update-steam-all", refreshAllSteamGames);
 
   router.get("/update-global-achs", refreshSteamGameGlobalAchievements);
+
+  router.get("/update-single-game-achievements/:appid", updateSingleGameAchievements);
 }
 export default router;

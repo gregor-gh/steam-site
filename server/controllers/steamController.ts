@@ -5,6 +5,7 @@ import {
 } from "../models/mssqlModel";
 import {
   downloadUserSteamGames as downloadSteamUserGames,
+  fetchSteamGameUserAchs,
   fetchSteamSingleGameNews,
   fetchSteamUserRecentlyPlayedGamesNews,
   fetchTopNewsTwoWeeks,
@@ -181,6 +182,29 @@ export async function refreshSteamGameGlobalAchievements(
   try {
     await updateAllSteamGameGlobalAchs();
     res.send("OK");
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function updateSingleGameAchievements(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const appid = req.params.appid?.toString();
+    const steamid = req.user?.steamId;
+
+    if (appid) {
+      // select game achievements from db (or fetch and add if they don't exist)
+      const gameAchievements = await fetchSteamGameUserAchs(appid, steamid);
+
+      // Return to user
+      res.send(gameAchievements);
+    } else {
+      return res.status(400);
+    }
   } catch (error) {
     next(error);
   }
