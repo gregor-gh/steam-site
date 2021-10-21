@@ -1,5 +1,6 @@
 import "./Achievement.css";
 import ACHIEVEMENT_LOCKED from "../../public/achievement-locked.bmp";
+import ACHIEVEMENT_UNLOCKED from "../../public/achievement-unlocked.bmp";
 
 export const Achievement = ({
   name,
@@ -14,11 +15,19 @@ export const Achievement = ({
 }) => {
   return (
     <div className="achievement">
-      <img
-        className="achievement-image"
-        src={ACHIEVEMENT_LOCKED}
-        alt="Achievement locked image"
-      />
+      {unlocktime ? (
+        <img
+          className="achievement-image"
+          src={ACHIEVEMENT_UNLOCKED}
+          alt="Achievement unlocked image"
+        />
+      ) : (
+        <img
+          className="achievement-image"
+          src={ACHIEVEMENT_LOCKED}
+          alt="Achievement locked image"
+        />
+      )}
       <div>
         <h4>{name}</h4>
         <p>{description}</p>
