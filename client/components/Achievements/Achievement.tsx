@@ -1,7 +1,17 @@
 import "./Achievement.css";
 import ACHIEVEMENT_LOCKED from "../../public/achievement-locked.bmp";
 
-export const Achievement = () => {
+export const Achievement = ({
+  name,
+  description,
+  globalUnlock,
+  unlocktime,
+}: {
+  name: string;
+  description: string;
+  globalUnlock: number;
+  unlocktime: Date;
+}) => {
   return (
     <div className="achievement">
       <img
@@ -10,9 +20,9 @@ export const Achievement = () => {
         alt="Achievement locked image"
       />
       <div>
-        <h4>Title</h4>
-        <p>Description</p>
-        <p>unlock %</p>
+        <h4>{name}</h4>
+        <p>{description}</p>
+        <p>{Math.round(globalUnlock)}%</p>
       </div>
     </div>
   );

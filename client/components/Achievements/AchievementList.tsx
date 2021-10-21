@@ -13,12 +13,25 @@ export const AchievementList = ({ appid }: { appid: string }) => {
     setSteamGameAchievements(appid);
   }, []);
 
-    useEffect(() => {
-      console.log(steamGameAchievements);
-    }, [steamGameAchievements]);
+  useEffect(() => {
+    console.log(steamGameAchievements);
+  }, [steamGameAchievements]);
 
+  const achievementList = steamGameAchievements
+    .sort((a, b) => b.globalAchievementPercent - a.globalAchievementPercent)
+    .map((achievement) => {
+      return (
+        <Achievement
+          key={achievement.apiname}
+          name={achievement.name}
+          description={achievement.description}
+          globalUnlock={achievement.globalAchievementPercent}
+          unlocktime={achievement.unlocktime}
+        />
+      );
+    });
 
   return (
-    <>{steamGameAchievementsLoading ? <div>loading</div> : <Achievement />}</>
+    <>{steamGameAchievementsLoading ? <div>loading</div> : achievementList}</>
   );
 };
