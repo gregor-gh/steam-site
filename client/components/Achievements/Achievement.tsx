@@ -33,7 +33,7 @@ export const Achievement = ({
         <p className="achievement-description">{description}</p>
         <p className="achievement-description">
           Global unlock:{" "}
-          {Math.round((globalUnlock + Number.EPSILON) * 100) / 100}%
+          {globalUnlock.toFixed(1)}%
         </p>
         {unlocktime && (
           <p className="achievement-description">
