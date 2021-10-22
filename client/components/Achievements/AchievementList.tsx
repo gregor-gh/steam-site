@@ -7,9 +7,11 @@ export const AchievementList = ({ appid }: { appid: string }) => {
     steamGameAchievements,
     setSteamGameAchievements,
     steamGameAchievementsLoading,
+    setSteamGameAchievementsLoading
   } = useStore((state) => state);
 
   useEffect(() => {
+    setSteamGameAchievementsLoading(true);
     setSteamGameAchievements(appid);
   }, []);
 

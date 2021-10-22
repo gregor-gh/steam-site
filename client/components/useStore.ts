@@ -44,6 +44,7 @@ interface StoreState {
   steamGameAchievements: DbSteamSingleGameAchievements[];
   setSteamGameAchievements: (appid: string) => Promise<void>;
   steamGameAchievementsLoading: boolean;
+  setSteamGameAchievementsLoading: (flag: boolean) => void;
 }
 
 const useStore = create<StoreState>((set) => ({
@@ -142,6 +143,9 @@ const useStore = create<StoreState>((set) => ({
     }
   },
   steamGameAchievementsLoading: true,
+  setSteamGameAchievementsLoading: (flag) => {
+    set({ steamGameAchievementsLoading: flag });
+  },
 }));
 
 export default useStore;
