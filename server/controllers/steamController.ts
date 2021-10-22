@@ -43,23 +43,6 @@ export async function getTopNewsTwoWeeks(
   }
 }
 
-// export async function getUserNewsTwoWeeks(
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) {
-//   try {
-//     if (req.user) {
-//       const newsList = await fetchUserNews(req.user?.steamId);
-//       return res.status(200).send(newsList);
-//     } else {
-//       return res.status(401).send();
-//     }
-//   } catch (err) {
-//     next(err);
-//   }
-// }
-
 export async function getSteamUserRecentlyPlayed(
   req: Request,
   res: Response,

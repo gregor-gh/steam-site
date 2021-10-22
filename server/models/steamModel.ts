@@ -26,7 +26,8 @@ function makeSteamApiCall(url: string) {
 export async function fetchTopNewsTwoWeeks() {
   try {
     const topGames = await selectSteamSpyTopGamesTwoWeeks();
-    return fetchNewsForGameArray(topGames);
+    // filter to top 20 games to reduce on API calls
+    return fetchNewsForGameArray(topGames.filter((_game, index) => index < 20));
   } catch (error) {
     throw error;
   }
