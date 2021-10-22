@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Achievement } from ".";
 import useStore from "../useStore";
+import { LoadingNewsItem } from "../Loading";
 
 export const AchievementList = ({ appid }: { appid: string }) => {
   const {
     steamGameAchievements,
     setSteamGameAchievements,
     steamGameAchievementsLoading,
-    setSteamGameAchievementsLoading
+    setSteamGameAchievementsLoading,
   } = useStore((state) => state);
 
   useEffect(() => {
@@ -31,6 +32,21 @@ export const AchievementList = ({ appid }: { appid: string }) => {
     });
 
   return (
-    <>{steamGameAchievementsLoading ? <div>loading</div> : achievementList}</>
+    <>
+      {steamGameAchievementsLoading ? (
+        <>
+          <LoadingNewsItem />
+          <LoadingNewsItem />
+          <LoadingNewsItem />
+          <LoadingNewsItem />
+          <LoadingNewsItem />
+        </>
+      ) : 
+          steamGameAchievements.length>0?
+        achievementList:"No achievements found"
+        
+      
+      }
+    </>
   );
 };
