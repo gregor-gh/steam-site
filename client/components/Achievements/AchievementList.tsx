@@ -13,11 +13,8 @@ export const AchievementList = ({ appid }: { appid: string }) => {
     setSteamGameAchievements(appid);
   }, []);
 
-  useEffect(() => {
-    console.log(steamGameAchievements);
-  }, [steamGameAchievements]);
-
   const achievementList = steamGameAchievements
+    .filter((achievement) => achievement.appid == appid)
     .sort((a, b) => b.globalAchievementPercent - a.globalAchievementPercent)
     .map((achievement) => {
       return (
