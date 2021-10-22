@@ -139,7 +139,7 @@ const useStore = create<StoreState>((set) => ({
         steamGameAchievementsLoading: false,
       });
     } catch (error) {
-      // do nothing
+      set({ steamGameAchievements: [], steamGameAchievementsLoading: false });
     }
   },
   steamGameAchievementsLoading: true,
