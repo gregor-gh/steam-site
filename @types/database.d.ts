@@ -25,6 +25,7 @@ interface DbSteamUserRecentlyPlayed {
 }
 
 interface DbSteamSingleGameAchievements {
+  appid: string;
   apiname: string;
   name: string;
   description: string;

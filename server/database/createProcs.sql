@@ -194,7 +194,8 @@ create or alter proc dbo.SelectSingleGameAchievements
   @appid int,
   @steamid varchar(60) = -1
 as
-select a.apiname,
+select a.appid,
+  a.apiname,
   a.name,
   a.description,
   a.globalAchievementPercent,
