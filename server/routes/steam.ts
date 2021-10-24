@@ -6,6 +6,7 @@ import {
   getSteamUserRecentlyPlayedNews,
   getTopGamesTwoWeeks,
   getTopNewsTwoWeeks,
+  manuallyAddSteamId,
   refreshAllSteamGames,
   refreshSteamGameGlobalAchievements,
   refreshSteamUserData,
@@ -40,6 +41,11 @@ if (config.node_env === "DEV") {
 
   router.get("/update-global-achs", refreshSteamGameGlobalAchievements);
 
-  router.get("/update-single-game-achievements/:appid", updateSingleGameAchievements);
+  router.get(
+    "/update-single-game-achievements/:appid",
+    updateSingleGameAchievements
+  );
+
+  router.get("/manually-add-steamid", manuallyAddSteamId);
 }
 export default router;

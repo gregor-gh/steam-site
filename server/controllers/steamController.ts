@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import {
+  createReturnSteamUser,
   selectSteamSpyTopGamesTwoWeeks,
   selectSteamUserRecentlyPlayed,
 } from "../models/mssqlModel";
 import {
   downloadUserSteamGames as downloadSteamUserGames,
+  downloadUserSteamGames,
   fetchSteamGameUserAchs,
   fetchSteamSingleGameNews,
   fetchSteamUserRecentlyPlayedGamesNews,
@@ -187,6 +189,37 @@ export async function updateSingleGameAchievements(
       res.send(gameAchievements);
     } else {
       return res.status(400);
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
+// this function is used in development to add some steam ids and flesh out steam game database
+export async function manuallyAddSteamId(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const steamid = req.query.steamid;
+    const username = req.query.username;
+
+    if (typeof steamid === "string" && typeof username === "string") {
+      // create user
+      const newDbUser = await createReturnSteamUser({
+        id: steamid,
+        displayName: username,
+        photos: [
+          {
+            value:
+              "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg",
+          },
+        ],
+      });
+      await downloadUserSteamGames(newDbUser.steamId);
+      
+      res.send(200);
     }
   } catch (error) {
     next(error);
