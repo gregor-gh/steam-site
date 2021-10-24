@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { unixtoDateString } from "../../helpers/date";
 import { steam600x900ImageUrl } from "../../helpers/steamImages";
 import { stripHtmlFromString } from "../../helpers/text";
 import "./NewsItem.css";
@@ -20,7 +21,10 @@ export const NewsItem = ({ newsItem }: { newsItem: SteamNewsItem }) => {
         <p className="news-big-item-description">
           {parsedContents.slice(0, 200) + "..."}
         </p>
-        <p className="news-big-item-posted-by">posted by {newsItem.author}</p>
+        <p className="news-big-item-posted-by">
+          posted by {newsItem.author ? newsItem.author : "anon"} on{" "}
+          {unixtoDateString(newsItem.date)}
+        </p>
       </div>
     </Link>
   );
