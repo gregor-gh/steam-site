@@ -15,8 +15,7 @@ export const demoStrategy = new LocalStrategy(async function (
     id: config.steamDemoUserId,
     photos: [
       {
-        value:
-          "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg",
+        value: "demo", // the client will replace this with a demo profile avatar
       },
     ],
   };

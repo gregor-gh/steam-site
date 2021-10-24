@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
+import DEMO_PROFILE_AVATAR from "../../public/demo-profile-avatar.png";
 import { ProfilePopup } from "./ProfilePopup";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -47,7 +48,11 @@ export const Navbar = () => {
           {steamProfile?.photoUrl ? (
             <img
               className="navbar-item navbar-profile-icon"
-              src={steamProfile.photoUrl}
+              src={
+                steamProfile.photoUrl === "demo"
+                  ? DEMO_PROFILE_AVATAR
+                  : steamProfile.photoUrl
+              }
               alt="User's profile picture."
               onClick={showProfile}
             />
