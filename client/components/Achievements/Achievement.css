@@ -1,6 +1,7 @@
 .achievement {
   display: flex;
   padding:5px;
+  border-bottom: var(--global-divider-border);
 }
 
 .achievement-image {
