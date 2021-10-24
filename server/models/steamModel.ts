@@ -275,7 +275,7 @@ export async function selectOrFetchSteamGameAchievements(
     const globalAchs = await fetchSteamGameGlobalAchs(appid);
 
     // check if the achievement retrieve was a success and push to array
-    if (userGameAchs.playerstats.success) {
+    if (userGameAchs.playerstats.success && userGameAchs.playerstats.achievements) {
       const userGameAchArray = [] as SteamGetPlayerAchievementsWithAppId[];
       userGameAchArray.push({
         ...(userGameAchs as SteamGetPlayerAchievements),
