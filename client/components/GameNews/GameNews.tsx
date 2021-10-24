@@ -3,6 +3,7 @@ import { dangerouslyAddHtmlToSteamContents } from "../../helpers/text";
 import { getAppIdFromUrl, getNewsIdFromUrl } from "../../helpers/url";
 import { LoadingLine } from "../Loading";
 import useStore from "../useStore";
+import "../Article/Article.css";
 
 const NewsArticle = () => {
   const {
