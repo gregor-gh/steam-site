@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Achievement } from ".";
 import useStore from "../useStore";
 import { LoadingNewsItem } from "../Loading";
+import "./AchievementList.css";
 
 export const AchievementList = ({ appid }: { appid: string }) => {
   const {
@@ -31,6 +32,13 @@ export const AchievementList = ({ appid }: { appid: string }) => {
       );
     });
 
+  // TODO Make this look better
+  const noAchievementsFound = (
+    <div className="no-achievements" >
+      This game either has no achievements or we do not currently have a user that owns the game in our database. 😭 
+    </div>
+  );
+
   return (
     <>
       {steamGameAchievementsLoading ? (
@@ -41,12 +49,11 @@ export const AchievementList = ({ appid }: { appid: string }) => {
           <LoadingNewsItem />
           <LoadingNewsItem />
         </>
-      ) : 
-          steamGameAchievements.length>0?
-        achievementList:"No achievements found"
-        
-      
-      }
+      ) : steamGameAchievements.length > 0 ? (
+        achievementList
+      ) : (
+        noAchievementsFound
+      )}
     </>
   );
 };
