@@ -82,7 +82,11 @@ export async function fetchSteamSingleGameNews(appid: string) {
   return singleGameNews.newsitems;
 }
 
-export async function downloadUserSteamGames(steamId: string) {
+export async function downloadUserSteamGames(
+  steamId: string,
+  number?: number,
+  skip?: number
+) {
   try {
     // first fetch user's owned games and add to database
     const steamUserOwnedGames = await fetchSteamUserOwnedGames(steamId);
@@ -106,25 +110,34 @@ export async function downloadUserSteamGames(steamId: string) {
       );
     }
 
+    // Set numbers for limiting loop (due to steam API limit)
+    let currentNumber = skip || 0;
+    let maxNumber = (number || Number.MAX_VALUE) + currentNumber;
+
     // Next loop through the user's owned games and update achivements
     Promise.all(
-      steamUserOwnedGames.response.games.map(async (game) => {
-        const appid = game.appid;
-        const userSingleGameAchievements = await fetchSteamGameUserAchs(
-          appid,
-          steamId
-        );
+      steamUserOwnedGames.response.games
+        .sort((a, b) => Number(a.appid) - Number(b.appid))
+        .map(async (game) => {
+          if (currentNumber < maxNumber) {
+            const appid = game.appid;
+            const userSingleGameAchievements = await fetchSteamGameUserAchs(
+              appid,
+              steamId
+            );
 
-        // if achievements were found, pass back up to be logged to database
-        if (userSingleGameAchievements.playerstats.success) {
-          const userSingleGameAchievementsWithAppId = {
-            ...(userSingleGameAchievements as SteamGetPlayerAchievements),
-            appid,
-          } as SteamGetPlayerAchievementsWithAppId;
+            // if achievements were found, pass back up to be logged to database
+            if (userSingleGameAchievements.playerstats.success) {
+              const userSingleGameAchievementsWithAppId = {
+                ...(userSingleGameAchievements as SteamGetPlayerAchievements),
+                appid,
+              } as SteamGetPlayerAchievementsWithAppId;
 
-          return userSingleGameAchievementsWithAppId;
-        }
-      })
+              return userSingleGameAchievementsWithAppId;
+            }
+            currentNumber++;
+          }
+        })
     ).then(async (gameArray) => {
       if (gameArray.length > 0) {
         const filteredGameArray = gameArray.filter(
@@ -275,7 +288,10 @@ export async function selectOrFetchSteamGameAchievements(
     const globalAchs = await fetchSteamGameGlobalAchs(appid);
 
     // check if the achievement retrieve was a success and push to array
-    if (userGameAchs.playerstats.success && userGameAchs.playerstats.achievements) {
+    if (
+      userGameAchs.playerstats.success &&
+      userGameAchs.playerstats.achievements
+    ) {
       const userGameAchArray = [] as SteamGetPlayerAchievementsWithAppId[];
       userGameAchArray.push({
         ...(userGameAchs as SteamGetPlayerAchievements),
