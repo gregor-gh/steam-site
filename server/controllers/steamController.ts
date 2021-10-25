@@ -204,11 +204,11 @@ export async function manuallyAddSteamId(
   try {
     const steamid = req.query.steamid;
     const username = req.query.username;
-    
+
     // Use to only process a few games' achievements at a time
     // as we are limited to 100,000 API calls a day 
     // (and in reality seems to be much less than that)
-    const start = Number(req.query.start);
+    const number = Number(req.query.number);
     const skip = Number(req.query.skip);
 
     if (typeof steamid === "string" && typeof username === "string") {
@@ -223,7 +223,7 @@ export async function manuallyAddSteamId(
           },
         ],
       });
-      await downloadUserSteamGames(newDbUser.steamId, start, skip);
+      await downloadUserSteamGames(newDbUser.steamId, number, skip);
 
       res.send(200);
     }
