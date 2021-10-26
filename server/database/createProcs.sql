@@ -59,6 +59,7 @@ merge dbo.SteamUserGames as target
 using dbo.SteamUserGamesStaging as source
 on target.appid=source.appid 
   and target.steamUserId=@steamUserId
+  and source.steamId=@steamId
 when matched and target.playtime_forever<>source.playtime_forever 
   or target.playtime_2weeks<>source.playtime_2weeks then
 update set target.playtime_forever=source.playtime_forever, 
@@ -66,6 +67,8 @@ update set target.playtime_forever=source.playtime_forever,
 when not matched by target then insert (steamUserId, appid, playtime_forever, playtime_2weeks) 
   values (@steamUserId,appid,playtime_forever, playtime_2weeks)
 when not matched by source and target.steamUserId=@steamUserId then delete;
+
+exec dbo.DeleteFromSteamUserGamesStaging @steamId;
 go
 
 -- update the steamusergames table with the playtime_2weeks figure
