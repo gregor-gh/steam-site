@@ -18,8 +18,5 @@ export const steamStrategy = new SteamStrategy(
       console.error(error);
       done(null, null);
     }
-    //process.nextTick(function () {
-    //profile.identifier = identifier;
-    //});
   }
 );
