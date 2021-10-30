@@ -16,6 +16,8 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env.name": JSON.stringify("Development"),
     }),
-    new ReactRefreshWebpackPlugin(),
+    new ReactRefreshWebpackPlugin({
+      exclude: [/server/, /build/, /test/, /@types/, /node_modules/],
+    }),
   ],
 };
