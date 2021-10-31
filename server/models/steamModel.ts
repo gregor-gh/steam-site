@@ -84,18 +84,16 @@ export async function fetchSteamSingleGameNews(appid: string) {
 
 export async function downloadUserSteamGames(
   steamId: string,
-  number?: number,
-  skip?: number
 ) {
   try {
     // first fetch user's owned games and add to database
     const steamUserOwnedGames = await fetchSteamUserOwnedGames(steamId);
-    if (steamUserOwnedGames?.response?.game_count > 0) {
-      await mergeSteamUserOwnedGames(
-        steamUserOwnedGames.response.games,
-        steamId
-      );
-    }
+    // if (steamUserOwnedGames?.response?.game_count > 0) {
+    //   await mergeSteamUserOwnedGames(
+    //     steamUserOwnedGames.response.games,
+    //     steamId
+    //   );
+    // }
 
     // then fetch recently played games to update the 2 week playtime
     const steamRecentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
@@ -110,16 +108,12 @@ export async function downloadUserSteamGames(
       );
     }
 
-    // Set numbers for limiting loop (due to steam API limit)
-    let currentNumber = skip || 0;
-    let maxNumber = (number || Number.MAX_VALUE) + currentNumber;
-
     // Next loop through the user's owned games and update achivements
     Promise.all(
       steamUserOwnedGames.response.games
         .sort((a, b) => Number(a.appid) - Number(b.appid))
-        .map(async (game) => {
-          if (currentNumber < maxNumber) {
+        .map(async (game,index) => {
+          if (index < 100) {
             const appid = game.appid;
             const userSingleGameAchievements = await fetchSteamGameUserAchs(
               appid,
@@ -127,7 +121,7 @@ export async function downloadUserSteamGames(
             );
 
             // if achievements were found, pass back up to be logged to database
-            if (userSingleGameAchievements.playerstats.success) {
+            if (userSingleGameAchievements?.playerstats.success) {
               const userSingleGameAchievementsWithAppId = {
                 ...(userSingleGameAchievements as SteamGetPlayerAchievements),
                 appid,
@@ -135,7 +129,6 @@ export async function downloadUserSteamGames(
 
               return userSingleGameAchievementsWithAppId;
             }
-            currentNumber++;
           }
         })
     ).then(async (gameArray) => {
