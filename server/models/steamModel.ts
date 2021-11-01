@@ -26,8 +26,8 @@ function makeSteamApiCall(url: string) {
 export async function fetchTopNewsTwoWeeks() {
   try {
     const topGames = await selectSteamSpyTopGamesTwoWeeks();
-    // filter to top 20 games to reduce on API calls
-    return fetchNewsForGameArray(topGames.filter((_game, index) => index < 20));
+    // filter to top 10 games to reduce on API calls
+    return fetchNewsForGameArray(topGames.filter((_game, index) => index < 10));
   } catch (error) {
     throw error;
   }
@@ -67,24 +67,20 @@ async function fetchNewsForApp(
   try {
     const response = await makeSteamApiCall(
       `http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=${appid}&count=${count}&maxlength=${maxlength}&format=${format}`
-      //"api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json"
     );
     const { appnews } = await response.json();
     return appnews;
   } catch (error) {
-    //return Promise.reject("REJECT")
     throw error;
   }
 }
 
 export async function fetchSteamSingleGameNews(appid: string) {
-  const singleGameNews = await fetchNewsForApp(appid, 20);
+  const singleGameNews = await fetchNewsForApp(appid, 10);
   return singleGameNews.newsitems;
 }
 
-export async function downloadUserSteamGames(
-  steamId: string,
-) {
+export async function downloadUserSteamGames(steamId: string) {
   try {
     // first fetch user's owned games and add to database
     const steamUserOwnedGames = await fetchSteamUserOwnedGames(steamId);
@@ -96,24 +92,14 @@ export async function downloadUserSteamGames(
     // }
 
     // then fetch recently played games to update the 2 week playtime
-    const steamRecentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
-      steamId
-    );
-
-    // If any games are found
-    if (steamRecentlyPlayedGames?.response?.total_count > 0) {
-      await updateSteamUserRecentlyPlayed(
-        steamRecentlyPlayedGames.response.games,
-        steamId
-      );
-    }
+    await fetchAndUpdateSteamUserRecentlyPlayed(steamId);
 
     // Next loop through the user's owned games and update achivements
     Promise.all(
       steamUserOwnedGames.response.games
         .sort((a, b) => Number(a.appid) - Number(b.appid))
-        .map(async (game,index) => {
-          if (index < 100) {
+        .map(async (game, index) => {
+          if (index >= 2000 && index < 10000) {
             const appid = game.appid;
             const userSingleGameAchievements = await fetchSteamGameUserAchs(
               appid,
@@ -141,6 +127,20 @@ export async function downloadUserSteamGames(
     });
   } catch (error) {
     throw error; // throw to controller
+  }
+}
+
+export async function fetchAndUpdateSteamUserRecentlyPlayed(steamId: string) {
+  const steamRecentlyPlayedGames = await fetchSteamUserRecentlyPlayedGames(
+    steamId
+  );
+
+  // If any games are found
+  if (steamRecentlyPlayedGames?.response?.total_count > 0) {
+    await updateSteamUserRecentlyPlayed(
+      steamRecentlyPlayedGames.response.games,
+      steamId
+    );
   }
 }
 
