@@ -23,8 +23,6 @@ export async function getTopGamesTwoWeeks(
 ) {
   try {
     const gamesList = await selectSteamSpyTopGamesTwoWeeks();
-    // const gamesList = await fetchTopGamesTwoWeeks();
-    // await insertSteamSpyTopGamesTwoWeeks(gamesList);
     return res.status(200).send(gamesList);
   } catch (err) {
     next(err);
