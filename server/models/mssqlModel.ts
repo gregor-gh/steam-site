@@ -233,9 +233,8 @@ export async function updateSteamUserRecentlyPlayed(
 
     // there won't be too many recently played games so just loop through
     gameList.forEach(async (game) => {
-      await sql.query(
-        `exec UpdateSteamUserRecentlyPlayed ${steamId}, ${game.appid}, ${game.playtime_2weeks}` // FIXME this does not work
-      );
+      const query = `exec UpdateSteamUserRecentlyPlayed ${steamId}, ${game.appid}, ${game.playtime_2weeks}`;
+      await sql.query(query);
     });
   } catch (error) {
     throw error;
@@ -353,5 +352,5 @@ export async function selectSteamGameAchievements(
 
   const response = await sql.query(selectQuery);
 
-  return response.recordset as IRecordSet<DbSteamSingleGameAchievements>
+  return response.recordset as IRecordSet<DbSteamSingleGameAchievements>;
 }
